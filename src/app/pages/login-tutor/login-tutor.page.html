@@ -1,0 +1,55 @@
+
+
+<ion-content color="secondary">
+
+  <ion-img 
+    class="logo-etutor"
+    src='../assets/resources/Logo.png'>
+  </ion-img>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+
+        </ion-col>
+        <ion-col>
+          <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="secondary" >
+      <ion-list color="secondary" class="list-form">    
+        <ion-item color="secondary">
+          <ion-label position="floating">
+            <ion-icon slot="start" name="contact"></ion-icon>
+            E-mail
+          </ion-label>
+          <ion-input type="email"
+                     name="email"
+                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                     [(ngModel)]="usuario.email"
+                     required
+                     >
+          </ion-input>
+        </ion-item>
+        <ion-item color="secondary">
+          <ion-label position="floating" > 
+            <ion-icon slot="start" name="lock"></ion-icon>
+            Password
+          </ion-label>
+          <ion-input type="password"
+                      name="password"
+                      [(ngModel)]="usuario.password"
+                      required
+                      >
+          </ion-input>
+        </ion-item>
+      
+        
+      </ion-list>
+          <ion-button mode="ios" class="submit-button" expand="block" color="primary" type="submit" [disabled]="!formulario.valid" >
+      
+    Enviar
+  </ion-button>
+  
+  </form>
+</ion-content>
