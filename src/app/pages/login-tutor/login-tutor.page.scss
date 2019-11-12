@@ -1,9 +1,9 @@
 .logo-etutor{
-    padding: 100px 30px 20px;
+    padding: 100px 30px 5px;
 }
 .list-form{
     background-color: var(--ion-color-secondary);
-    padding: 50px;
+    padding: 0px 50px;
 }
 .submit-button{
     padding: 0px 50px;
@@ -20,4 +20,8 @@
 
 .tututor-logo .tu-part {
     color: whitesmoke;
+}
+
+.forgot-password {
+    padding-right: 45px !important; 
 }
