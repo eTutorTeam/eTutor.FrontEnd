@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login-tutor',
@@ -16,7 +17,8 @@ export class LoginTutorPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
-    public router: Router
+    public router: Router,
+    private menuCtrl: MenuController
   ) { }
 
   ngOnInit() {
@@ -39,6 +41,7 @@ export class LoginTutorPage implements OnInit {
 
   goHome() {
     this.router.navigate(['home']);
+    this.menuCtrl.enable(true);
   }
 
 }

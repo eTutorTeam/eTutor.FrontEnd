@@ -6,12 +6,12 @@
     class="logo-etutor"
     src='../assets/resources/Logo.png'>
   </ion-img>
-    <ion-item class="ion-text-right slogan-text" color="secondary">
+    <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
       <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
     </ion-item>
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="secondary" >
       <ion-list color="secondary" class="list-form">    
-        <ion-item color="secondary">
+        <ion-item color="secondary" lines="none">
           <ion-label position="floating">
             <ion-icon slot="start" name="contact"></ion-icon>
             Nombre de usuario
@@ -24,7 +24,7 @@
                      >
           </ion-input>
         </ion-item>
-        <ion-item color="secondary">
+        <ion-item color="secondary" lines="none">
           <ion-label position="floating" > 
             <ion-icon slot="start" name="lock"></ion-icon>
             Contraseña
