@@ -12,4 +12,8 @@ export class DataService {
   getMenuOpts() {
     return this.http.get<Componente[]>('/assets/data/menu.json');
   }
+
+  getHistoryData() {
+    return this.http.get<any[]>('/assets/data/history.json');
+  }
 }

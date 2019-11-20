@@ -29,12 +29,15 @@
             <ion-icon slot="start" name="lock"></ion-icon>
             Contraseña
           </ion-label>
-          <ion-input type="password"
+          <ion-input  #passwordEyeRegister  [type]="passwordTypeInput"
                       name="password"
                       [(ngModel)]="usuario.password"
                       required
                       >
           </ion-input>
+          <button  item-end  class="btn_eye_icon"  (click)="togglePasswordMode()">
+              <ion-icon  [name]="iconpassword"></ion-icon>
+          </button>
         </ion-item>
       
         

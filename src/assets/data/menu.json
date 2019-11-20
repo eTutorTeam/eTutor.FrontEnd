@@ -8,5 +8,10 @@
         "icon": "contact",
         "name": "Ver perfil",
         "redirectTo": "/profile"
+    },
+    {
+        "icon": "time",
+        "name": "Historial de tutorías",
+        "redirectTo": "/history"
     }
 ]

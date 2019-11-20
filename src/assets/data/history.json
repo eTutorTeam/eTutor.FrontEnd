@@ -1,0 +1,20 @@
+[
+    {
+        "subject":"Matematicas",
+        "date": "Jueves 19",
+        "time": "5:00 PM",
+        "student": "Jose Arias"
+    },
+    {
+        "subject":"Filosofia y sociedad",
+        "date": "Viernes 20",
+        "time": "5:00 PM",
+        "student": "Jose Arias"
+    },
+    {
+        "subject":"Proyecto Final",
+        "date": "sabado 21",
+        "time": "5:00 PM",
+        "student": "Jose Arias"
+    }
+]

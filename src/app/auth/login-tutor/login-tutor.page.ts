@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MenuController, LoadingController, AlertController } from '@ionic/angular';
@@ -10,6 +10,15 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
   styleUrls: ['./login-tutor.page.scss'],
 })
 export class LoginTutorPage implements OnInit {
+
+  @ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
+  // Seleccionamos el elemento con el nombre que le pusimos con el #
+
+  passwordTypeInput  =  'password';
+  // Variable para cambiar dinamicamente el tipo de Input que por defecto sera 'password'
+  iconpassword  =  'eye-off';
+  // Variable para cambiar dinamicamente el nombre del Icono que por defecto sera un ojo cerrado
+
 
   usuario = {
     email: '',
@@ -100,6 +109,12 @@ export class LoginTutorPage implements OnInit {
   }
   register() {
     this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+  }
+
+  togglePasswordMode() {
+    this.passwordTypeInput  =  this.passwordTypeInput  ===  'text'  ?  'password'  :  'text';
+    this.iconpassword  =  this.iconpassword  ===  'eye-off'  ?  'eye'  :  'eye-off';
+    this.passwordEye.el.setFocus();
   }
 
 
