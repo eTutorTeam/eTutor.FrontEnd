@@ -59,7 +59,7 @@ export class LoginTutorPage implements OnInit {
       },
       err => {
         this.loading.dismiss();
-        this.presentAlert();
+        this.presentAlert('Error', 'Error de autenticación', 'Usuario y/o contraseña incorrectos.');
       }
     );
 
@@ -72,11 +72,11 @@ export class LoginTutorPage implements OnInit {
     });
     return this.loading.present();
   }
-  async presentAlert() {
+  async presentAlert(header: string, subHeader: string, message: string) {
     const alert = await this.alertCtrl.create({
-      header: 'Error',
-      subHeader: 'Error de autenticación',
-      message: 'Usuario y/o contraseña incorrectos.',
+      header,
+      subHeader,
+      message,
       buttons: [
         {
             text: 'Ok',
@@ -94,5 +94,13 @@ export class LoginTutorPage implements OnInit {
     this.router.navigate(['home']);
     this.menuCtrl.enable(true);
   }
+
+  forgotPassword() {
+    this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+  }
+  register() {
+    this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+  }
+
 
 }
