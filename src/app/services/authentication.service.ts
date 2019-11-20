@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Platform } from '@ionic/angular';
+import { Platform, LoadingController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const TOKEN_KEY = 'auth-token';
 
@@ -13,7 +15,8 @@ export class AuthenticationService {
   authenticationState = new BehaviorSubject(false);
 
   constructor(
-    private storage: Storage, private platform: Platform
+    private storage: Storage, private platform: Platform, private router: Router, private http: HttpClient,
+    private loadingCtrl: LoadingController
   ) {
     this.platform.ready().then( () => {
       this.checkToken();
@@ -35,10 +38,9 @@ export class AuthenticationService {
     });
   }
 
-  login(username, password) {
-    const accessToken = btoa(username + ':' + password);
+  login(accessToken) {
     const token = 'Bearer' + accessToken;
-    return this.storage.set(TOKEN_KEY, token).then( () => {
+    this.storage.set(TOKEN_KEY, token).then( () => {
       console.log('Setting token: ', token);
       this.authenticationState.next(true);
     });

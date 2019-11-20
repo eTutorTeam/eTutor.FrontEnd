@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { MenuController } from '@ionic/angular';
+import { MenuController, LoadingController, AlertController } from '@ionic/angular';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-tutor',
@@ -14,11 +15,16 @@ export class LoginTutorPage implements OnInit {
     email: '',
     password: ''
   };
+
+  loading: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService,
     public router: Router,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -30,13 +36,58 @@ export class LoginTutorPage implements OnInit {
   }
 
 
-  login() {
-    this.authService.login(this.usuario.email, this.usuario.password);
-    this.usuario = {
-      email: '',
-      password: ''
-    };
-    this.goHome();
+  async login() {
+    await this.presentLoading('Espere');
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+    return this.http.post<{token: string, roles: Array<number>, username: string, email: string}>
+    (
+      'https://etutorapi.azurewebsites.net/api/accounts/login',
+      { email: this.usuario.email, password: this.usuario.password},
+      {headers}
+    ).subscribe(
+      res => {
+        this.authService.login(res.token);
+        this.usuario = {
+          email: '',
+          password: ''
+        };
+        this.goHome();
+        this.loading.dismiss();
+        return true;
+      },
+      err => {
+        this.loading.dismiss();
+        this.presentAlert();
+      }
+    );
+
+    // this.loading.dismiss();
+  }
+  async presentLoading( message: string) {
+    this.loading = await this.loadingCtrl.create({
+      message,
+      // duration: 2000
+    });
+    return this.loading.present();
+  }
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Error',
+      subHeader: 'Error de autenticación',
+      message: 'Usuario y/o contraseña incorrectos.',
+      buttons: [
+        {
+            text: 'Ok',
+            handler: (blah) => {
+              console.log('Botón OK');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   goHome() {
