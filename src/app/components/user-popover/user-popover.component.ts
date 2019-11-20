@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-user-popover',
@@ -21,7 +22,7 @@ export class UserPopoverComponent implements OnInit {
   ];
 
 
-  constructor( private router: Router, private popoverController: PopoverController) { }
+  constructor( private router: Router, private popoverController: PopoverController, private authService: AuthenticationService) { }
 
   ngOnInit() {}
 
@@ -30,8 +31,12 @@ export class UserPopoverComponent implements OnInit {
     if (action === 'profile') {
       this.router.navigate(['profile']);
     } else if (action === 'logout') {
-      // logout
+      this.logout();
     }
+  }
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['login-tutor']);
   }
 
 }
