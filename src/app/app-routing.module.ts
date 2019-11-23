@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       roles: [RoleTypes.Tutor]
     },
-    canActivate: [AuthGuard]
+    canActivate: [RoleAuthGuard]
   },
   // { path: 'login-tutor', loadChildren: './pages/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'login-tutor', loadChildren: './auth/login-tutor/login-tutor.module#LoginTutorPageModule' },
