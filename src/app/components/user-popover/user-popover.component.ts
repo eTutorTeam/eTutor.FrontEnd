@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, LoadingController, AlertController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AccountService } from 'src/app/services/accounts/account.service';
 
 @Component({
   selector: 'app-user-popover',
@@ -21,10 +22,18 @@ export class UserPopoverComponent implements OnInit {
     }
   ];
 
+  loading: HTMLIonLoadingElement;
 
-  constructor( private router: Router, private popoverController: PopoverController, private authService: AuthenticationService) { }
+  constructor( 
+    private router: Router, 
+    private popoverController: PopoverController, 
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private accountService: AccountService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.startLoading('', false);
+  }
 
   onClick(action: string) {
     this.popoverController.dismiss();
@@ -35,8 +44,34 @@ export class UserPopoverComponent implements OnInit {
     }
   }
   logout() {
-    this.authService.logout();
-    this.router.navigate(['login-tutor']);
+    this.startLoading();
+    this.accountService.logoutUser()
+    .then(res => {
+      this.loading.dismiss();
+    })
+    .catch(err => {
+        this.showAlert('Error', 'Hubo error tratando de hacer el logout');
+        this.loading.dismiss();
+        console.log(err);
+    })
+  }
+
+  private async startLoading(msg: string = 'Loading', present: boolean = true) {
+    this.loading = await this.loadingCtrl.create({
+      spinner: 'lines',
+      message: msg
+    });
+
+    if (present)
+      this.loading.present();
+  }
+
+  private async showAlert(title: string, msg: string) {
+    const alert = await this.alertCtrl.create({
+      header: title,
+      message: msg
+    });
+    alert.present();
   }
 
 }

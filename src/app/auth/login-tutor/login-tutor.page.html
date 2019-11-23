@@ -1,55 +1,47 @@
-
-
 <ion-content color="secondary">
-
-  <ion-img 
-    class="logo-etutor"
-    src='../assets/resources/Logo.png'>
+  <ion-img class="logo-etutor" src='../assets/resources/Logo.png'>
   </ion-img>
-    <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
-      <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
-    </ion-item>
-    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()" color="secondary" >
-      <ion-list color="secondary" class="list-form">    
-        <ion-item color="secondary" lines="none">
-          <ion-label position="floating">
-            <ion-icon slot="start" name="contact"></ion-icon>
-            Correo Electrónico
-          </ion-label>
-          <ion-input type="email"
-                     name="email"
-                     pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
-                     [(ngModel)]="usuario.email"
-                     required
-                     >
-          </ion-input>
-        </ion-item>
-        <ion-item color="secondary" lines="none">
-          <ion-label position="floating" > 
-            <ion-icon slot="start" name="lock"></ion-icon>
-            Contraseña
-          </ion-label>
-          <ion-input  #passwordEyeRegister  [type]="passwordTypeInput"
-                      name="password"
-                      [(ngModel)]="usuario.password"
-                      required
-                      >
-          </ion-input>
-          <button  item-end  class="btn_eye_icon"  (click)="togglePasswordMode()">
-              <ion-icon  [name]="iconpassword"></ion-icon>
-          </button>
-        </ion-item>
-      
-        
-      </ion-list>
-          <ion-button mode="ios" size="large" class="submit-button" expand="block" color="primary" type="submit" [disabled]="!formulario.valid" >
-      
-    Ingresa
-  </ion-button>
-  
+  <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
+    <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
+  </ion-item>
+  <form (submit)="submitForm()" [formGroup]="userForm">
+    <ion-list color="secondary" class="list-form">
+
+      <ion-item color="secondary">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Correo Electrónico
+        </ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+        <!--TODO: Show validation errors-->
+      </ion-item>
+
+      <ion-item color="secondary" >
+        <ion-label position="floating">
+          <ion-icon slot="start" name="lock"></ion-icon>
+          Contraseña
+        </ion-label>
+        <ion-input [type]="passwordTypeInput" formControlName="password">
+        </ion-input>
+        <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+          <ion-icon [name]="iconpassword"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+    </ion-list>
+    
+    <ion-button mode="ios"
+    class="submit-button" expand="block" color="primary" type="submit"
+      [disabled]="userForm.invalid">
+      Ingresa
+    </ion-button>
+
   </form>
-  <ion-item color="secondary" lines="none" >
-    <ion-label class="ion-text-right forgot-password" color="primary" (click)="forgotPassword()"><u>¿Olvidaste tu contraseña?</u></ion-label>
+
+
+  <ion-item color="secondary" lines="none">
+    <ion-label class="ion-text-right forgot-password" color="primary" (click)="forgotPassword()"><u>¿Olvidaste tu
+        contraseña?</u></ion-label>
   </ion-item>
   <ion-item color="secondary" lines="none">
     <ion-label class="ion-text-center ion-no-border" (click)="register()"><u>Registrate Ya</u></ion-label>

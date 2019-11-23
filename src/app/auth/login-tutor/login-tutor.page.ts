@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { MenuController, LoadingController, AlertController } from '@ionic/angular';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LoginRequest } from 'src/app/models/login-request';
+import { AccountService } from 'src/app/services/accounts/account.service';
+import { UserTokenResponse } from 'src/app/models/user-token-response';
+import { LoadingOptions } from '@ionic/core';
 
+
+//^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
 @Component({
   selector: 'app-login-tutor',
   templateUrl: './login-tutor.page.html',
@@ -11,76 +16,61 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 })
 export class LoginTutorPage implements OnInit {
 
-  @ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
-  // Seleccionamos el elemento con el nombre que le pusimos con el #
-
+  //@ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
   passwordTypeInput  =  'password';
-  // Variable para cambiar dinamicamente el tipo de Input que por defecto sera 'password'
   iconpassword  =  'eye-off';
-  // Variable para cambiar dinamicamente el nombre del Icono que por defecto sera un ojo cerrado
-
-
-  usuario = {
-    email: '',
-    password: ''
-  };
-
-  loading: any;
+  userForm: FormGroup;
+  user: UserTokenResponse;
+  loading: HTMLIonLoadingElement;
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private authService: AuthenticationService,
-    public router: Router,
+    private router: Router,
     private menuCtrl: MenuController,
-    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private http: HttpClient
+    private loadingCtrl: LoadingController,
+    private accountService: AccountService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.buildForm();
   }
 
-  onSubmitTemplate() {
-    console.log(this.usuario);
-    this.login();
+  submitForm() {
+    this.logInUser().catch((err) => {
+      console.log(err, 'ERROR VAR');
+      this.presentAlert(err.error.reasonPhrase, '', err.error.message);
+      this.loading.dismiss();
+    })
   }
 
 
-  async login() {
-    await this.presentLoading('Espere');
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    return this.http.post<{token: string, roles: Array<number>, username: string, email: string}>
-    (
-      'https://etutorapi.azurewebsites.net/api/accounts/login',
-      { email: this.usuario.email, password: this.usuario.password},
-      {headers}
-    ).subscribe(
-      res => {
-        this.authService.login(res.token);
-        this.usuario = {
-          email: '',
-          password: ''
-        };
-        this.goHome();
-        this.loading.dismiss();
-        return true;
-      },
-      err => {
-        this.loading.dismiss();
-        this.presentAlert('Error', 'Error de autenticación', 'Usuario y/o contraseña incorrectos.');
-      }
-    );
-
-    // this.loading.dismiss();
-  }
-  async presentLoading( message: string) {
-    this.loading = await this.loadingCtrl.create({
-      message,
-      // duration: 2000
+  buildForm() {
+    this.userForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
     });
-    return this.loading.present();
   }
+
+  private async logInUser() {
+    if (this.userForm.invalid) return;
+    await this.createLoading('Lo estamos ingresando al sistema');
+
+    const request: LoginRequest = this.userForm.value;
+    this.user = await this.accountService.loginUser(request);
+    this.userForm.reset();
+    this.goHome();
+    this.loading.dismiss();
+  }
+
+
+  private async createLoading(msg: string = '', spin: LoadingOptions["spinner"] = 'lines') {
+    this.loading = await this.loadingCtrl.create({
+      message: msg,
+      spinner: spin
+    });
+    this.loading.present();
+  }
+
   async presentAlert(header: string, subHeader: string, message: string) {
     const alert = await this.alertCtrl.create({
       header,
@@ -105,7 +95,10 @@ export class LoginTutorPage implements OnInit {
   }
 
   forgotPassword() {
-    this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+    this.router.navigate(['home']).catch(err => {
+      console.log(err);
+    });
+    //this.presentAlert('Not Implemented', '', 'This featureaa isn\'t available yet!');
   }
   register() {
     this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
@@ -114,8 +107,6 @@ export class LoginTutorPage implements OnInit {
   togglePasswordMode() {
     this.passwordTypeInput  =  this.passwordTypeInput  ===  'text'  ?  'password'  :  'text';
     this.iconpassword  =  this.iconpassword  ===  'eye-off'  ?  'eye'  :  'eye-off';
-    this.passwordEye.el.setFocus();
   }
-
 
 }
