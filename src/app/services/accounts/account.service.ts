@@ -30,6 +30,7 @@ export class AccountService {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
     this.user = response;
     await this.saveUserToStorage(this.user);
+    console.log(this.user);
     return response;
   }
 
