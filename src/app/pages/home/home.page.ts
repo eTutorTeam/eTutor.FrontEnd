@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
@@ -9,8 +9,8 @@ import { UserPopoverComponent } from '../../components/user-popover/user-popover
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-
+export class HomePage implements OnInit {
+  
   constructor(
     public router: Router,
     private popoverCtrl: PopoverController
