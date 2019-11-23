@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { AccountService } from './account.service';
-import { UserTokenResponse } from 'src/app/models/user-token-response';
-import { request } from 'http';
 import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})

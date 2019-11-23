@@ -5,7 +5,7 @@ import { RoleAuthGuard } from './services/accounts/role-auth.guard';
 import { RoleTypes } from './enums/role-types.enum';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login-tutor', pathMatch: 'full' },
   { 
     path: 'home', 
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule), 

@@ -35,7 +35,8 @@
     position: absolute;
     right: 0;
     bottom: 4px;
-    background: transparent;
+    --background: transparent;
+    --box-shadow: none;
     ion-icon{
         font-size: 22px;
         color:#757575;
