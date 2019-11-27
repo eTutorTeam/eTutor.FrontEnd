@@ -44,8 +44,40 @@
           </div>
         </div>
       </ion-item>
+      <!-- Name -->
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Nombres
+        </ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+        <!--Validators for E-mail-->
+        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="alert alert-danger">
 
-      <!-- <ion-item color="secondary" lines="none">
+          <div *ngIf="name.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
+      <!-- Name -->
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Apellidos
+        </ion-label>
+        <ion-input type="text" formControlName="lastname"></ion-input>
+        <!--Validators for E-mail-->
+        <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="lastname.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item color="secondary" lines="none">
         <ion-label position="floating">
           <ion-icon slot="start" name="lock"></ion-icon>
           Contraseña
@@ -55,14 +87,40 @@
         <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
           <ion-icon [name]="iconpassword"></ion-icon>
         </ion-button>
-      </ion-item> -->
+        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="password.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
+
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="lock"></ion-icon>
+          Confirmar Contraseña
+        </ion-label>
+        <ion-input [type]="passwordTypeInput" formControlName="confimrpassword">
+        </ion-input>
+        <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+          <ion-icon [name]="iconpassword"></ion-icon>
+        </ion-button>
+        <div *ngIf="confimrpassword.invalid && (confimrpassword.dirty || confimrpassword.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="confimrpassword.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
 
     </ion-list>
     
     <ion-button mode="ios"
     class="submit-button" expand="block" color="primary" type="submit"
       [disabled]="userForm.invalid">
-      Ingresa
+      Registrarse
     </ion-button>
 
   </form>
