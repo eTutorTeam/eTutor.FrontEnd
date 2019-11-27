@@ -106,7 +106,8 @@ export class LoginTutorPage implements OnInit {
       this.presentAlert('Not Implemented', '', 'This featureaa isn\'t available yet!');
   }
   register() {
-    this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+    // this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
+    this.router.navigate(['register-tutor']);
   }
 
   togglePasswordMode() {

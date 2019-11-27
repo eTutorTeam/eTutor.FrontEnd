@@ -1,9 +1,69 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register-tutor</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content color="secondary">
+  <ion-img class="logo-etutor" src='../assets/resources/Logo.png'>
+  </ion-img>
+  <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
+    <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
+  </ion-item>
+  <form (submit)="submitForm()" [formGroup]="userForm">
+    <ion-list color="secondary" class="list-form">
+      <!-- Cedula -->
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Cédula
+        </ion-label>
+        <ion-input type="phone" formControlName="cedula"></ion-input>
+        <!--Validators for Document ID-->
+        <div *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)"
+            class="alert alert-danger">
 
-<ion-content>
+          <div *ngIf="cedula.errors['required']">
+            Este campo es requerido.
+          </div>
+          <div *ngIf="cedula.errors['invalidCedula']">
+            Debe introducir una cédula válida.
+          </div>
+        </div>
+      </ion-item>
+      <!-- E-mail -->
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Correo Electrónico
+        </ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+        <!--Validators for E-mail-->
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert alert-danger">
 
+          <div *ngIf="email.errors['required']">
+            Este campo es requerido.
+          </div>
+          <div *ngIf="email.errors['email']">
+            Debe introducir un correo electrónico válido..
+          </div>
+        </div>
+      </ion-item>
+
+      <!-- <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="lock"></ion-icon>
+          Contraseña
+        </ion-label>
+        <ion-input [type]="passwordTypeInput" formControlName="password">
+        </ion-input>
+        <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+          <ion-icon [name]="iconpassword"></ion-icon>
+        </ion-button>
+      </ion-item> -->
+
+    </ion-list>
+    
+    <ion-button mode="ios"
+    class="submit-button" expand="block" color="primary" type="submit"
+      [disabled]="userForm.invalid">
+      Ingresa
+    </ion-button>
+
+  </form>
 </ion-content>
