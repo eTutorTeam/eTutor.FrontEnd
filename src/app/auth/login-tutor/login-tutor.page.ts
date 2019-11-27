@@ -8,7 +8,7 @@ import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
 
 
-//^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
+// ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
 @Component({
   selector: 'app-login-tutor',
   templateUrl: './login-tutor.page.html',
@@ -16,7 +16,7 @@ import { LoadingOptions } from '@ionic/core';
 })
 export class LoginTutorPage implements OnInit {
 
-  //@ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
+  // @ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
   passwordTypeInput  =  'password';
   iconpassword  =  'eye-off';
   userForm: FormGroup;
@@ -40,9 +40,12 @@ export class LoginTutorPage implements OnInit {
       console.log(err, 'ERROR VAR');
       this.presentAlert(err.error.reasonPhrase, '', err.error.message);
       this.loading.dismiss();
-    })
+    });
   }
 
+  get email() { return this.userForm.get('email'); }
+
+  get password() { return this.userForm.get('password'); }
 
   buildForm() {
     this.userForm = this.fb.group({
@@ -52,7 +55,9 @@ export class LoginTutorPage implements OnInit {
   }
 
   private async logInUser() {
-    if (this.userForm.invalid) return;
+    if (this.userForm.invalid) {
+      return;
+    }
     await this.createLoading('Lo estamos ingresando al sistema');
 
     const request: LoginRequest = this.userForm.value;
@@ -63,7 +68,7 @@ export class LoginTutorPage implements OnInit {
   }
 
 
-  private async createLoading(msg: string = '', spin: LoadingOptions["spinner"] = 'lines') {
+  private async createLoading(msg: string = '', spin: LoadingOptions['spinner'] = 'lines') {
     this.loading = await this.loadingCtrl.create({
       message: msg,
       spinner: spin
@@ -95,10 +100,10 @@ export class LoginTutorPage implements OnInit {
   }
 
   forgotPassword() {
-    this.router.navigate(['home']).catch(err => {
-      console.log(err);
-    });
-    //this.presentAlert('Not Implemented', '', 'This featureaa isn\'t available yet!');
+    // this.router.navigate(['home']).catch(err => {
+    //   console.log(err);
+    // });
+      this.presentAlert('Not Implemented', '', 'This featureaa isn\'t available yet!');
   }
   register() {
     this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');

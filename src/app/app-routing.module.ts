@@ -6,9 +6,9 @@ import { RoleTypes } from './enums/role-types.enum';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login-tutor', pathMatch: 'full' },
-  { 
-    path: 'home', 
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule), 
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
     data: {
       roles: [RoleTypes.Tutor]
     },

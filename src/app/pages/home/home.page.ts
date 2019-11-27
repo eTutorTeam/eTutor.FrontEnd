@@ -10,7 +10,7 @@ import { UserPopoverComponent } from '../../components/user-popover/user-popover
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  
+
   constructor(
     public router: Router,
     private popoverCtrl: PopoverController
@@ -26,5 +26,7 @@ export class HomePage implements OnInit {
 
     await popover.present();
   }
+
+  ngOnInit() {}
 
 }

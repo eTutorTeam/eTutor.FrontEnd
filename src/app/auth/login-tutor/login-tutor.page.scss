@@ -46,3 +46,10 @@
 .btn_eye_icon:focus{
     outline: none  !important;
 }
+
+.alert.alert-danger {
+    transition: 0.28s;
+    color: red;
+    font-style: italic;
+    font-size: 15px;
+}
