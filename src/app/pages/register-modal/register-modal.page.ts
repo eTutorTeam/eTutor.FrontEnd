@@ -14,6 +14,7 @@ export class RegisterModalPage implements OnInit {
   }
 
   dismiss(userType: string) {
+    // const modal = await this.modalCtrl.getTop();
     this.modalCtrl.dismiss({
       userType
     });

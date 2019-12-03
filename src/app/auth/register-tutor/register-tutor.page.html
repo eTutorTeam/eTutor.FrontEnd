@@ -7,7 +7,7 @@
   <form (submit)="submitForm()" [formGroup]="userForm">
     <ion-list color="secondary" class="list-form">
       <!-- Cedula -->
-      <ion-item color="secondary" lines="none">
+      <ion-item color="secondary" lines="none" *ngIf="!correoPadreVisible">
         <ion-label position="floating">
           <ion-icon slot="start" name="contact"></ion-icon>
           Cédula
@@ -22,6 +22,25 @@
           </div>
           <div *ngIf="cedula.errors['invalidCedula']">
             Debe introducir una cédula válida.
+          </div>
+        </div>
+      </ion-item>
+      <!-- emailPadre -->
+      <ion-item color="secondary" lines="none" *ngIf="correoPadreVisible">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Correo Electronico del padre, madre o responsable
+        </ion-label>
+        <ion-input type="email" formControlName="emailPadre"></ion-input>
+        <!--Validators for Document ID-->
+        <div *ngIf="emailPadre.invalid && (emailPadre.dirty || emailPadre.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="emailPadre.errors['required']">
+            Este campo es requerido.
+          </div>
+          <div *ngIf="email.errors['email']">
+            Debe introducir un correo electrónico válido..
           </div>
         </div>
       </ion-item>

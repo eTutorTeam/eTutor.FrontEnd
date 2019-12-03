@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ValidatorFn, AbstractControl, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup,  FormControl } from '@angular/forms';
 import { ETutorValidator } from 'src/app/validators/e-tutor-validator';
 import { ModalController } from '@ionic/angular';
 import { RegisterModalPage } from 'src/app/pages/register-modal/register-modal.page';
@@ -13,6 +13,7 @@ export class RegisterTutorPage implements OnInit {
 
   passwordTypeInput  =  'password';
   iconpassword  =  'eye-off';
+  correoPadreVisible = false;
   userForm: FormGroup;
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
 
@@ -28,6 +29,10 @@ export class RegisterTutorPage implements OnInit {
         ETutorValidator.cedulaLengthValidator(new RegExp('([\\d+]{3}(|-)[\\d+]{7}(|-)[\\d]{1})'))
       ]),
       email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      emailPadre: ['', [
         Validators.required,
         Validators.email
       ]],
@@ -59,11 +64,20 @@ export class RegisterTutorPage implements OnInit {
 
     const { data } = await modal.onDidDismiss();
 
-    console.log('Regreso del modal: ', data);
+    switch (data.userType) {
+      case 'Estudiante':
+        this.correoPadreVisible = true;
+        this.cedula.disable();
+        break;
+      case 'Padre':
+        this.emailPadre.disable();
+        break;
+    }
   }
 
   get cedula() { return this.userForm.get('cedula'); }
   get email() { return this.userForm.get('email'); }
+  get emailPadre() { return this.userForm.get('emailPadre'); }
   get name() { return this.userForm.get('name'); }
   get lastname() { return this.userForm.get('lastname'); }
   get password() { return this.userForm.get('password'); }

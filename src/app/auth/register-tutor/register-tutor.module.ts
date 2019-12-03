@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RegisterTutorPage } from './register-tutor.page';
 import { RegisterModalPageModule } from 'src/app/pages/register-modal/register-modal.module';
+import { RegisterModalPage } from 'src/app/pages/register-modal/register-modal.page';
 
 const routes: Routes = [
   {
@@ -16,6 +17,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [
+    RegisterModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
