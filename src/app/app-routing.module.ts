@@ -17,8 +17,8 @@ const routes: Routes = [
   // { path: 'login-tutor', loadChildren: './pages/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'login-tutor', loadChildren: './auth/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'register-tutor', loadChildren: './auth/register-tutor/register-tutor.module#RegisterTutorPageModule' },
-  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' }, // , canActivate: [AuthGuard]},
-  { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' }, // , canActivate: [AuthGuard] },
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' , canActivate: [AuthGuard]},
+  { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' , canActivate: [AuthGuard] },
   { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
 
 ];
