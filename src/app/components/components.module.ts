@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { UserPopoverComponent } from './user-popover/user-popover.component';
+import {EtutorLogoComponent} from './etutor-logo/etutor-logo.component';
 
 
 
@@ -12,12 +13,14 @@ import { UserPopoverComponent } from './user-popover/user-popover.component';
   declarations: [
     MenuComponent,
     HeaderComponent,
-    UserPopoverComponent
+    UserPopoverComponent,
+    EtutorLogoComponent
   ],
   exports: [
     MenuComponent,
     HeaderComponent,
-    UserPopoverComponent
+    UserPopoverComponent,
+    EtutorLogoComponent,
   ],
   imports: [
     CommonModule,

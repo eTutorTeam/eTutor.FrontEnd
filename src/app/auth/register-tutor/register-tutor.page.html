@@ -1,9 +1,5 @@
 <ion-content color="secondary">
-  <ion-img class="logo-etutor" src='../assets/resources/Logo.png'>
-  </ion-img>
-  <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
-    <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
-  </ion-item>
+  <app-etutor-logo></app-etutor-logo>
   <form (submit)="submitForm()" [formGroup]="userForm">
     <ion-list color="secondary" class="list-form">
       <!-- Cedula -->
@@ -143,4 +139,7 @@
     </ion-button>
 
   </form>
+  <ion-item color="secondary"lines="none">
+    <ion-label class="ion-text-center" (click)="goToLogin()"><u>Volver</u></ion-label>
+  </ion-item>
 </ion-content>

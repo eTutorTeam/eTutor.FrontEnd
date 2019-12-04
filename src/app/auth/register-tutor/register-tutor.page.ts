@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup,  FormControl } from '@angular/forms
 import { ETutorValidator } from 'src/app/validators/e-tutor-validator';
 import { ModalController } from '@ionic/angular';
 import { RegisterModalPage } from 'src/app/pages/register-modal/register-modal.page';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register-tutor',
@@ -15,12 +16,15 @@ export class RegisterTutorPage implements OnInit {
   iconpassword  =  'eye-off';
   correoPadreVisible = false;
   userForm: FormGroup;
-  constructor(private fb: FormBuilder, private modalCtrl: ModalController) { }
+  constructor(private fb: FormBuilder, private modalCtrl: ModalController, public router:Router) { }
 
   ngOnInit() {
     this.openModal();
     this.buildForm();
     console.log('ecetera');
+  }
+  goToLogin() {
+    this.router.navigate(['login-tutor']);
   }
   buildForm() {
     this.userForm = this.fb.group({

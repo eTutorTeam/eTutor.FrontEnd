@@ -100,10 +100,7 @@ export class LoginTutorPage implements OnInit {
   }
 
   forgotPassword() {
-    // this.router.navigate(['home']).catch(err => {
-    //   console.log(err);
-    // });
-      this.presentAlert('Not Implemented', '', 'This featureaa isn\'t available yet!');
+    this.router.navigate(['forgot-password']);
   }
   register() {
     // this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
