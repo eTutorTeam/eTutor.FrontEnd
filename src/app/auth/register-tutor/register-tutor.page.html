@@ -2,37 +2,37 @@
   <app-etutor-logo></app-etutor-logo>
   <form (submit)="submitForm()" [formGroup]="userForm">
     <ion-list color="secondary" class="list-form">
-      <!-- Cedula -->
+      <!-- personalId -->
       <ion-item color="secondary" lines="none" *ngIf="!correoPadreVisible">
         <ion-label position="floating">
           <ion-icon slot="start" name="contact"></ion-icon>
           Cédula
         </ion-label>
-        <ion-input type="phone" formControlName="cedula"></ion-input>
+        <ion-input type="phone" formControlName="personalId"></ion-input>
         <!--Validators for Document ID-->
-        <div *ngIf="cedula.invalid && (cedula.dirty || cedula.touched)"
+        <div *ngIf="personalId.invalid && (personalId.dirty || personalId.touched)"
             class="alert alert-danger">
 
-          <div *ngIf="cedula.errors['required']">
+          <div *ngIf="personalId.errors['required']">
             Este campo es requerido.
           </div>
-          <div *ngIf="cedula.errors['invalidCedula']">
+          <div *ngIf="personalId.errors['invalidCedula']">
             Debe introducir una cédula válida.
           </div>
         </div>
       </ion-item>
-      <!-- emailPadre -->
+      <!-- parentEmail -->
       <ion-item color="secondary" lines="none" *ngIf="correoPadreVisible">
         <ion-label position="floating">
           <ion-icon slot="start" name="contact"></ion-icon>
           Correo Electronico del padre, madre o responsable
         </ion-label>
-        <ion-input type="email" formControlName="emailPadre"></ion-input>
+        <ion-input type="email" formControlName="parentEmail"></ion-input>
         <!--Validators for Document ID-->
-        <div *ngIf="emailPadre.invalid && (emailPadre.dirty || emailPadre.touched)"
+        <div *ngIf="parentEmail.invalid && (parentEmail.dirty || parentEmail.touched)"
             class="alert alert-danger">
 
-          <div *ngIf="emailPadre.errors['required']">
+          <div *ngIf="parentEmail.errors['required']">
             Este campo es requerido.
           </div>
           <div *ngIf="email.errors['email']">
@@ -84,9 +84,55 @@
         <ion-input type="text" formControlName="lastname"></ion-input>
         <!--Validators for E-mail-->
         <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)"
-            class="alert alert-danger">
+             class="alert alert-danger">
 
           <div *ngIf="lastname.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
+      <!-- Gender -->
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Género
+        </ion-label>
+        <ion-select placeholder="Seleccione una opción de género" formControlName="gender">
+          <ion-select-option value="male">
+            Hombre
+          </ion-select-option>
+          <ion-select-option value="female">
+            Mujer
+          </ion-select-option>
+          <ion-select-option value="N/A">
+            Prefiero no especificar
+          </ion-select-option>
+        </ion-select>
+        <!--Validators for Gender-->
+        <div *ngIf="gender.invalid && (gender.dirty || gender.touched)"
+             class="alert alert-danger">
+
+          <div *ngIf="gender.errors['required']">
+            Este campo es requerido.
+          </div>
+        </div>
+      </ion-item>
+      <ion-item color="secondary" lines="none">
+        <ion-label position="floating">
+          <ion-icon slot="start" name="contact"></ion-icon>
+          Fecha de nacimiento
+        </ion-label>
+        <ion-datetime display-format="DD MMMM YYYY"
+                      cancelText="Cancelar"
+                      monthNames='Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre'
+                      formControlName="birthDate"
+                      >
+
+        </ion-datetime>
+        <div *ngIf="birthDate.invalid && (birthDate.dirty || birthDate.touched)"
+             class="alert alert-danger">
+
+          <div *ngIf="birthDate.errors['required']">
             Este campo es requerido.
           </div>
         </div>
@@ -116,16 +162,19 @@
           <ion-icon slot="start" name="lock"></ion-icon>
           Confirmar Contraseña
         </ion-label>
-        <ion-input [type]="passwordTypeInput" formControlName="confimrpassword">
+        <ion-input [type]="passwordTypeInput" formControlName="comfirmpassword">
         </ion-input>
         <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
           <ion-icon [name]="iconpassword"></ion-icon>
         </ion-button>
-        <div *ngIf="confimrpassword.invalid && (confimrpassword.dirty || confimrpassword.touched)"
+        <div *ngIf="comfirmpassword.invalid && (comfirmpassword.dirty || comfirmpassword.touched)"
             class="alert alert-danger">
 
-          <div *ngIf="confimrpassword.errors['required']">
+          <div *ngIf="comfirmpassword.errors['required']">
             Este campo es requerido.
+          </div>
+          <div *ngIf="comfirmpassword.errors['passwordNotMatch']">
+            Las contraseñas deben coincidir.
           </div>
         </div>
       </ion-item>

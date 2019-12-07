@@ -16,6 +16,18 @@ export class ETutorValidator {
             }
         };
     }
+    static passwordMatchValidator(password: AbstractControl): ValidatorFn {
+        if (!password) {
+            return null;
+        }
+        const passwordText = password.parent.get('password').value;
+
+        return (control: AbstractControl): {[key: string]: any} | null => {
+            const confirmation = control.value;
+            console.log(passwordText + '    ' + confirmation);
+            return confirmation !== passwordText ? {passwordNotMatch: {value: control.value}} : null;
+        };
+    }
 }
 
 
