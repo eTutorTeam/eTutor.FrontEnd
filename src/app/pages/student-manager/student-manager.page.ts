@@ -20,4 +20,10 @@ export class StudentManagerPage implements OnInit {
     this.studentList = this.dataService.getChildren(userId);
   }
 
+    toggleStudentState(event, studentId) {
+      const newState: boolean = event.detail.checked;
+      this.dataService.toogleUser(studentId).toPromise();
+      console.log('this');
+    }
+
 }

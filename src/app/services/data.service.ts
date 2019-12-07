@@ -20,4 +20,8 @@ export class DataService {
   getChildren(uId) {
     return this.http.get<UserResponse[]>(`https://localhost:5033/api/Parent/my-students?userId=${uId}`);
   }
+  toogleUser(uId) {
+    console.log('that');
+    return this.http.post(`https://localhost:5033/api/Parent/toggle-student-state`, uId);
+  }
 }
