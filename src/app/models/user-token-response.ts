@@ -5,4 +5,5 @@ export interface UserTokenResponse {
   roles: RoleTypes[];
   userName: string;
   email: string;
+  uId: number;
 }

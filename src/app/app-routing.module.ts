@@ -20,6 +20,9 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' , canActivate: [AuthGuard]},
   { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' , canActivate: [AuthGuard] },
   { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
+  { path: 'student-manager', loadChildren: './pages/student-manager/student-manager.module#StudentManagerPageModule'
+    , canActivate: [AuthGuard]},
+
 
 ];
 

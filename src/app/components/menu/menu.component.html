@@ -6,13 +6,17 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-menu-toggle *ngFor="let c of componentes | async">
+      <ion-menu-toggle *ngFor="let c of componentes ">
         <ion-item [routerLink]="c.redirectTo">
           <ion-icon slot="start" [name]="c.icon"></ion-icon>
           <ion-label>{{c.name}}</ion-label>
       </ion-item>
     </ion-menu-toggle>
+<!--    <ion-menu-toggle *ngIf="user.roles.includes(parentRole)">-->
+<!--      <ion-item routerLink="/student-manager">-->
+<!--        <ion-label>Mis hijos</ion-label>-->
+<!--      </ion-item>-->
+<!--    </ion-menu-toggle>-->
     </ion-list>
   </ion-content>
 </ion-menu>
-  

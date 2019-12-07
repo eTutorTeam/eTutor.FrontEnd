@@ -16,4 +16,8 @@ export class DataService {
   getHistoryData() {
     return this.http.get<any[]>('/assets/data/history.json');
   }
+
+  getChildren(uId) {
+    return this.http.get<UserResponse[]>(`https://localhost:5033/api/Parent/my-students?userId=${uId}`);
+  }
 }
