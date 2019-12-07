@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
+import {ForgotPasswordRequest} from '../../models/forgot-password-request';
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,13 @@ export class AccountService {
   private async saveUserToStorage(userToSave: UserTokenResponse) {
     const strUser = JSON.stringify(userToSave);
     await this.storage.set(this.userStorageKey, strUser);
+  }
+
+  async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {
+      const requestUrl = `${this.apiBaseUrl}/api/accounts/forgot-password`;
+      const response = await this.http.post(requestUrl,
+          forgotPassRequest).toPromise();
+
   }
 
 }

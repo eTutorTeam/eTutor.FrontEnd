@@ -34,7 +34,6 @@ export class RegisterTutorPage implements OnInit {
   ngOnInit() {
     // this.openModal();
     this.buildForm();
-    console.log('ecetera');
   }
 
   goToLogin() {
@@ -76,7 +75,7 @@ export class RegisterTutorPage implements OnInit {
     this.comfirmpassword.setValidators([
         // ETutorValidator.passwordMatchValidator(this.password),
         Validators.required
-    ])
+    ]);
   }
     async presentAlert(header: string, subHeader: string, message: string) {
         const alert = await this.alertCtrl.create({
@@ -97,13 +96,13 @@ export class RegisterTutorPage implements OnInit {
     }
 
   submitForm() {
-      this.logInUser().catch((err) => {
+      this.registerUser().catch((err) => {
           console.log(err, 'ERROR VAR');
           this.presentAlert(err.error.reasonPhrase, '', err.error.message);
           this.loading.dismiss();
       });
   }
-    private async logInUser() {
+    private async registerUser() {
         if (this.userForm.invalid) {
             return;
         }
@@ -147,11 +146,9 @@ export class RegisterTutorPage implements OnInit {
         this.personalId.disable();
         break;
       case 'parent':
-          console.log('klk wawawa');
         this.parentEmail.disable();
         break;
-        case 'tutor':
-          console.log('klk wawawa');
+      case 'tutor':
         this.parentEmail.disable();
         break;
     }
