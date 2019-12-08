@@ -92,8 +92,9 @@ export class AccountService {
 
   async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {
       const requestUrl = `${this.apiBaseUrl}/api/accounts/forgot-password`;
-      const response = await this.http.post(requestUrl,
+      return this.http.post(requestUrl,
           forgotPassRequest).toPromise();
+
 
   }
 
