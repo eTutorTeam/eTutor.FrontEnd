@@ -6,6 +6,7 @@ import { LoginRequest } from 'src/app/models/login-request';
 import { AccountService } from 'src/app/services/accounts/account.service';
 import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
+import { MenuComponent } from 'src/app/components/menu/menu.component';
 
 
 // ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
@@ -17,6 +18,7 @@ import { LoadingOptions } from '@ionic/core';
 export class LoginTutorPage implements OnInit {
 
   // @ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
+  
   passwordTypeInput  =  'password';
   iconpassword  =  'eye-off';
   userForm: FormGroup;
@@ -97,6 +99,7 @@ export class LoginTutorPage implements OnInit {
   goHome() {
     this.router.navigate(['home']);
     this.menuCtrl.enable(true);
+
   }
 
   forgotPassword() {

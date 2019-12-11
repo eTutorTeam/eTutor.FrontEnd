@@ -1,4 +1,4 @@
-<ion-menu side="start" menuId="firstMenu" contentId="mainContent">
+<ion-menu side="start" menuId="firstMenu" contentId="mainContent" [disabled]="!isLoggedIn">
   <ion-header>
     <ion-toolbar color="secondary">
       <ion-title>Menú Principal</ion-title>
@@ -6,7 +6,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-menu-toggle *ngFor="let c of componentes ">
+      <ion-menu-toggle *ngFor="let c of componentes | async">
         <ion-item [routerLink]="c.redirectTo">
           <ion-icon slot="start" [name]="c.icon"></ion-icon>
           <ion-label>{{c.name}}</ion-label>

@@ -4,6 +4,7 @@ import {Componente} from 'src/app/models/componente';
 import {AccountService} from '../../services/accounts/account.service';
 import {UserTokenResponse} from '../../models/user-token-response';
 import {RoleTypes} from '../../enums/role-types.enum';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -14,28 +15,22 @@ export class MenuComponent implements OnInit {
 
   user: UserTokenResponse;
 
-  componentes: Componente[] = [];
+  isLoggedIn: Boolean;
+
+  componentes: Observable<Componente[]> ;
 
   constructor(private dataService: DataService,
-              private accountService: AccountService) { }
+              private accountService: AccountService) {
 
-  ngOnInit() {
-    this.dataService.getMenuOpts().toPromise().then( opts => {
-      this.componentes.push(...opts);
-    });
-    this.accountService.getLoggedUser().then(
-        resp => {
-          const studentManager:Componente = {
-            redirectTo: '/student-manager',
-            icon: 'star',
-            name: 'Mis estudiantes'
-          }
-          this.user = resp;
-          if(this.user.roles.includes(RoleTypes.Parent)) {
-            this.componentes.push(studentManager);
-          }
-        }
-    );
+                
+               }
+
+  async ngOnInit() {
+    this.isLoggedIn = await this.accountService.isUserLoggedIn()
+    this.refreshOptions();
+  }
+  refreshOptions() {
+    this.componentes = this.dataService.getMenuOpts();
   }
 
 }
