@@ -14,7 +14,20 @@ export class HomePage implements OnInit {
 
   @ViewChild(CalendarComponent, {read: null, static: true}) myCal: CalendarComponent;
 
-  eventSource = [];
+  eventSource = [
+    {
+      title: 'Tutoria Algebra',
+      startTime: new Date(2019, 11, 10, 14),
+      endTime: new Date(2019, 11, 10, 15),
+      allDay: false
+    },
+    {
+      title: 'Tutoria Logica simbolica',
+      startTime: new Date(2019, 11, 25, 6),
+      endTime: new Date(2019, 11, 25, 8),
+      allDay: false
+    }
+  ];
 
   calendar = {
     mode: 'month',
@@ -43,21 +56,31 @@ export class HomePage implements OnInit {
     console.log(this.myCal);
   }
 
-  onCurrentDateChanged(event){
+  onCurrentDateChanged(event) {
 
   }
-  reloadSource(startTime,endTime){
+  reloadSource(startTime, endTime) {
 
   }
-  onEventSelected(event){
+  onEventSelected(event) {
 
   }
   onViewTitleChanged(title) {
     this.viewTitle = title;
-    console.log(title);
 }
-  onTimeSelected(event){
+  onTimeSelected(event) {
 
+  }
+  addEvent() {
+    this.eventSource.push({
+      title: 'Event - test',
+      startTime: new Date(),
+      endTime: new Date(2019, 12, 15),
+      allDay: false
+    });
+    console.log(this.eventSource);
+    this.myCal.loadEvents();
+    console.log('123');
   }
 
 }

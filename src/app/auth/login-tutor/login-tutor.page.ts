@@ -18,7 +18,6 @@ import { MenuComponent } from 'src/app/components/menu/menu.component';
 export class LoginTutorPage implements OnInit {
 
   // @ViewChild('passwordEyeRegister', {read: true, static: true}) passwordEye;
-  
   passwordTypeInput  =  'password';
   iconpassword  =  'eye-off';
   userForm: FormGroup;
@@ -99,7 +98,6 @@ export class LoginTutorPage implements OnInit {
   goHome() {
     this.router.navigate(['home']);
     this.menuCtrl.enable(true);
-
   }
 
   forgotPassword() {

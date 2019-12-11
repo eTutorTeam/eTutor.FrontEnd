@@ -27,11 +27,11 @@ export class StudentManagerPage implements OnInit {
 
   async toggleStudentState(event, studentId) {
     const newState: boolean = event.detail.checked;
-    await this.createLoading('Enviando su petición.')
+    await this.createLoading('Enviando su petición.');
     this.dataService.toogleUser(studentId).toPromise().then(
       success => {
         this.loading.dismiss();
-        this.presentAlert('Exito!','','El estudiante ha sido cambiado de estado satisfactoriamente.')
+        this.presentAlert('Exito!', '', 'El estudiante ha sido cambiado de estado satisfactoriamente.');
       }
     );
   }

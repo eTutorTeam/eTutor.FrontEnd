@@ -27,8 +27,8 @@
   <ion-item>
     <ion-label class="ion-text-center ion-text-capitalize" color="secondary">{{viewTitle}}</ion-label>
   </ion-item>
-  
   <calendar 
+  [eventSource]="eventSource"
   [currentDate]="calendar.currentDate"
   [calendarMode]="calendar.mode"
   (onCurrentDateChanged)="onCurrentDateChanged($event)"
@@ -38,4 +38,5 @@
   >
   
 </calendar>
+
 </ion-content>

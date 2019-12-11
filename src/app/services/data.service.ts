@@ -18,16 +18,16 @@ export class DataService {
 
   getMenuOpts() {
     const user = this.accountService.user;
-    if (user === undefined || user === null)
+    if (user === undefined || user === null) {
       return this.http.get<Componente[]>('/assets/data/menu.json');
+    }
     const isParent = user.roles.includes(RoleTypes.Parent);
     if (isParent) {
-      return this.getMenuOptsForParents()
+      return this.getMenuOptsForParents();
     } else {
       return this.http.get<Componente[]>('/assets/data/menu.json');
     }
   }
-  
   getMenuOptsForParents() {
     return this.http.get<Componente[]>('/assets/data/menuParents.json');
   }

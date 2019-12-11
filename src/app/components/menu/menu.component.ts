@@ -15,18 +15,15 @@ export class MenuComponent implements OnInit {
 
   user: UserTokenResponse;
 
-  isLoggedIn: Boolean;
+  isLoggedIn: boolean;
 
   componentes: Observable<Componente[]> ;
 
   constructor(private dataService: DataService,
-              private accountService: AccountService) {
-
-                
-               }
+              private accountService: AccountService) {}
 
   async ngOnInit() {
-    this.isLoggedIn = await this.accountService.isUserLoggedIn()
+    this.isLoggedIn = await this.accountService.isUserLoggedIn();
     this.refreshOptions();
   }
   refreshOptions() {
