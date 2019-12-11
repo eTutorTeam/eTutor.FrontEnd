@@ -1,26 +1,14 @@
-.logo-etutor{
-    padding: 100px 30px 0px;
-}
+
 .list-form{
     background-color: var(--ion-color-secondary);
-    padding: 0px 50px;
+    padding: 0 50px;
 }
 .submit-button{
-    padding: 0px 50px;
+    padding: 0 50px;
 }
 
 .alignme{
     text-align: right;
-}
-
-.tututor-logo{
-    color: var(--ion-color-primary);
-    font-size: 45px;
-    margin:0;
-}
-
-.tututor-logo .tu-part {
-    color: whitesmoke;
 }
 
 .forgot-password {
@@ -28,7 +16,7 @@
 }
 
 .slogan-text {
-    padding: 0px;
+    padding: 0;
 }
 
 .btn_eye_icon{
@@ -45,4 +33,11 @@
 
 .btn_eye_icon:focus{
     outline: none  !important;
+}
+
+.alert.alert-danger {
+    transition: 0.28s;
+    color: red;
+    font-style: italic;
+    font-size: 15px;
 }

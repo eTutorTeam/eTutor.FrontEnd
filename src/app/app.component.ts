@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { MenuComponent } from './components/menu/menu.component';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,8 @@ import { Router, RouterEvent, NavigationEnd } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild(MenuComponent, {static: true}) menu: MenuComponent;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -31,7 +34,10 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event.url === '/login-tutor') {
         this.menuCtrl.enable(false);
+      } else {
+        this.menu.refreshOptions();
       }
     });
   }
+
 }

@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
 import { RegisterTutorPage } from './register-tutor.page';
+import { RegisterModalPageModule } from 'src/app/pages/register-modal/register-modal.module';
+import { RegisterModalPage } from 'src/app/pages/register-modal/register-modal.page';
+import {ComponentsModule} from '../../components/components.module';
 
 const routes: Routes = [
   {
@@ -15,11 +18,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [
+    RegisterModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    ReactiveFormsModule,
+    RegisterModalPageModule,
+    RouterModule.forChild(routes),
+    ComponentsModule
   ],
   declarations: [RegisterTutorPage]
 })

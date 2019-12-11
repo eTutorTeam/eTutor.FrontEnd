@@ -1,0 +1,22 @@
+[
+    {
+        "icon": "home",
+        "name": "Inicio",
+        "redirectTo": "/home"
+    },
+    {
+        "icon": "contact",
+        "name": "Ver perfil",
+        "redirectTo": "/profile"
+    },
+    {
+        "icon": "time",
+        "name": "Historial de tutorías",
+        "redirectTo": "/history"
+    },
+    {
+        "icon": "star",
+        "name": "Mis estudiantes",
+        "redirectTo": "/student-manager"
+    }
+]

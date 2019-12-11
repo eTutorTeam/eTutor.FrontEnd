@@ -1,4 +1,4 @@
-<ion-menu side="start" menuId="firstMenu" contentId="mainContent">
+<ion-menu side="start" menuId="firstMenu" contentId="mainContent" [disabled]="!isLoggedIn">
   <ion-header>
     <ion-toolbar color="secondary">
       <ion-title>Menú Principal</ion-title>
@@ -12,7 +12,11 @@
           <ion-label>{{c.name}}</ion-label>
       </ion-item>
     </ion-menu-toggle>
+<!--    <ion-menu-toggle *ngIf="user.roles.includes(parentRole)">-->
+<!--      <ion-item routerLink="/student-manager">-->
+<!--        <ion-label>Mis hijos</ion-label>-->
+<!--      </ion-item>-->
+<!--    </ion-menu-toggle>-->
     </ion-list>
   </ion-content>
 </ion-menu>
-  

@@ -1,22 +1,28 @@
 <ion-content color="secondary">
-  <ion-img class="logo-etutor" src='../assets/resources/Logo.png'>
-  </ion-img>
-  <ion-item class="ion-text-right slogan-text" color="secondary" lines="none">
-    <ion-label class="tututor-logo"><span class="tu-part">Tu</span>Tutor</ion-label>
-  </ion-item>
+  <app-etutor-logo></app-etutor-logo>
   <form (submit)="submitForm()" [formGroup]="userForm">
     <ion-list color="secondary" class="list-form">
 
-      <ion-item color="secondary">
+      <ion-item color="secondary" lines="none">
         <ion-label position="floating">
           <ion-icon slot="start" name="contact"></ion-icon>
           Correo Electrónico
         </ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
-        <!--TODO: Show validation errors-->
+        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert alert-danger">
+
+          <div *ngIf="email.errors['required']">
+            Este campo es requerido.
+          </div>
+          <div *ngIf="email.errors['email']">
+            Debe introducir correo electrónico válido.
+          </div>
+        </div>
       </ion-item>
 
-      <ion-item color="secondary" >
+
+      <ion-item color="secondary" lines="none">
         <ion-label position="floating">
           <ion-icon slot="start" name="lock"></ion-icon>
           Contraseña

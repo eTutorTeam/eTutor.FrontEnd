@@ -1,0 +1,22 @@
+<app-header></app-header>
+
+<ion-content >
+    <ion-item lines="none">
+        <ion-label class="ion-text-center title" color="secondary">
+            Estudiantes Asociados
+        </ion-label>
+    </ion-item>
+    <ion-list>
+
+        <ion-item *ngFor="let student of studentList | async">
+            <ion-avatar slot="start">
+                <ion-img src="assets/resources/pp.jfif"></ion-img>
+            </ion-avatar>
+            <ion-label>
+                <h3>{{student.fullName}}</h3>
+                <p>{{student.email}}</p>
+            </ion-label>
+            <ion-toggle (ionChange)="toggleStudentState($event, student.id)" slot="end" [checked]="student.isActive" ></ion-toggle>
+        </ion-item>
+    </ion-list>
+</ion-content>

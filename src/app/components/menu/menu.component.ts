@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/services/data.service';
+import {Component, OnInit} from '@angular/core';
+import {DataService} from 'src/app/services/data.service';
+import {Componente} from 'src/app/models/componente';
+import {AccountService} from '../../services/accounts/account.service';
+import {UserTokenResponse} from '../../models/user-token-response';
+import {RoleTypes} from '../../enums/role-types.enum';
 import { Observable } from 'rxjs';
-import { Componente } from 'src/app/models/componente';
 
 @Component({
   selector: 'app-menu',
@@ -10,11 +13,20 @@ import { Componente } from 'src/app/models/componente';
 })
 export class MenuComponent implements OnInit {
 
-  componentes: Observable<Componente[]>;
+  user: UserTokenResponse;
 
-  constructor(private dataService: DataService) { }
+  isLoggedIn: boolean;
 
-  ngOnInit() {
+  componentes: Observable<Componente[]> ;
+
+  constructor(private dataService: DataService,
+              private accountService: AccountService) {}
+
+  async ngOnInit() {
+    this.isLoggedIn = await this.accountService.isUserLoggedIn();
+    this.refreshOptions();
+  }
+  refreshOptions() {
     this.componentes = this.dataService.getMenuOpts();
   }
 

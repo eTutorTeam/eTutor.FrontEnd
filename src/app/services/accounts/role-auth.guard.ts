@@ -19,7 +19,7 @@ export class RoleAuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const roles: RoleTypes[] = next.data['roles']
+    const roles: RoleTypes[] = next.data.roles;
     return this.loggedUserHasRoles(roles);
   }
 
@@ -30,13 +30,13 @@ export class RoleAuthGuard implements CanActivate {
       return true;
     }
 
-    //TODO: Show unathorized page
-    this.router.navigate(['login-tutor'])
+    // TODO: Show unathorized page
+    this.router.navigate(['login-tutor']);
     return false;
   }
 
   private async isUserLoggedIn(): Promise<boolean> {
-    let isUserLoggedIn = this.accountService.isUserLoggedIn();
+    const isUserLoggedIn = this.accountService.isUserLoggedIn();
     if (isUserLoggedIn) {
       if (await this.accountService.isTokenExpired()) {
         await this.accountService.logoutUser();
