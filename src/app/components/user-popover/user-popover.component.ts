@@ -17,6 +17,10 @@ export class UserPopoverComponent implements OnInit {
       action: 'profile'
     },
     {
+      text: 'Cambiar contraseña',
+      action: 'change-password'
+    },
+    {
       text: 'Cerrar Sesión',
       action: 'logout'
     }
@@ -37,10 +41,10 @@ export class UserPopoverComponent implements OnInit {
 
   onClick(action: string) {
     this.popoverController.dismiss();
-    if (action === 'profile') {
-      this.router.navigate(['profile']);
-    } else if (action === 'logout') {
+    if (action === 'logout') {
       this.logout();
+    } else  {
+      this.router.navigate([action]);
     }
   }
   logout() {

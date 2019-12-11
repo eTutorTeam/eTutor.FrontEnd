@@ -22,6 +22,8 @@ const routes: Routes = [
   { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
   { path: 'student-manager', loadChildren: './pages/student-manager/student-manager.module#StudentManagerPageModule'
     , canActivate: [AuthGuard]},
+  { path: 'change-password', loadChildren: './pages/change-password/change-password.module#ChangePasswordPageModule', canActivate:[AuthGuard] },
+
 
 
 ];
