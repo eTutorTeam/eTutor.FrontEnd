@@ -18,9 +18,20 @@
 </ion-header>
 <ion-content>
   <ion-item> 
-    <ion-label color="secondary" class="title"> Tutorías en curso </ion-label>
+    <ion-label color="secondary" class="title"> Tutorías Agendadas </ion-label>
   </ion-item>
   <ion-item lines="none">
-    <ion-note slot="start">En este momento no tiene tutorías en curso.</ion-note>
+    <!-- <ion-note slot="start">En este momento no tiene tutorías en curso.</ion-note> -->
+
   </ion-item>
+  <ion-item>
+    <ion-label class="ion-text-center">{{viewTitle}}</ion-label>
+  </ion-item>
+  <calendar 
+  [currentDate]="calendar.currentDate"
+  [calendarMode]="calendar.mode"
+  (onViewTitleChanged)="onViewTitleChanged($event)"
+  >
+  
+</calendar>
 </ion-content>

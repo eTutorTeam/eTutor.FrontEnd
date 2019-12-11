@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://localhost:5033'
+  apiBaseUrl: 'https://etutorapi.azurewebsites.net'
 };
 
 /*
