@@ -25,12 +25,16 @@
 
   </ion-item>
   <ion-item>
-    <ion-label class="ion-text-center">{{viewTitle}}</ion-label>
+    <ion-label class="ion-text-center ion-text-capitalize" color="secondary">{{viewTitle}}</ion-label>
   </ion-item>
+  
   <calendar 
   [currentDate]="calendar.currentDate"
   [calendarMode]="calendar.mode"
-  (onViewTitleChanged)="onViewTitleChanged($event)"
+  (onCurrentDateChanged)="onCurrentDateChanged($event)"
+  (onEventSelected)="onEventSelected($event)"
+  (onTitleChanged)="onViewTitleChanged($event)"
+  (onTimeSelected)="onTimeSelected($event)"
   >
   
 </calendar>

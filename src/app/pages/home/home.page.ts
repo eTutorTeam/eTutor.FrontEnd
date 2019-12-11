@@ -40,7 +40,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    
+    console.log(this.myCal);
   }
 
   onCurrentDateChanged(event){
@@ -52,10 +52,10 @@ export class HomePage implements OnInit {
   onEventSelected(event){
 
   }
-  onViewTitleChanged(event) {
-    console.log(event);
-    this.viewTitle = event.target.value;
-  }
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
+    console.log(title);
+}
   onTimeSelected(event){
 
   }

@@ -8,7 +8,7 @@ import { HomePage } from './home.page';
 import { ComponentsModule } from '../../components/components.module';
 import {NgCalendarModule} from 'ionic2-calendar';
 import { registerLocaleData } from '@angular/common';
-import localeZh from '@angular/common/locales/en-US-POSIX';
+import localeZh from '@angular/common/locales/es-DO';
 registerLocaleData(localeZh);
 
 @NgModule({
@@ -26,7 +26,7 @@ registerLocaleData(localeZh);
     NgCalendarModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'en-US' }
+    { provide: LOCALE_ID, useValue: 'es-DO' }
   ],
   declarations: [HomePage]
 })
