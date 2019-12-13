@@ -6,6 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",
+    "emulate-android": "ionic cordova emulate android -l",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
