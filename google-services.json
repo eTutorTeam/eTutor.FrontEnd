@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "492159563390",
+    "firebase_url": "https://etutorapp-25808.firebaseio.com",
+    "project_id": "etutorapp-25808",
+    "storage_bucket": "etutorapp-25808.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492159563390:android:51cf40f26670f4e01b8a2f",
+        "android_client_info": {
+          "package_name": "com.etutorproject.etutorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492159563390-ur75jdnd7811n2qb598t05sam1uf1r1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjTltay-kcNCTMxtxrnZytiz5hL5mYkWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492159563390-ur75jdnd7811n2qb598t05sam1uf1r1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
