@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://etutorapi.azurewebsites.net',
+  //apiBaseUrl: 'https://etutorapi.azurewebsites.net',
+  apiBaseUrl: 'https://localhost:5033',
   firebaseConfig: {
     apiKey: "AIzaSyDzQHlc3j0vVb2ccsdr33x1_qoAkYVEH74",
     authDomain: "etutorapp-25808.firebaseapp.com",

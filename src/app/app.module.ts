@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { FcmService } from './services/fcm.service';
-import {Firebase} from '@ionic-native/firebase';
+import {Firebase} from '@ionic-native/firebase/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +31,7 @@ import {Firebase} from '@ionic-native/firebase';
     FormsModule,
     ReactiveFormsModule,
     IonicStorageModule.forRoot(),
-    //AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [
     StatusBar,
@@ -42,8 +42,8 @@ import {Firebase} from '@ionic-native/firebase';
       multi: true
     },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    //Firebase,
-    //FcmService
+    Firebase,
+    FcmService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firebase } from '@ionic-native/firebase';
+import { Firebase } from '@ionic-native/firebase/ngx';
 import {Platform, ToastController} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
 import {environment} from "../../environments/environment";
@@ -36,7 +36,7 @@ export class FcmService {
       fcmToken: token,
       platforms: this.platform.platforms()
     };
-
+    console.log('PHONE TOKEN: ', token);
     return this.http.post(`${environment.apiBaseUrl}/api/users/devices`, device).toPromise();
   }
 
