@@ -31,8 +31,8 @@ export class AccountService {
 
   async loginUser(loginRequest: LoginRequest): Promise<UserTokenResponse> {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
-    await this.fmcService.getToken();
-    this.fmcService.registerToNotifications();
+    //await this.fmcService.getToken();
+    //this.fmcService.registerToNotifications();
     return this.saveToken(response);
   }
   async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {

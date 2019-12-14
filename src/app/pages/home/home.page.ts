@@ -78,9 +78,7 @@ export class HomePage implements OnInit {
       endTime: new Date(2019, 12, 15),
       allDay: false
     });
-    console.log(this.eventSource);
     this.myCal.loadEvents();
-    console.log('123');
   }
 
 }
