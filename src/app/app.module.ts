@@ -43,7 +43,6 @@ import {Firebase} from '@ionic-native/firebase/ngx';
     },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Firebase,
-    FcmService
   ],
   bootstrap: [AppComponent]
 })

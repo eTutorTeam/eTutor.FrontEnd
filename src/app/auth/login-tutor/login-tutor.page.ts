@@ -39,7 +39,7 @@ export class LoginTutorPage implements OnInit {
   submitForm() {
     this.logInUser().catch((err) => {
       console.log(err, 'ERROR VAR');
-      this.presentAlert(err.error.reasonPhrase, '', err.error.message);
+      this.presentAlert('Error', 'Error', JSON.stringify(err));
       this.loading.dismiss();
     });
   }

@@ -19,8 +19,10 @@ export class FcmService {
   ) { }
 
   async getToken() {
+    console.log('GET TOKEN () METHOD -- CALLING FIREBASE NATIVE CORDOVA')
     const token = await this.firebaseNative.getToken();
-
+    console.log('TOKEN: ', token);
+    const see = token;
     if (this.platform.is('ios')) {
       await this.firebaseNative.grantPermission();
     }
