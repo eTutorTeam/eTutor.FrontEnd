@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
+import {FcmService} from "../fcm.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,18 +24,20 @@ export class AccountService {
     private http: HttpClient,
     private storage: Storage,
     private router: Router,
+    private fmcService: FcmService
   ) {
     this.helper = new JwtHelperService();
   }
 
   async loginUser(loginRequest: LoginRequest): Promise<UserTokenResponse> {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
-    return this.saveToken(response);
+    await this.saveToken(response);
+    await this.fmcService.getToken();
+    this.fmcService.registerToNotifications();
+    return response
   }
   async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
     const requestUrl = `${this.apiBaseUrl}/api/accounts/register-${userType}`;
-    console.log(requestUrl);
-    console.log(registerRequest);
     const response = await this.http.post<UserTokenResponse>(requestUrl,
         registerRequest).toPromise();
     return this.saveToken(response);
@@ -42,7 +45,6 @@ export class AccountService {
   async saveToken(response): Promise<UserTokenResponse> {
     this.user = response;
     await this.saveUserToStorage(this.user);
-    console.log(this.user);
     return response;
   }
 
