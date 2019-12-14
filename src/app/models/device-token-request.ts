@@ -1,5 +1,5 @@
 export interface DeviceTokenRequest {
     userId?: number;
-    platforms: string[];
+    platform: string;
     fcmToken: string;
 }

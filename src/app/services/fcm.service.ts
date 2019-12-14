@@ -36,7 +36,7 @@ export class FcmService {
     }
     const device: DeviceTokenRequest = {
       fcmToken: token,
-      platforms: this.platform.platforms()
+      platform: this.getPlatform()
     };
     console.log('PHONE TOKEN: ', token);
     return this.http.post(`${environment.apiBaseUrl}/api/users/devices`, device).toPromise();
@@ -63,5 +63,17 @@ export class FcmService {
     });
 
     toast.present();
+  }
+
+  private getPlatform(): string {
+    if (this.platform.is('android')) {
+      return 'android';
+    }
+
+    if (this.platform.is('ios')) {
+      return 'ios'
+    }
+
+    return 'browser'
   }
 }
