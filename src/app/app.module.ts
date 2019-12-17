@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { FcmService } from './services/fcm.service';
-import {Firebase} from '@ionic-native/firebase/ngx';
+import {FirebaseX} from '@ionic-native/firebase-x/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +42,7 @@ import {Firebase} from '@ionic-native/firebase/ngx';
       multi: true
     },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Firebase,
+    FirebaseX,
   ],
   bootstrap: [AppComponent]
 })

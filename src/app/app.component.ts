@@ -5,6 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { MenuComponent } from './components/menu/menu.component';
+import { AccountService } from './services/accounts/account.service';
+import { PushNotificationService } from './services/push-notification.service';
+import { FcmService } from './services/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +22,10 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private menuCtrl: MenuController,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService,
+    private notificationService: PushNotificationService,
+    private fcmService: FcmService
   ) {
     this.initializeApp();
   }
@@ -31,6 +37,7 @@ export class AppComponent implements OnInit {
       this.splashScreen.hide();
     });
   }
+
   ngOnInit() {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event.url === '/login-tutor') {
@@ -39,6 +46,17 @@ export class AppComponent implements OnInit {
         this.menu.refreshOptions();
       }
     });
+
+    this.initializePushNotifications();
+  }
+
+  private async initializePushNotifications() {
+    let signedIn = await this.accountService.isUserLoggedIn();
+    if (!signedIn) {
+      return;
+    }
+    await this.fcmService.getToken();
+    this.notificationService.listenWhenUserTapsNotification();
   }
 
 }
