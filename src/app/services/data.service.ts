@@ -16,4 +16,20 @@ export class DataService {
   getHistoryData() {
     return this.http.get<any[]>('/assets/data/history.json');
   }
+
+  getChildren(uId) {
+    //return this.http.get<UserResponse[]>(`https://localhost:5033/api/Parent/my-students?userId=${uId}`);
+  }
+  toogleUser(uId) {
+    console.log('that');
+    return this.http.post(`https://localhost:5033/api/Parent/toggle-student-state`, uId);
+  }
+  getsubjectslist(){
+   return this.http.get<any[]>("https://localhost:5033/api/subjects/all-unrestricted");
+    //return this.http.get<any[]>('/assets/data/subjects.json');
+  }
+  gettutorbysubjects(){
+    return this.http.get<any[]>("https://localhost:5033/api/tutors/active");
+    //return this.http.get<any[]>('/assets/data/tutors.json');
+  }
 }

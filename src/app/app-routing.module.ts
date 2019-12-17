@@ -18,7 +18,11 @@ const routes: Routes = [
   { path: 'login-tutor', loadChildren: './auth/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'register-tutor', loadChildren: './auth/register-tutor/register-tutor.module#RegisterTutorPageModule' },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' , canActivate: [AuthGuard]},
-  { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule', canActivate: [AuthGuard] },
+  { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule', canActivate: [AuthGuard] },  { path: 'subjects-list', loadChildren: './subjects-list/subjects-list.module#SubjectsListPageModule' },
+  { path: 'tutor-d-list', loadChildren: './tutor-d-list/tutor-d-list.module#TutorDListPageModule' },
+  { path: 'tutor-d-list', loadChildren: './pages/tutor-d-list/tutor-d-list.module#TutorDListPageModule' },
+  { path: 'subjects-list', loadChildren: './pages/subjects-list/subjects-list.module#SubjectsListPageModule' },
+
 ];
 
 @NgModule({

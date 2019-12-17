@@ -1,0 +1,26 @@
+<ion-header no-border mode="md">
+
+  <ion-toolbar color="secondary" mode="md">
+
+    <ion-buttons slot="start">
+        <ion-menu-button color="primary"
+          menu="firstMenu">
+        </ion-menu-button>
+    </ion-buttons>
+
+    <ion-title mode="md" class="ion-text-capitalize"> <ion-img src="../assets/resources/Logo.png"></ion-img> </ion-title>
+    <ion-buttons slot="end">
+      <ion-avatar (click)="mostrarPop($event)">
+        <img src="../assets/resources/pp.jfif"/>
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-button  expand="full" ion-item *ngFor="let item of items | async" >
+      {{item.name}} {{item.lastName}}
+    </ion-button>
+  </ion-list>
+</ion-content>
