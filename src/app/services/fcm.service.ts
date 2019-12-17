@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firebase } from '@ionic-native/firebase/ngx';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import {Platform, ToastController} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
 import {environment} from "../../environments/environment";
@@ -12,21 +12,22 @@ import {tap} from "rxjs/operators";
 export class FcmService {
 
   constructor(
-    public firebaseNative: Firebase,
+    public firebaseNative: FirebaseX,
     private platform: Platform,
     private http: HttpClient,
-    private toastCtrl: ToastController
-  ) { }
+    private toastCtrl: ToastController,
+  ) {
+  }
 
   async getToken() {
     console.log('GET TOKEN () METHOD -- CALLING FIREBASE NATIVE CORDOVA')
-    const token = await this.firebaseNative.getToken();
+    let token = await this.firebaseNative.getToken();
     console.log('TOKEN: ', token);
-    const see = token;
     if (this.platform.is('ios')) {
       await this.firebaseNative.grantPermission();
+      token = await this.firebaseNative.getAPNSToken();
     }
-
+    this.listenToRefreshToken();
     return await this.saveTokenToUserBackend(token);
   }
 
@@ -42,27 +43,11 @@ export class FcmService {
     return this.http.post(`${environment.apiBaseUrl}/api/users/devices`, device).toPromise();
   }
 
-  listenToNotifications() {
-    return this.firebaseNative.onNotificationOpen();
-  }
 
-  registerToNotifications() {
-    this.listenToNotifications().pipe(
-        tap((msg: any) => {
-          this.presentToast(msg.body)
-              .then(res => console.log(res))
-              .catch(err => console.error(err));
-        })
-    ).subscribe();
-  }
-
-  private async presentToast(msg: any) {
-    const toast = await this.toastCtrl.create({
-      message: msg,
-      duration: 3000
-    });
-
-    toast.present();
+  private listenToRefreshToken() {
+    this.firebaseNative.onTokenRefresh().subscribe(token => {
+      this.saveTokenToUserBackend(token);
+    })
   }
 
   private getPlatform(): string {

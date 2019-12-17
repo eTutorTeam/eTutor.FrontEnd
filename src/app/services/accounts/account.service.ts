@@ -9,6 +9,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
 import {FcmService} from "../fcm.service";
+import { PushNotificationService } from '../push-notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class AccountService {
     private http: HttpClient,
     private storage: Storage,
     private router: Router,
-    private fmcService: FcmService
+    private fmcService: FcmService,
+    private notificationService: PushNotificationService
   ) {
     this.helper = new JwtHelperService();
   }
@@ -33,7 +35,7 @@ export class AccountService {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
     await this.saveToken(response);
     await this.fmcService.getToken();
-    this.fmcService.registerToNotifications();
+    this.notificationService.listenWhenUserTapsNotification();
     return response
   }
   async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
