@@ -48,6 +48,7 @@
     "firebase": "^7.6.0",
     "ionic2-calendar": "^0.5.7",
     "ionic4-rating": "^1.0.9",
+    "moment": "^2.24.0",
     "ngx-mask": "^8.1.6",
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",

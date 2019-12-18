@@ -35,10 +35,12 @@ const routes: Routes = [
         path: 'schedule',
         loadChildren: './students/student-schedule/student-schedule.module#StudentSchedulePageModule'
       }
-    ]
+    ],
+    data: {
+      roles: [RoleTypes.Student]
+    },
+    canActivate: [RoleAuthGuard]
   }
-
-
 ];
 
 @NgModule({

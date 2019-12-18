@@ -1,0 +1,44 @@
+<app-header [showBack]="true" title="Agendar Tutoria"></app-header>
+
+<ion-content>
+  <form [formGroup]="dateForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-title>Seleccione la fecha</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Fecha:</ion-label>
+            <ion-datetime displayFormat="MM/DD/YYYY" formControlName="date" [min]="today" [max]="endDate"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-title>Seleccione el horario</ion-title>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Hora Inicio: </ion-label>
+            <ion-datetime displayFormat="h:mm a" formControlName="startTime"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label>Hora Final: </ion-label>
+            <ion-datetime displayFormat="h:mm a" formControlName="endTime"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-button color="primary" (click)="submitForm()">Continuar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
