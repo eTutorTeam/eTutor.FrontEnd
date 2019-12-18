@@ -5,6 +5,7 @@ import {UserProfileResponse} from "../../models/user-profile-response";
 import {LoadingController} from "@ionic/angular";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {ImageHandlingService} from "../../services/image-handling.service";
+import {Camera, CameraOptions} from "@ionic-native/camera/ngx";
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,8 @@ export class ProfilePage implements OnInit {
       private userService: UserService,
       private loadingController: LoadingController,
       private toastNotificationService: ToastNotificationService,
-      private imageHandlingService: ImageHandlingService
+      private imageHandlingService: ImageHandlingService,
+      private camera: Camera
   ) { }
 
   ngOnInit() {
@@ -55,20 +57,36 @@ export class ProfilePage implements OnInit {
   }
 
   openImageSelector() {
-    this.imageHandlingService.selectImage();
+    this.getImage().catch(err => {
+      this.toastNotificationService.presentErrorToast(err);
+      this.stopLoading();
+    });
+  }
+
+  private async getImage() {
+    const img = await this.imageHandlingService.selectImage();
+    const imgName = "profileImage.jpg";
+
+    this.startLoading('Cargando foto al servidor');
+    await this.userService.addImageToUser(img, imgName);
+    this.stopLoading();
+    await this.getData();
+    this.startLoading('Adaptando imagen para el usuario');
+    await this.accountService.updateUserImage(this.profile.profileImageUrl);
+    this.stopLoading();
   }
 
   private async getData() {
-    await this.startLoading();
+    await this.startLoading('Cargando datos');
     this.profile = await this.userService.getUserProfile();
     await this.stopLoading();
   }
 
-  private async startLoading() {
+  private async startLoading(msg: string = 'Cargando') {
     this.loading = await this.loadingController.create({
       backdropDismiss: false,
       animated: true,
-      message: 'Cargando'
+      message: msg
     });
     this.loading.present();
   }

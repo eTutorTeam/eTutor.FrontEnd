@@ -108,5 +108,5 @@
     <plugin name="cordova-plugin-firebasex" spec="^7.0.1" />
     <plugin name="cordova-plugin-androidx" spec="^1.0.2" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.0" />
-    <allow-navigation href="http://localhost:8100" sessionid="2a3e924b" />
+    <allow-navigation href="http://localhost:8100" sessionid="30c9ddc5" />
 </widget>
