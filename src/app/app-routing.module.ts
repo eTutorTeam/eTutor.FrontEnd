@@ -27,6 +27,15 @@ const routes: Routes = [
       roles: [RoleTypes.Parent]
     },
     canActivate: [RoleAuthGuard]
+  },
+  {
+    path: 'students',
+    children: [
+      {
+        path: 'schedule',
+        loadChildren: './students/student-schedule/student-schedule.module#StudentSchedulePageModule'
+      }
+    ]
   }
 
 

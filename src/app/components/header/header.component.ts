@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
 
   user: UserTokenResponse;
   @Input() showBack: boolean = false;
+  @Input() title: string = '';
 
   constructor(
     private popoverCtrl: PopoverController,
