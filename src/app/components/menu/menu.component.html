@@ -6,7 +6,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-menu-toggle *ngFor="let c of componentes | async">
+      <ion-menu-toggle *ngFor="let c of componentes">
         <ion-item [routerLink]="c.redirectTo">
           <ion-icon slot="start" [name]="c.icon"></ion-icon>
           <ion-label>{{c.name}}</ion-label>

@@ -7,6 +7,9 @@ import { AccountService } from 'src/app/services/accounts/account.service';
 import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
 import { MenuComponent } from 'src/app/components/menu/menu.component';
+import {ToastNotificationService} from "../../services/toast-notification.service";
+import {FcmService} from "../../services/fcm.service";
+import {PushNotificationService} from "../../services/push-notification.service";
 
 
 // ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
@@ -29,7 +32,10 @@ export class LoginTutorPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private accountService: AccountService,
-    private fb: FormBuilder
+    private toastNotificationService: ToastNotificationService,
+    private fb: FormBuilder,
+    private fcmService: FcmService,
+    private notificationService: PushNotificationService
   ) { }
 
   ngOnInit() {
@@ -40,7 +46,10 @@ export class LoginTutorPage implements OnInit {
   submitForm() {
     this.logInUser().catch((err) => {
       console.log(err, 'ERROR VAR');
-      this.presentAlert('Error', 'Error', JSON.stringify(err));
+      this.toastNotificationService.presentErrorToast(err);
+      this.fcmService.getToken()
+          .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
+          .catch(err => this.toastNotificationService.presentErrorToast(err));
       this.loading.dismiss();
     });
   }
