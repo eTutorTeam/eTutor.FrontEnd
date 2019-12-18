@@ -16,6 +16,8 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { FcmService } from './services/fcm.service';
 import {FirebaseX} from '@ionic-native/firebase-x/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
+import {ImageHandlingService} from "./services/image-handling.service";
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,8 +43,11 @@ import {FirebaseX} from '@ionic-native/firebase-x/ngx';
       useClass: AuthInterceptorService,
       multi: true
     },
+    ImageHandlingService,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseX,
+
   ],
   bootstrap: [AppComponent]
 })

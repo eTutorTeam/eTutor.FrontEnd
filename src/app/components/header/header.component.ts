@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { UserPopoverComponent } from '../user-popover/user-popover.component';
+import { AccountService } from 'src/app/services/accounts/account.service';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { UserTokenResponse } from 'src/app/models/user-token-response';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +12,19 @@ import { UserPopoverComponent } from '../user-popover/user-popover.component';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( private popoverCtrl: PopoverController) { }
+  user: UserTokenResponse;
+  @Input() showBack: boolean = false;
 
-  ngOnInit() {}
+  constructor(
+    private popoverCtrl: PopoverController,
+    private accountService: AccountService
+    ) { }
+
+  ngOnInit() {
+    this.accountService.userSubject.subscribe(subject => {
+      this.user = subject;
+    });
+  }
 
   async mostrarPop( event ) {
     const popover = await this.popoverCtrl.create({

@@ -1,27 +1,10 @@
-<ion-header no-border mode="md">
 
-  <ion-toolbar color="secondary" mode="md">
-
-    <ion-buttons slot="start">
-        <ion-menu-button color="primary"
-          menu="firstMenu">
-        </ion-menu-button>
-    </ion-buttons>
-
-    <ion-title mode="md" class="ion-text-capitalize"> <ion-img src="../assets/resources/Logo.png"></ion-img> </ion-title>
-    <ion-buttons slot="end">
-      <ion-avatar (click)="mostrarPop($event)">
-        <img src="../assets/resources/pp.jfif"/>
-      </ion-avatar>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 <ion-content>
   <ion-item> 
     <ion-label color="secondary" class="title"> Tutorías Agendadas </ion-label>
   </ion-item>
   <ion-item lines="none">
-    <!-- <ion-note slot="start">En este momento no tiene tutorías en curso.</ion-note> -->
 
   </ion-item>
   <ion-item>
@@ -35,8 +18,6 @@
   (onEventSelected)="onEventSelected($event)"
   (onTitleChanged)="onViewTitleChanged($event)"
   (onTimeSelected)="onTimeSelected($event)"
-  >
-  
-</calendar>
+  ></calendar>
 
 </ion-content>

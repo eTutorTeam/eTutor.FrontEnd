@@ -1,26 +1,35 @@
-<app-header></app-header>
+<app-header [showBack]="true"></app-header>
 <ion-content class="ion-no-padding">
   <ion-item> 
-    <ion-label color="secondary" class="title"> Perfil del Tutor </ion-label>
+    <ion-label color="secondary" class="title"> {{pageTitle}}</ion-label>
   </ion-item>
   <ion-item lines="none">
-    <ion-avatar class="avatar">
-      <ion-img src='../assets/resources/pp.jfif'></ion-img>
+    <ion-avatar class="avatar" (click)="openImageSelector()">
+      <ion-img [src]='profile.profileImageUrl' *ngIf="profile !== undefined"></ion-img>
+      <ion-ripple-effect></ion-ripple-effect>
     </ion-avatar>
   </ion-item>
   <ion-item lines="none">
     <ion-buttons class="rating">
-      <ion-icon name="star" color="warning" class="star-button"></ion-icon>
-      <ion-icon name="star" color="warning" class="star-button"></ion-icon>
-      <ion-icon name="star" color="warning" class="star-button"></ion-icon>
-      <ion-icon name="star" color="warning" class="star-button"></ion-icon>
-      <ion-icon name="star" color="warning" class="star-button"></ion-icon>
+      <ion-icon *ngFor="let i of stars" [name]="i" color="warning" class="star-button"></ion-icon>
     </ion-buttons>
   </ion-item>
-  <!-- <ion-item lines="none" class="valoration">
-    <ion-label class="ion-text-center valoration">5.0</ion-label>
-  </ion-item> -->
   <ion-item>
-    <ion-label class="ion-text-center"> Miguel González </ion-label>
+    <ion-label class="ion-text-center" *ngIf="profile !== undefined"> {{profile.fullName}} </ion-label>
+  </ion-item>
+  <ion-item *ngIf="profile !== undefined">
+    <ion-label><strong>Sobre Mi: </strong></ion-label>
+    <ion-textarea rows="6" cols="20" [(ngModel)]="formAboutMeField"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-button color="primary" [disabled]="!validated" expand="full" (click)="saveUserBtn()">Guardar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-item>
 </ion-content>
+
