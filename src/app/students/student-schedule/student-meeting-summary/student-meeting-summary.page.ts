@@ -6,6 +6,9 @@ import {ToastNotificationService} from "../../../services/toast-notification.ser
 import {SchedulingService} from "../../../services/data/scheduling.service";
 import {SubjectSimpleResponse} from "../../../models/subject-simple-response";
 import {TutorSimpleResponse} from "../../../models/tutor-simple-response";
+import {MeetingService} from "../../../services/data/meeting.service";
+import {MeetingRequest} from "../../../models/meeting-request";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-student-meeting-summary',
@@ -26,6 +29,7 @@ export class StudentMeetingSummaryPage implements OnInit {
       private subjectService: SubjectsService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
+      private meetingService: MeetingService,
       private schedulingService: SchedulingService
   ) { }
 
@@ -36,6 +40,31 @@ export class StudentMeetingSummaryPage implements OnInit {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
+  }
+
+  get startTime() {
+    return moment(this.startDateTime).format('LLLL');
+  }
+
+  get endTime() {
+    return moment(this.endDateTime).add(2, 'hour').format('LLLL');
+  }
+
+  submitMeetingBtn() {
+
+  }
+
+  private async submitMeeting() {
+
+  }
+
+  private buildMeeting(): MeetingRequest {
+    return {
+      tutorId: this.tutorId,
+      subjectId: this.subjectId,
+      startDateTime: this.startDateTime,
+      endDateTime: this.endDateTime
+    };
   }
 
   private async loadComponent() {
