@@ -9,6 +9,7 @@ import { StudentSchedulePage } from './student-schedule.page';
 import {ComponentsModule} from "../../components/components.module";
 import {StudentSubjectSelectorComponent} from "./student-subject-selector/student-subject-selector.component";
 import {StudentDatetimeSelectorPage} from "./student-datetime-selector/student-datetime-selector.page";
+import {StudentTutorSelectorPage} from "./student-tutor-selector/student-tutor-selector.page";
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'datetime/:subjectId',
     component: StudentDatetimeSelectorPage
+  },
+  {
+    path: 'tutor',
+    component: StudentTutorSelectorPage
   }
 ];
 
@@ -33,7 +38,8 @@ const routes: Routes = [
   declarations: [
     StudentSchedulePage,
     StudentSubjectSelectorComponent,
-    StudentDatetimeSelectorPage
+    StudentDatetimeSelectorPage,
+    StudentTutorSelectorPage
   ]
 })
 export class StudentSchedulePageModule {}

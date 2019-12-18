@@ -40,7 +40,7 @@ const routes: Routes = [
       roles: [RoleTypes.Student]
     },
     canActivate: [RoleAuthGuard]
-  }
+  },
 ];
 
 @NgModule({

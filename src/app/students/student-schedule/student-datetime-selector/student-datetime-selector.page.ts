@@ -45,6 +45,7 @@ export class StudentDatetimeSelectorPage implements OnInit {
       }
 
       this.schedulingService.setSubjectAndDateData(this.subjectId, startDateTime, endDateTime);
+      this.router.navigate(['students/schedule/tutor']);
     }
   }
 

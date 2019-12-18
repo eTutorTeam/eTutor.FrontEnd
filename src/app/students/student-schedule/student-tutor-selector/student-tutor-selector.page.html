@@ -1,0 +1,28 @@
+<app-header [showBack]="true" title="Agendar Tutoria"></app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-title>
+          Elija al tutor que desea
+        </ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item *ngFor="let tutor of tutors">
+            <ion-avatar slot="start">
+              <img [src]="tutor.profileImageUrl">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{tutor.fullName}}</h2>
+              <p style="color: red">[Pending Tutor Ratings In Stars]</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
