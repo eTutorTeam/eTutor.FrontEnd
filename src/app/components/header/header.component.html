@@ -6,13 +6,13 @@
         <ion-menu-button color="primary"
           menu="firstMenu">
         </ion-menu-button>
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" *ngIf="showBack"></ion-back-button>
     </ion-buttons>
 
     <ion-title mode="md" class="ion-text-capitalize"> <ion-img src="../assets/resources/Logo.png"></ion-img> </ion-title>
     <ion-buttons slot="end">
       <ion-avatar (click)="mostrarPop($event)">
-        <img src="../assets/resources/pp.jfif"/>
+        <img [src]="user.profileImageUrl"/>
       </ion-avatar>
     </ion-buttons>
   </ion-toolbar>

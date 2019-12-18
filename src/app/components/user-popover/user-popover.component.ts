@@ -24,9 +24,9 @@ export class UserPopoverComponent implements OnInit {
 
   loading: HTMLIonLoadingElement;
 
-  constructor( 
-    private router: Router, 
-    private popoverController: PopoverController, 
+  constructor(
+    private router: Router,
+    private popoverController: PopoverController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private accountService: AccountService) { }
@@ -35,7 +35,7 @@ export class UserPopoverComponent implements OnInit {
     this.startLoading('', false);
   }
 
-  onClick(action: string) {
+  async onClick(action: string) {
     this.popoverController.dismiss();
     if (action === 'profile') {
       this.router.navigate(['profile']);
@@ -53,7 +53,7 @@ export class UserPopoverComponent implements OnInit {
         this.showAlert('Error', 'Hubo error tratando de hacer el logout');
         this.loading.dismiss();
         console.log(err);
-    })
+    });
   }
 
   private async startLoading(msg: string = 'Loading', present: boolean = true) {

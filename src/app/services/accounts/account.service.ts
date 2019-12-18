@@ -10,6 +10,7 @@ import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
 import {FcmService} from "../fcm.service";
 import { PushNotificationService } from '../push-notification.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AccountService {
   private apiBaseUrl = environment.apiBaseUrl;
   private userStorageKey = 'user-etutor-token';
   user: UserTokenResponse;
+  userSubject: BehaviorSubject<UserTokenResponse> = new BehaviorSubject<UserTokenResponse>(null);
 
   constructor(
     private http: HttpClient,
@@ -44,6 +46,7 @@ export class AccountService {
         registerRequest).toPromise();
     return this.saveToken(response);
   }
+
   async saveToken(response): Promise<UserTokenResponse> {
     this.user = response;
     await this.saveUserToStorage(this.user);
@@ -66,6 +69,7 @@ export class AccountService {
     } else {
       this.user = null;
     }
+    this.userSubject.next(this.user);
   }
 
   async getLoggedUser(): Promise<UserTokenResponse> {
@@ -89,8 +93,15 @@ export class AccountService {
     return this.helper.isTokenExpired(this.user.token);
   }
 
+  async updateUserImage(image: string) {
+    await this.updateUserVariable();
+    this.user.profileImageUrl = image;
+    await this.saveUserToStorage(this.user);
+  }
+
   private async saveUserToStorage(userToSave: UserTokenResponse) {
     const strUser = JSON.stringify(userToSave);
+    this.userSubject.next(userToSave);
     await this.storage.set(this.userStorageKey, strUser);
   }
 

@@ -34,6 +34,7 @@ export class LoginTutorPage implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    this.checkIfUserIsLoggedIn();
   }
 
   submitForm() {
@@ -66,6 +67,13 @@ export class LoginTutorPage implements OnInit {
     this.userForm.reset();
     this.goHome();
     this.loading.dismiss();
+  }
+
+  private async checkIfUserIsLoggedIn() {
+    const logged = await this.accountService.isUserLoggedIn();
+    if (logged) {
+      this.goHome();
+    }
   }
 
 
