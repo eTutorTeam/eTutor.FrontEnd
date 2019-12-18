@@ -5,6 +5,7 @@ import {ToastNotificationService} from "../../../services/toast-notification.ser
 import {UserAdminResponse} from "../../../models/user-admin-response";
 import {TutorsService} from "../../../services/data/tutors.service";
 import {TutorSimpleResponse} from "../../../models/tutor-simple-response";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-student-tutor-selector',
@@ -21,7 +22,8 @@ export class StudentTutorSelectorPage implements OnInit {
       private schedulingService: SchedulingService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
-      private tutorsService: TutorsService
+      private tutorsService: TutorsService,
+      private router: Router
   ) { }
 
   ngOnInit() {
@@ -31,6 +33,11 @@ export class StudentTutorSelectorPage implements OnInit {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
+  }
+
+  selectTutor(tutorId: number) {
+    this.schedulingService.setTutorForScheduling(tutorId);
+    this.router.navigate(['students/schedule/summary']);
   }
 
   private async loadComponent() {

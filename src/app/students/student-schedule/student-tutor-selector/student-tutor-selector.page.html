@@ -12,7 +12,7 @@
     <ion-row>
       <ion-col>
         <ion-list>
-          <ion-item *ngFor="let tutor of tutors">
+          <ion-item *ngFor="let tutor of tutors" (click)="selectTutor(tutor.id)" detail>
             <ion-avatar slot="start">
               <img [src]="tutor.profileImageUrl">
             </ion-avatar>

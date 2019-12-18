@@ -19,4 +19,8 @@ export class TutorsService {
   async getTutorsForSubject(subjectId: number): Promise<TutorSimpleResponse[]> {
     return this.http.get<TutorSimpleResponse[]>(`${environment.apiBaseUrl}/api/tutors/${subjectId}/subject`).toPromise();
   }
+
+  async getTutorById(tutorId: number): Promise<TutorSimpleResponse> {
+    return this.http.get<TutorSimpleResponse>(`${environment.apiBaseUrl}/api/tutors/${tutorId}`).toPromise();
+  }
 }

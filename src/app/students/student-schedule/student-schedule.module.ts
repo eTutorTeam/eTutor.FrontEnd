@@ -10,6 +10,7 @@ import {ComponentsModule} from "../../components/components.module";
 import {StudentSubjectSelectorComponent} from "./student-subject-selector/student-subject-selector.component";
 import {StudentDatetimeSelectorPage} from "./student-datetime-selector/student-datetime-selector.page";
 import {StudentTutorSelectorPage} from "./student-tutor-selector/student-tutor-selector.page";
+import {StudentMeetingSummaryPage} from "./student-meeting-summary/student-meeting-summary.page";
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'tutor',
     component: StudentTutorSelectorPage
+  },
+  {
+    path: 'summary',
+    component: StudentMeetingSummaryPage
   }
 ];
 
@@ -39,7 +44,8 @@ const routes: Routes = [
     StudentSchedulePage,
     StudentSubjectSelectorComponent,
     StudentDatetimeSelectorPage,
-    StudentTutorSelectorPage
+    StudentTutorSelectorPage,
+    StudentMeetingSummaryPage
   ]
 })
 export class StudentSchedulePageModule {}
