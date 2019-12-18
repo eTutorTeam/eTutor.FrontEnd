@@ -17,4 +17,19 @@
   <ion-item>
     <ion-label class="ion-text-center" *ngIf="profile !== undefined"> {{profile.fullName}} </ion-label>
   </ion-item>
+  <ion-item *ngIf="profile !== undefined">
+    <ion-label><strong>Sobre Mi: </strong></ion-label>
+    <ion-textarea rows="6" cols="20" [(ngModel)]="formAboutMeField"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-button color="primary" [disabled]="!validated" expand="full" (click)="saveUserBtn()">Guardar</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
 </ion-content>
+

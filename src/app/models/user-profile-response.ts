@@ -1,3 +1,5 @@
+import {Genders} from "../enums/Genders";
+
 export interface UserProfileResponse {
     name: string;
     lastName: string;
@@ -5,7 +7,7 @@ export interface UserProfileResponse {
     isActive: boolean;
     isEmailValidated: boolean;
     isTemporaryPassword: boolean;
-    gender: number;
+    gender: Genders;
     email: string;
     address: string;
     longitude: number;
@@ -13,4 +15,6 @@ export interface UserProfileResponse {
     birthDate: Date;
     profileImageUrl: string;
     fullName: string;
+    aboutMe: string;
+    userName: string;
 }

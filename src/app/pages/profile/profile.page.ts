@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../services/accounts/account.service";
 import {UserService} from "../../services/accounts/user.service";
 import {UserProfileResponse} from "../../models/user-profile-response";
 import {LoadingController} from "@ionic/angular";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {ImageHandlingService} from "../../services/image-handling.service";
-import {Camera, CameraOptions} from "@ionic-native/camera/ngx";
+import {Camera} from "@ionic-native/camera/ngx";
+import {RoleTypes} from "../../enums/role-types.enum";
+import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
 
 @Component({
   selector: 'app-profile',
@@ -18,6 +20,7 @@ export class ProfilePage implements OnInit {
   pageTitle = 'Perfil de usuario';
   loading: HTMLIonLoadingElement;
   ratingSummary = 3.5;
+  formAboutMeField = '';
 
   constructor(
       private accountService: AccountService,
@@ -25,7 +28,6 @@ export class ProfilePage implements OnInit {
       private loadingController: LoadingController,
       private toastNotificationService: ToastNotificationService,
       private imageHandlingService: ImageHandlingService,
-      private camera: Camera
   ) { }
 
   ngOnInit() {
@@ -56,6 +58,20 @@ export class ProfilePage implements OnInit {
     return arr;
   }
 
+  get validated(): boolean {
+    if (this.profile !== undefined) {
+      return this.profile.aboutMe !== this.formAboutMeField;
+    }
+    return false;
+  }
+
+  saveUserBtn() {
+    this.updateUserProfile().catch(err => {
+      this.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+    });
+  }
+
   openImageSelector() {
     this.getImage().catch(err => {
       this.toastNotificationService.presentErrorToast(err);
@@ -79,7 +95,40 @@ export class ProfilePage implements OnInit {
   private async getData() {
     await this.startLoading('Cargando datos');
     this.profile = await this.userService.getUserProfile();
+    this.updateAboutField();
+    await this.updatePageTitle();
     await this.stopLoading();
+  }
+
+  private updateAboutField() {
+    if (this.formAboutMeField === '') {
+      this.formAboutMeField = this.profile.aboutMe;
+    }
+  }
+
+  private async updateUserProfile() {
+    this.startLoading('Guardando datos');
+    const curUser: UserProfileUpdateRequest = this.profile;
+    if (!this.validated) {
+      await this.stopLoading();
+      return;
+    }
+    curUser.aboutMe = this.formAboutMeField;
+    await this.userService.updateUser(curUser);
+    this.profile.aboutMe = this.formAboutMeField;
+    await this.stopLoading();
+  }
+
+  private async updatePageTitle() {
+    let title = 'Perfil del Usuario';
+    if (await this.accountService.checkIfUserHasRole(RoleTypes.Student)) {
+      title = 'Perfil de Estudiante';
+    } else if (await this.accountService.checkIfUserHasRole(RoleTypes.Tutor)) {
+      title = 'Perfil de Tutor';
+    } else if (await this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      title = 'Perfil de Padre';
+    }
+    this.pageTitle = title;
   }
 
   private async startLoading(msg: string = 'Cargando') {
@@ -88,7 +137,7 @@ export class ProfilePage implements OnInit {
       animated: true,
       message: msg
     });
-    this.loading.present();
+    await this.loading.present();
   }
 
   private async stopLoading() {
