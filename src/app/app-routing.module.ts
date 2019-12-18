@@ -27,14 +27,6 @@ const routes: Routes = [
       roles: [RoleTypes.Parent]
     },
     canActivate: [RoleAuthGuard]
-  },
-  {
-    path: 'student',
-    loadChildren: () => import('./pages/student/student.module').then(m => m.StudentModule),
-    data: {
-      roles: [RoleTypes.Student]
-    },
-    canActivate: [RoleAuthGuard]
   }
 
 
