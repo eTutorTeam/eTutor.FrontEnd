@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MeetingRequest} from "../../models/meeting-request";
+import {MeetingStudentRequest} from "../../models/meeting-student-request";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class SchedulingService {
   }
 
   getMeetingObject() {
-    const meeting: MeetingRequest = {
+    const meeting: MeetingStudentRequest = {
       tutorId: this.tutorId,
       subjectId: this.subjectId,
       startDateTime: this.startDateTime,

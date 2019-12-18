@@ -7,8 +7,10 @@ import {SchedulingService} from "../../../services/data/scheduling.service";
 import {SubjectSimpleResponse} from "../../../models/subject-simple-response";
 import {TutorSimpleResponse} from "../../../models/tutor-simple-response";
 import {MeetingService} from "../../../services/data/meeting.service";
-import {MeetingRequest} from "../../../models/meeting-request";
+import {MeetingStudentRequest} from "../../../models/meeting-student-request";
 import * as moment from 'moment';
+import {Router} from "@angular/router";
+import {AlertServiceService} from "../../../services/alert-service.service";
 
 @Component({
   selector: 'app-student-meeting-summary',
@@ -20,7 +22,7 @@ export class StudentMeetingSummaryPage implements OnInit {
   tutorId = 5;
   subjectId = 3;
   startDateTime = new Date();
-  endDateTime = new Date();
+  endDateTime = new Date(moment(new Date().toISOString()).add(2, 'hour'));
   subject: SubjectSimpleResponse;
   tutor: TutorSimpleResponse;
 
@@ -30,6 +32,8 @@ export class StudentMeetingSummaryPage implements OnInit {
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
       private meetingService: MeetingService,
+      private alertService: AlertServiceService,
+      private router: Router,
       private schedulingService: SchedulingService
   ) { }
 
@@ -47,18 +51,33 @@ export class StudentMeetingSummaryPage implements OnInit {
   }
 
   get endTime() {
-    return moment(this.endDateTime).add(2, 'hour').format('LLLL');
+    return moment(this.endDateTime).format('LLLL');
+  }
+
+  cancel() {
+    this.alertService.confirmationAlert('Está seguro de que no quiere agendar esta tutoría?', 'Cancelar Tutoria', 'Quedarse Aquí').then(res => {
+      if (res) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   submitMeetingBtn() {
-
+    this.submitMeeting().catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+    });
   }
 
   private async submitMeeting() {
-
+    await this.loadingService.startLoading('Su tutoria está siendo agendada');
+    const data = this.buildMeeting();
+    const res = await this.meetingService.createMeeting(data);
+    this.router.navigate(['/home']);
+    this.loadingService.stopLoading();
   }
 
-  private buildMeeting(): MeetingRequest {
+  private buildMeeting(): MeetingStudentRequest {
     return {
       tutorId: this.tutorId,
       subjectId: this.subjectId,

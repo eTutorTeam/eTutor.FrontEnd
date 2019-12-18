@@ -35,10 +35,10 @@
     </ion-row>
     <ion-row *ngIf="tutor !== undefined">
       <ion-col>
-        <ion-button color="danger" expand="full">Cancelar</ion-button>
+        <ion-button color="danger" expand="full" (click)="cancel()">Cancelar</ion-button>
       </ion-col>
       <ion-col>
-        <ion-button color="primary" expand="full">Agendar</ion-button>
+        <ion-button color="primary" expand="full" (click)="submitMeetingBtn()">Agendar</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

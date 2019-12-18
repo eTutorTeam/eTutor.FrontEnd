@@ -1,4 +1,4 @@
-export interface MeetingRequest {
+export interface MeetingStudentRequest {
     tutorId: number;
     subjectId: number;
     longitude?: number;
