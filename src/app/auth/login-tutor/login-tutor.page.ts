@@ -47,11 +47,13 @@ export class LoginTutorPage implements OnInit {
     this.logInUser().catch((err) => {
       console.log(err, 'ERROR VAR');
       this.toastNotificationService.presentErrorToast(err);
+      this.loading.dismiss();
       this.fcmService.getToken()
           .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
           .catch(err => this.toastNotificationService.presentErrorToast(err));
-      this.loading.dismiss();
     });
+
+
   }
 
   get email() { return this.userForm.get('email'); }
@@ -76,6 +78,10 @@ export class LoginTutorPage implements OnInit {
     this.userForm.reset();
     this.goHome();
     this.loading.dismiss();
+
+    this.fcmService.getToken()
+        .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
+        .catch(err => this.toastNotificationService.presentErrorToast(err));
   }
 
   private async checkIfUserIsLoggedIn() {

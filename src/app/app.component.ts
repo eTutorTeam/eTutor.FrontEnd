@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
   }
 
   private async initializePushNotifications() {
-    let signedIn = await this.accountService.isUserLoggedIn();
+    const signedIn = await this.accountService.isUserLoggedIn();
     if (!signedIn) {
       return;
     }

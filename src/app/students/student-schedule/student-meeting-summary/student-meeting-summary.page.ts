@@ -19,10 +19,10 @@ import {AlertServiceService} from "../../../services/alert-service.service";
 })
 export class StudentMeetingSummaryPage implements OnInit {
 
-  tutorId = 5;
-  subjectId = 3;
-  startDateTime = new Date();
-  endDateTime = new Date(moment(new Date().toISOString()).add(2, 'hour'));
+  tutorId: number;
+  subjectId: number;
+  startDateTime: Date;
+  endDateTime: Date;
   subject: SubjectSimpleResponse;
   tutor: TutorSimpleResponse;
 
@@ -55,7 +55,8 @@ export class StudentMeetingSummaryPage implements OnInit {
   }
 
   cancel() {
-    this.alertService.confirmationAlert('Está seguro de que no quiere agendar esta tutoría?', 'Cancelar Tutoria', 'Quedarse Aquí').then(res => {
+    this.alertService.confirmationAlert('Está seguro de que no quiere agendar esta tutoría?',
+        'Cancelar Tutoria', 'Quedarse Aquí').then(res => {
       if (res) {
         this.router.navigate(['/home']);
       }
@@ -94,7 +95,11 @@ export class StudentMeetingSummaryPage implements OnInit {
   }
 
   private getParameters() {
-
+    const meetingObj = this.schedulingService.getMeetingObject();
+    this.tutorId = meetingObj.tutorId;
+    this.subjectId = meetingObj.subjectId;
+    this.startDateTime = meetingObj.startDateTime;
+    this.endDateTime = meetingObj.endDateTime;
   }
 
   private async getSubject() {

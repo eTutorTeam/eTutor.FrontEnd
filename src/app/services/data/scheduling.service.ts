@@ -27,8 +27,8 @@ export class SchedulingService {
     const meeting: MeetingStudentRequest = {
       tutorId: this.tutorId,
       subjectId: this.subjectId,
-      startDateTime: this.startDateTime,
-      endDateTime: this.endDateTime
+      startDateTime: new Date(this.startDateTime),
+      endDateTime: new Date(this.endDateTime)
     };
     return meeting;
   }
