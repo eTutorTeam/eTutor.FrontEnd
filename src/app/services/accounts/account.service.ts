@@ -28,9 +28,7 @@ export class AccountService {
   constructor(
     private http: HttpClient,
     private storage: Storage,
-    private router: Router,
-    private fmcService: FcmService,
-    private notificationService: PushNotificationService
+    private router: Router
   ) {
     this.helper = new JwtHelperService();
   }
@@ -38,9 +36,7 @@ export class AccountService {
   async loginUser(loginRequest: LoginRequest): Promise<UserTokenResponse> {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
     await this.saveToken(response);
-    await this.fmcService.getToken();
-    this.notificationService.listenWhenUserTapsNotification();
-    return response
+    return response;
   }
   async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
     const requestUrl = `${this.apiBaseUrl}/api/accounts/register-${userType}`;
@@ -107,10 +103,13 @@ export class AccountService {
     await this.storage.set(this.userStorageKey, strUser);
   }
 
-  async checkIfUserHasRole(role: RoleTypes) {
+  async checkIfUserHasRole(role: RoleTypes): Promise<boolean> {
     await this.updateUserVariable();
-    const roles = this.user.roles;
-    return roles.some(r => r === role);
+    if (this.user !== null && this.user !== undefined) {
+      const roles = this.user.roles;
+      return roles.some(r => r === role);
+    }
+    return false;
   }
 
   async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {
