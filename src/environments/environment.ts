@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://etutorapi.azurewebsites.net',
-  //apiBaseUrl: 'https://10.0.0.6:5033',
+  //apiBaseUrl: 'https://etutorapi.azurewebsites.net',
+  apiBaseUrl: 'https://10.0.0.4:5033',
   //apiBaseUrl: 'https://10.11.11.119:5033',
   //apiBaseUrl: 'https://localhost:5033',
   firebaseConfig: {
