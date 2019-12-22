@@ -60,7 +60,9 @@ private async showToastOnNotificationIfAppIsActive(notification: any) {
 }
 
   private async handleAppActionDependingOnNotification(notification: any) {
-    this.router.navigate(['profile']);
+    if (notification.hasOwnProperty('meetingId')) {
+
+    };
   }
 
 }
