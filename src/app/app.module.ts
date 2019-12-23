@@ -14,7 +14,6 @@ import { AuthInterceptorService } from './services/accounts/auth-interceptor.ser
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
-import { FcmService } from './services/fcm.service';
 import {FirebaseX} from '@ionic-native/firebase-x/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {ImageHandlingService} from "./services/image-handling.service";
