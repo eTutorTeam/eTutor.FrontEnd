@@ -109,4 +109,6 @@
     <plugin name="cordova-plugin-androidx" spec="^1.0.2" />
     <plugin name="cordova-plugin-androidx-adapter" spec="^1.1.0" />
     <allow-navigation href="http://localhost:8100" sessionid="c16730b3" />
+    <allow-navigation href="http://localhost:4200" sessionid="b77b5689" />
+    <allow-navigation href="http://0.0.0.0:4200" sessionid="e423977d" />
 </widget>

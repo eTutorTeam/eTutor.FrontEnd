@@ -5,18 +5,20 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TutorMeetingPage } from './tutor-meeting.page';
+import { TutorsPage } from './tutors.page';
 import {ComponentsModule} from "../../components/components.module";
+import {TutorHomeComponent} from "./tutor-home/tutor-home.component";
 import {TutorAcceptMeetingComponent} from "./tutor-accept-meeting/tutor-accept-meeting.component";
+import {TutorMeetingDetailComponent} from "./tutor-meeting-detail/tutor-meeting-detail.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: TutorMeetingPage,
+    component: TutorsPage,
     children: [
       {
-        path: 'accept/:meetingId',
-        component: TutorAcceptMeetingComponent
+        path: '',
+        component: TutorHomeComponent
       }
     ]
   }
@@ -27,12 +29,17 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ComponentsModule
+  ],
+  entryComponents: [
+    TutorMeetingDetailComponent
   ],
   declarations: [
-      TutorMeetingPage,
-      TutorAcceptMeetingComponent
+    TutorsPage,
+    TutorHomeComponent,
+    TutorAcceptMeetingComponent,
+    TutorMeetingDetailComponent
   ]
 })
-export class TutorMeetingPageModule {}
+export class TutorsPageModule {}

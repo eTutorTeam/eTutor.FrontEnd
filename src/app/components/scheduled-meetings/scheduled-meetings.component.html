@@ -1,0 +1,12 @@
+<ion-item lines="none">
+  <ion-title color="secondary" class="title"> {{Title}} </ion-title>
+</ion-item>
+<calendar
+        [eventSource]="eventSource"
+        [currentDate]="calendar.currentDate"
+        [calendarMode]="calendar.mode"
+        (onCurrentDateChanged)="onCurrentDateChanged($event)"
+        (onEventSelected)="onEventSelected($event)"
+        (onTitleChanged)="onViewTitleChanged($event)"
+        (onTimeSelected)="onTimeSelected($event)"
+></calendar>

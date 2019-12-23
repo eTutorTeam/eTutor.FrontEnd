@@ -43,12 +43,11 @@ const routes: Routes = [
   },
   {
     path: 'tutors',
-    children: [
-      {
-        path: 'meeting',
-        loadChildren: './tutors/tutor-meeting/tutor-meeting.module#TutorMeetingPageModule',
-      }
-    ]
+    loadChildren: './tutors/tutors/tutors.module#TutorsPageModule',
+    data: {
+      roles: [RoleTypes.Tutor]
+    },
+    canActivate: [RoleAuthGuard]
   }
 ];
 
