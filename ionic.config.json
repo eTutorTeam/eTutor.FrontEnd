@@ -1,7 +1,8 @@
 {
   "name": "eTutor.FrontEnd",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }
