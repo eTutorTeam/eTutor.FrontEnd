@@ -9,6 +9,7 @@ import {EtutorLogoComponent} from './etutor-logo/etutor-logo.component';
 import {ScheduledMeetingsComponent} from "./scheduled-meetings/scheduled-meetings.component";
 import {NgCalendarModule} from "ionic2-calendar";
 import {SimpleHeaderComponent} from "./simple-header/simple-header.component";
+import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 
 
 const components = [
@@ -17,7 +18,8 @@ const components = [
   UserPopoverComponent,
   EtutorLogoComponent,
   ScheduledMeetingsComponent,
-    SimpleHeaderComponent
+  SimpleHeaderComponent,
+    TutorAcceptMeetingComponent
 ];
 
 @NgModule({
@@ -26,6 +28,9 @@ const components = [
   ],
   exports: [
     ...components
+  ],
+  entryComponents: [
+    TutorAcceptMeetingComponent
   ],
   imports: [
     CommonModule,

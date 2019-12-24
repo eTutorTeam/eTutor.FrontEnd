@@ -4,6 +4,8 @@ import {ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {AccountService} from "./accounts/account.service";
 import {RoleTypes} from "../enums/role-types.enum";
+import {ModalPagesService} from "./modal-pages.service";
+import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +16,15 @@ constructor(
   private firebase: FirebaseX,
   private toastController: ToastController,
   private router: Router,
-  private accountService: AccountService
+  private accountService: AccountService,
+  private modalPagesService: ModalPagesService
 ) {}
 
 public listenWhenUserTapsNotification() {
   console.log('this method was instantiated');
   this.firebase.onMessageReceived().subscribe(data => {
     this.handleNotification(data);
-  })
+  });
 }
 
 private async handleNotification(notification: any) {
@@ -71,7 +74,7 @@ private async showToastOnNotificationIfAppIsActive(notification: any) {
   private async meetingNotification(meetingId: number) {
     const isTutor = await this.accountService.checkIfUserHasRole(RoleTypes.Tutor);
     if (isTutor) {
-
+      await this.modalPagesService.openModal(TutorAcceptMeetingComponent, {meetingId});
     }
   }
 

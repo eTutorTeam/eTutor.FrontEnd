@@ -1,18 +1,18 @@
 <app-simple-header title="Tutoría Solicitada" (close)="closeModal()"> </app-simple-header>
 
-<ion-content>
+<ion-content *ngIf="meetingSummary !== undefined">
   <ion-grid>
     <ion-row>
       <ion-col>
         <div class="student-img-container">
-          <img class="student-img" src="https://upload.wikimedia.org/wikipedia/commons/1/14/GuyRitchiebyKathyHutchins.jpg"/>
+          <img class="student-img" [src]="meetingSummary.studentImg"/>
         </div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <h1 class="ion-text-center"><b>Nombre Estudiante</b> le ha solicitado una tutoría</h1>
-        <h4 class="ion-text-center" style="color: gray">Materia: <b>Geometría</b></h4>
+        <h1 class="ion-text-center"><b>{{meetingSummary.studentName}}</b> le ha solicitado una tutoría</h1>
+        <h4 class="ion-text-center" style="color: gray">Materia: <b>{{meetingSummary.subjectName}}</b></h4>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -20,13 +20,18 @@
         <div>
           <ion-list>
             <ion-item>
-              <h4>Fecha: <b>12 de diciembre de 2019</b></h4>
+              <h4>Fecha: <b>{{formatedDate}}</b></h4>
             </ion-item>
             <ion-item>
-              <h5>Hora Inicio: <b>5:00PM</b></h5>
+              <h5>Hora Inicio: <b>{{startTime}}</b></h5>
             </ion-item>
             <ion-item>
-              <h5>Hora Final <b>7:00PM </b></h5>
+              <h5>Hora Final <b>{{endTime}} </b></h5>
+            </ion-item>
+            <ion-item *ngIf="meetingSummary.locationSummary !== undefined
+            && meetingSummary.longitude !== undefined
+            && meetingSummary.latitude !== undefined">
+              <h5>Ubicación: <b>{{meetingSummary.locationSummary}}</b></h5>
             </ion-item>
           </ion-list>
         </div>
@@ -35,7 +40,7 @@
     <ion-row>
       <ion-col>
         <div>
-          <ion-button color="danger" expand="full" class="outline-btn">
+          <ion-button color="danger" expand="full" class="outline-btn" (click)="rejectMeeting()">
             <ion-icon name="close-circle"></ion-icon>
             &nbsp;
             Rechazar
@@ -44,7 +49,7 @@
       </ion-col>
       <ion-col>
         <div>
-          <ion-button color="primary" expand="full" >
+          <ion-button color="primary" expand="full" (click)="acceptMeeting()">
             Aceptar
             &nbsp;
             <ion-icon name="arrow-forward"></ion-icon>

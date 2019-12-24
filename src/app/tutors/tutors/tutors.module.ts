@@ -18,7 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: TutorAcceptMeetingComponent
+        component: TutorHomeComponent
       }
     ]
   }
@@ -32,13 +32,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule
   ],
-  entryComponents: [
-    TutorMeetingDetailComponent
-  ],
   declarations: [
     TutorsPage,
     TutorHomeComponent,
-    TutorAcceptMeetingComponent,
     TutorMeetingDetailComponent
   ]
 })
