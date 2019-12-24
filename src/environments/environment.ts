@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   hmr: false,
   //apiBaseUrl: 'https://etutorapi.azurewebsites.net',
-  //apiBaseUrl: 'https://10.0.0.4:5033',
-  apiBaseUrl: 'https://10.11.11.119:5033',
+  apiBaseUrl: 'https://10.0.0.7:5033',
+  //apiBaseUrl: 'https://10.11.11.119:5033',
   //apiBaseUrl: 'https://localhost:5033',
   firebaseConfig: {
     apiKey: "AIzaSyDzQHlc3j0vVb2ccsdr33x1_qoAkYVEH74",

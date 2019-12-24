@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ModalController} from "@ionic/angular";
 
 @Component({
   selector: 'app-tutor-accept-meeting',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TutorAcceptMeetingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      private modalCtrl: ModalController
+  ) { }
 
   ngOnInit() {}
 
+
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
 }
