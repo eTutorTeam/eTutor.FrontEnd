@@ -4,6 +4,9 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { UserPopoverComponent } from '../../components/user-popover/user-popover.component';
+import { AccountService } from 'src/app/services/accounts/account.service';
+import { RoleTypes } from 'src/app/enums/role-types.enum';
+import { StudentsService } from 'src/app/services/data/students.service';
 
 @Component({
   selector: 'app-home',
@@ -38,7 +41,9 @@ export class HomePage implements OnInit {
   constructor(
     public router: Router,
     private popoverCtrl: PopoverController,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) private locale: string,
+    private accountService: AccountService,
+    private studentService: StudentsService
   ) {}
 
 
@@ -53,7 +58,26 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.myCal);
+
+  }
+  ionViewWillEnter() {
+    this.getMeetings();
+  }
+  getMeetings() {
+    this.eventSource = [];
+    if (this.accountService.user.roles.includes(RoleTypes.Student)) {
+      this.studentService.getActiveMeetings().toPromise().then(resp => {
+        resp.forEach(meeting => {
+          this.eventSource.push({
+            title: `Tutoría de ${meeting.subjectName} con ${meeting.tutorName}`,
+            startTime: new Date( meeting.startDateTime ),
+            endTime: new Date( meeting.endDateTime ),
+            allDay: false
+          });
+        });
+      });
+    }
+    this.myCal.loadEvents();
   }
 
   onCurrentDateChanged(event) {
