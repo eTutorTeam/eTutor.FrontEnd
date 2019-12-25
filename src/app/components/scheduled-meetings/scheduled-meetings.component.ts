@@ -5,6 +5,9 @@ import {PopoverController} from "@ionic/angular";
 import {UserPopoverComponent} from "../user-popover/user-popover.component";
 import {Plugins} from '@capacitor/core';
 import {CalendarEventModel} from "../../models/calendar-event-model";
+import {RoleTypes} from "../../enums/role-types.enum";
+import {AccountService} from "../../services/accounts/account.service";
+import {StudentsService} from "../../services/data/students.service";
 
 const {Modals} = Plugins;
 
@@ -43,7 +46,9 @@ export class ScheduledMeetingsComponent implements OnInit {
   viewTitle: string;
 
   constructor(
-      @Inject(LOCALE_ID) private locale: string
+      @Inject(LOCALE_ID) private locale: string,
+      private accountService: AccountService,
+      private studentService: StudentsService
   ) {}
 
 
@@ -51,7 +56,25 @@ export class ScheduledMeetingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.myCal);
+    this.getMeetings();
+  }
+
+  getMeetings() {
+    this.eventSource = [];
+    if (this.accountService.user.roles.includes(RoleTypes.Student)) {
+      this.studentService.getActiveMeetings().then(resp => {
+        resp.forEach(meeting => {
+          this.eventSource.push({
+            meetingId: meeting.id,
+            title: `Tutoría de ${meeting.subjectName} con ${meeting.tutorName}`,
+            startTime: new Date( meeting.startDateTime ),
+            endTime: new Date( meeting.endDateTime ),
+            allDay: false
+          });
+        });
+      });
+    }
+    this.myCal.loadEvents();
   }
 
   onCurrentDateChanged(event) {
