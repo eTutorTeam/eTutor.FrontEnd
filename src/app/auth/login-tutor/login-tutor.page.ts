@@ -50,7 +50,7 @@ export class LoginTutorPage implements OnInit {
       this.loading.dismiss();
       this.fcmService.getToken()
           .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
-          .catch(error => this.toastNotificationService.presentErrorToast(error));
+          .catch(error => console.log(error));
     });
   }
 

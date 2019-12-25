@@ -16,7 +16,7 @@ export class ToastNotificationService {
       message,
       header: title,
       duration: 6000,
-      position: "bottom"
+      position: "top"
     });
     toast.present();
   }

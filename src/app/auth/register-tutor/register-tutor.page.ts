@@ -9,6 +9,7 @@ import {AccountService} from '../../services/accounts/account.service';
 import {LoadingOptions} from '@ionic/core';
 import {UserTokenResponse} from '../../models/user-token-response';
 import {RegisterRequest} from '../../models/register-request';
+import {ToastNotificationService} from "../../services/toast-notification.service";
 
 @Component({
   selector: 'app-register-tutor',
@@ -22,11 +23,11 @@ export class RegisterTutorPage implements OnInit {
   correoPadreVisible = false;
   userForm: FormGroup;
   loading: HTMLIonLoadingElement;
-  user: UserTokenResponse;
   userType: string;
     constructor(private fb: FormBuilder, private modalCtrl: ModalController,
                 private alertCtrl: AlertController,
                 private loadingCtrl: LoadingController,
+                private toastNotificationService: ToastNotificationService,
                 public router: Router,
                 private accountService: AccountService,
                 private menuCtrl: MenuController) { }
@@ -108,11 +109,14 @@ export class RegisterTutorPage implements OnInit {
         }
         await this.createLoading('Estamos creando su usuario');
         const request: RegisterRequest = this.userForm.value;
-        this.user = await this.accountService.registerUser(request, this.userType);
+        await this.accountService.registerUser(request, this.userType);
+        await this.toastNotificationService.presentToast('Cuenta Creada',
+            'Le hemos enviado un correo electrónico con los detalles de su cuenta');
         this.userForm.reset();
         this.goToLogin();
         this.loading.dismiss();
     }
+
     ionViewWillEnter() {
         this.openModal();
     }
