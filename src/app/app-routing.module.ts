@@ -48,6 +48,14 @@ const routes: Routes = [
       roles: [RoleTypes.Tutor]
     },
     canActivate: [RoleAuthGuard]
+  },
+  {
+    path: 'parents',
+    loadChildren: './parents/parents.module#ParentsPageModule',
+    data: {
+      roles: [RoleTypes.Parent]
+    },
+    canActivate: [RoleAuthGuard]
   }
 ];
 

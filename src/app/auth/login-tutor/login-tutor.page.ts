@@ -27,15 +27,15 @@ export class LoginTutorPage implements OnInit {
   user: UserTokenResponse;
   loading: HTMLIonLoadingElement;
   constructor(
-    private router: Router,
-    private menuCtrl: MenuController,
-    private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController,
-    private accountService: AccountService,
-    private toastNotificationService: ToastNotificationService,
-    private fb: FormBuilder,
-    private fcmService: FcmService,
-    private notificationService: PushNotificationService
+      private router: Router,
+      private menuCtrl: MenuController,
+      private alertCtrl: AlertController,
+      private loadingCtrl: LoadingController,
+      private accountService: AccountService,
+      private toastNotificationService: ToastNotificationService,
+      private fb: FormBuilder,
+      private fcmService: FcmService,
+      private notificationService: PushNotificationService
   ) { }
 
   ngOnInit() {
@@ -84,9 +84,13 @@ export class LoginTutorPage implements OnInit {
 
   private async checkIfUserIsLoggedIn() {
     const logged = await this.accountService.isUserLoggedIn();
-    if (logged) {
-      this.goHome();
-    }
+    this.accountService.reloadUserInfo().then(async (res) => {
+      if (logged) {
+        await this.goHome();
+      }
+    }).catch(async (err) => {
+      await this.accountService.logoutUser();
+    });
   }
 
   private async createLoading(msg: string = '', spin: LoadingOptions['spinner'] = 'lines') {
@@ -104,9 +108,9 @@ export class LoginTutorPage implements OnInit {
       message,
       buttons: [
         {
-            text: 'Ok',
-            handler: (blah) => {
-              console.log('Botón OK');
+          text: 'Ok',
+          handler: (blah) => {
+            console.log('Botón OK');
           }
         }
       ]
