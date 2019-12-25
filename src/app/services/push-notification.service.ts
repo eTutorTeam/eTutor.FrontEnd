@@ -12,6 +12,7 @@ import {NotificationTypesEnum} from "../enums/notification-types.enum";
 @Injectable({
   providedIn: 'root'
 })
+
 export class PushNotificationService {
 
   constructor(
@@ -40,7 +41,7 @@ export class PushNotificationService {
 
   private async handleNotificationWhenAppIsActive(notification: any) {
     if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
-      await this.meetingNotification(notification.meetingId);
+      await this.meetingNotification(notification.newSolicitedMeetingId);
     } else {
       console.log(JSON.stringify(notification), "NOTIFICATION");
       this.toastNotificationService.presentToast(notification.title, notification.body);
@@ -49,7 +50,7 @@ export class PushNotificationService {
 
   private async handleAppActionDependingOnNotification(notification: any) {
     if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
-      await this.meetingNotification(notification.meetingId);
+      await this.meetingNotification(notification.newSolicitedMeetingId);
     }
   }
 

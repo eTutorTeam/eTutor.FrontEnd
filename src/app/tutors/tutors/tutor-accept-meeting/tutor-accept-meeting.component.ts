@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import {LoadingService} from "../../../services/loading.service";
 import {ToastNotificationService} from "../../../services/toast-notification.service";
 import {AlertServiceService} from "../../../services/alert-service.service";
+import {MeetingStatusEnum} from "../../../enums/meeting-status.enum";
+import {ModalPagesService} from "../../../services/modal-pages.service";
 
 @Component({
   selector: 'app-tutor-accept-meeting',
@@ -20,6 +22,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
   constructor(
       private modalCtrl: ModalController,
       private meetingService: MeetingService,
+      private modalPagesService: ModalPagesService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
       private alertService: AlertServiceService
@@ -70,7 +73,10 @@ export class TutorAcceptMeetingComponent implements OnInit {
   }
 
   acceptMeeting() {
-
+    this.sendAcceptMeetingRequest().catch(err => {
+      this.toastNotificationService.presentErrorToast(err);
+      this.loadingService.stopLoading();
+    });
   }
 
   rejectMeeting() {
@@ -80,11 +86,20 @@ export class TutorAcceptMeetingComponent implements OnInit {
     });
   }
 
+  private async sendAcceptMeetingRequest() {
+    await this.loadingService.startLoading('Aceptando tutoría');
+    await this.meetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
+    await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
+    this.modalPagesService.closeModal();
+    this.loadingService.stopLoading();
+  }
+
   private async sendRejectMeetingRequest() {
     await this.loadingService.startLoading('Rechazando Tutoría');
-
+    await this.meetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Rejected);
+    await this.toastNotificationService.presentToast('Listo!', 'La tutoría ha sido rechazada');
+    this.modalPagesService.closeModal();
     this.loadingService.stopLoading();
-    await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido rechazada');
   }
 
 
