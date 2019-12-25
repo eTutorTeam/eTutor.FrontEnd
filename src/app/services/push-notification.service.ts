@@ -6,68 +6,60 @@ import {AccountService} from "./accounts/account.service";
 import {RoleTypes} from "../enums/role-types.enum";
 import {ModalPagesService} from "./modal-pages.service";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
+import {ToastNotificationService} from "./toast-notification.service";
+import {NotificationTypesEnum} from "../enums/notification-types.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PushNotificationService {
 
-constructor(
-  private firebase: FirebaseX,
-  private toastController: ToastController,
-  private router: Router,
-  private accountService: AccountService,
-  private modalPagesService: ModalPagesService
-) {}
+  constructor(
+      private firebase: FirebaseX,
+      private toastController: ToastController,
+      private router: Router,
+      private accountService: AccountService,
+      private toastNotificationService: ToastNotificationService,
+      private modalPagesService: ModalPagesService
+  ) {}
 
-public listenWhenUserTapsNotification() {
-  console.log('this method was instantiated');
-  this.firebase.onMessageReceived().subscribe(data => {
-    this.handleNotification(data);
-  });
-}
-
-private async handleNotification(notification: any) {
-  if (!notification.tap && notification.tap !== 'background') {
-    await this.showToastOnNotificationIfAppIsActive(notification);
-  } else {
-    await this.handleAppActionDependingOnNotification(notification);
+  public listenWhenUserTapsNotification() {
+    console.log('this method was instantiated');
+    this.firebase.onMessageReceived().subscribe(data => {
+      this.handleNotification(data);
+    });
   }
-}
 
-private async showToastOnNotificationIfAppIsActive(notification: any) {
-  const toast = await this.toastController.create({
-    message: notification.body,
-    header: notification.title,
-    position: 'top',
-    buttons: [
-      {
-        side: 'end',
-        icon: 'close',
-        handler: () => {
-          toast.dismiss();
-        }
-      },
-      {
-        side: 'end',
-        icon: 'arrow-forward',
-        handler: async () => {
-          await this.handleAppActionDependingOnNotification(notification);
-        }
-      }
-    ]
-  });
-  toast.present();
+  private async handleNotification(notification: any) {
+    if (!notification.tap && notification.tap !== 'background') {
+      await this.handleNotificationWhenAppIsActive(notification);
+    } else {
+      await this.handleAppActionDependingOnNotification(notification);
+    }
+  }
 
-  setTimeout(async () => {
-    toast.dismiss();
-    await this.handleAppActionDependingOnNotification(notification);
-  }, 15000);
-}
+  private async handleNotificationWhenAppIsActive(notification: any) {
+    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
+      await this.meetingNotification(notification.meetingId);
+    } else {
+      console.log(JSON.stringify(notification), "NOTIFICATION");
+      this.toastNotificationService.presentToast(notification.title, notification.body);
+    }
+  }
 
   private async handleAppActionDependingOnNotification(notification: any) {
-    if (notification.hasOwnProperty('meetingId')) {
-      this.meetingNotification(notification.meetingId);
+    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
+      await this.meetingNotification(notification.meetingId);
+    }
+  }
+
+  private getNotificationType(notification: any): NotificationTypesEnum {
+    if (notification.hasOwnProperty('newSolicitedMeetingId')) {
+      return NotificationTypesEnum.NewSolicitedMeeting;
+    }
+
+    if (notification.hasOwnProperty('answeredMeetingId')) {
+      return NotificationTypesEnum.AnsweredMeeting;
     }
   }
 

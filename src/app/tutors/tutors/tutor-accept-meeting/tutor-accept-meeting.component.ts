@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalController} from "@ionic/angular";
 import {MeetingService} from "../../../services/data/meeting.service";
-import {TutorMeetingSummary} from "../../../models/tutor-meeting-summary";
+import {MeetingSummary} from "../../../models/meeting-summary";
 import * as moment from 'moment';
 import {LoadingService} from "../../../services/loading.service";
 import {ToastNotificationService} from "../../../services/toast-notification.service";
@@ -15,7 +15,7 @@ import {AlertServiceService} from "../../../services/alert-service.service";
 export class TutorAcceptMeetingComponent implements OnInit {
 
   @Input() meetingId: number;
-  meetingSummary: TutorMeetingSummary;
+  meetingSummary: MeetingSummary;
 
   constructor(
       private modalCtrl: ModalController,
@@ -49,8 +49,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   private async getMeetingSummary(meetingId: number) {
     await this.loadingService.startLoading();
-    //TODO: calling API for data
-
+    this.meetingSummary = await this.meetingService.getMeetingSummary(meetingId);
     this.loadingService.stopLoading();
   }
 

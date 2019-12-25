@@ -1,4 +1,4 @@
-export interface TutorMeetingSummary {
+export interface MeetingSummary {
     meetingId: number;
     studentName: string;
     studentImg: string;
