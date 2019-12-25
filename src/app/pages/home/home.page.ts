@@ -74,10 +74,10 @@ export class HomePage implements OnInit {
             endTime: new Date( meeting.endDateTime ),
             allDay: false
           });
+          this.myCal.loadEvents();
         });
       });
     }
-    this.myCal.loadEvents();
   }
 
   onCurrentDateChanged(event) {
