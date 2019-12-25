@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParentAprroveMeetingModalComponent } from './parent-aprrove-meeting-modal.component';
+import { ParentsHomeComponent } from './parents-home.component';
 
-describe('ParentAprroveMeetingModalComponent', () => {
-  let component: ParentAprroveMeetingModalComponent;
-  let fixture: ComponentFixture<ParentAprroveMeetingModalComponent>;
+describe('ParentsHomeComponent', () => {
+  let component: ParentsHomeComponent;
+  let fixture: ComponentFixture<ParentsHomeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParentAprroveMeetingModalComponent ],
+      declarations: [ ParentsHomeComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParentAprroveMeetingModalComponent);
+    fixture = TestBed.createComponent(ParentsHomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

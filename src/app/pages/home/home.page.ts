@@ -10,20 +10,37 @@ import {RoleTypes} from "../../enums/role-types.enum";
 })
 export class HomePage implements OnInit {
 
+  isLoading = true;
 
   constructor(
-    public router: Router,
-    private accountService: AccountService
+      public router: Router,
+      private accountService: AccountService
   ) {}
 
+  ionViewWillEnter() {
+    this.reroute();
+  }
+
   ngOnInit() {
-    this.rerouteDependingOnRole();
+  }
+
+  private reroute() {
+    this.isLoading = true;
+    this.rerouteDependingOnRole().catch(err => {
+      this.isLoading = false;
+    });
   }
 
   private async rerouteDependingOnRole() {
     if (await this.accountService.checkIfUserHasRole(RoleTypes.Tutor)) {
       await this.router.navigate(['tutors']);
     }
+
+    if (await this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      await this.router.navigate(['parents']);
+    }
+
+    this.isLoading = false;
   }
 
 }

@@ -8,12 +8,22 @@ import { IonicModule } from '@ionic/angular';
 import { ParentsPage } from './parents.page';
 import {ComponentsModule} from "../components/components.module";
 import {ParentPendingMeetingsComponent} from "./parent-pending-meetings/parent-pending-meetings.component";
+import {ParentsHomeComponent} from "./parents-home/parents-home.component";
 
 const routes: Routes = [
   {
     path: '',
     component: ParentsPage,
-    children: []
+    children: [
+      {
+        path: '',
+        component: ParentsHomeComponent
+      },
+      {
+        path: 'pending',
+        component: ParentPendingMeetingsComponent
+      }
+    ]
   }
 ];
 
@@ -27,7 +37,8 @@ const routes: Routes = [
   ],
   declarations: [
       ParentsPage,
-      ParentPendingMeetingsComponent
+      ParentPendingMeetingsComponent,
+      ParentsHomeComponent
   ]
 })
 export class ParentsPageModule {}

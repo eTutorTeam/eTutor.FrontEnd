@@ -10,7 +10,7 @@ import {ScheduledMeetingsComponent} from "./scheduled-meetings/scheduled-meeting
 import {NgCalendarModule} from "ionic2-calendar";
 import {SimpleHeaderComponent} from "./simple-header/simple-header.component";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
-import {ParentAprroveMeetingModalComponent} from "../parents/parent-aprrove-meeting-modal/parent-aprrove-meeting-modal.component";
+import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 
 
 const components = [
@@ -21,7 +21,7 @@ const components = [
   ScheduledMeetingsComponent,
   SimpleHeaderComponent,
   TutorAcceptMeetingComponent,
-  ParentAprroveMeetingModalComponent,
+  ParentApproveMeetingModalComponent,
 ];
 
 @NgModule({
@@ -33,7 +33,7 @@ const components = [
   ],
   entryComponents: [
     TutorAcceptMeetingComponent,
-    ParentAprroveMeetingModalComponent
+    ParentApproveMeetingModalComponent
   ],
   imports: [
     CommonModule,

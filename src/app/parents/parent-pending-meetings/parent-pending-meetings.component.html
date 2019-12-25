@@ -1,3 +1,33 @@
-<p>
-  parent-pending-meetings works!
-</p>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h3>Tutorías Pendientes</h3>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-list>
+            <ion-item *ngFor="let meeting of meetings" (click)="meetingSelected(meeting.id)" detail>
+              <ion-avatar slot="start">
+                <img [src]="meeting.student.profileImageUrl" />
+              </ion-avatar>
+              <ion-avatar slot="end">
+                <img [src]="meeting.tutor.profileImageUrl">
+              </ion-avatar>
+              <ion-label>
+                <h2> {{meeting.student.fullName}}</h2>
+                <h3>{{meeting.tutor.fullName}} -- {{meeting.subject.name}}</h3>
+                <h4>{{formatAsLongDate(meeting.startDateTime)}} - {{getDurationBetweenDates(meeting.startDateTime, meeting.endDateTime)}}</h4>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
