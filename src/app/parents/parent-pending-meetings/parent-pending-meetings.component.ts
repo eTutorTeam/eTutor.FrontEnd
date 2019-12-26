@@ -46,7 +46,7 @@ export class ParentPendingMeetingsComponent implements OnInit {
 
   private async openApproveMeetingModal(meetingId: number) {
     await this.modalPageService.openModal(ParentApproveMeetingModalComponent, {meetingId});
-    this.getMeetings(); 
+    this.getMeetings();
   }
 
   private getMeetings() {

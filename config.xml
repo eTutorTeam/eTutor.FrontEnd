@@ -3,7 +3,7 @@
     <name>eTutor</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://localhost:8102" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -111,6 +111,4 @@
     <allow-navigation href="http://localhost:8100" sessionid="c16730b3" />
     <allow-navigation href="http://localhost:4200" sessionid="b77b5689" />
     <allow-navigation href="http://0.0.0.0:4200" sessionid="e423977d" />
-    <allow-navigation href="http://localhost:8101" sessionid="99166a54" />
-    <allow-navigation href="http://localhost:8102" sessionid="1a77423a" />
 </widget>
