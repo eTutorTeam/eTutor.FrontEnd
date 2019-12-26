@@ -1,23 +1,5 @@
 
 <app-header></app-header>
 <ion-content>
-  <ion-item> 
-    <ion-label color="secondary" class="title"> Tutorías Agendadas </ion-label>
-  </ion-item>
-  <ion-item lines="none">
-    <ion-button expand="full"> Actualizar tutorías </ion-button>
-  </ion-item>
-  <ion-item>
-    <ion-label class="ion-text-center ion-text-capitalize" color="secondary">{{viewTitle}}</ion-label>
-  </ion-item>
-  <calendar 
-  [eventSource]="eventSource"
-  [currentDate]="calendar.currentDate"
-  [calendarMode]="calendar.mode"
-  (onCurrentDateChanged)="onCurrentDateChanged($event)"
-  (onEventSelected)="onEventSelected($event)"
-  (onTitleChanged)="onViewTitleChanged($event)"
-  (onTimeSelected)="onTimeSelected($event)"
-  ></calendar>
-
+  <app-scheduled-meetings *ngIf="!isLoading"></app-scheduled-meetings>
 </ion-content>

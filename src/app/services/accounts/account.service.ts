@@ -38,11 +38,16 @@ export class AccountService {
     await this.saveToken(response);
     return response;
   }
-  async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
+  async registerUser(registerRequest: RegisterRequest, userType: string) {
     const requestUrl = `${this.apiBaseUrl}/api/accounts/register-${userType}`;
     const response = await this.http.post<UserTokenResponse>(requestUrl,
         registerRequest).toPromise();
-    return this.saveToken(response);
+  }
+
+  async reloadUserInfo(): Promise<UserTokenResponse> {
+    const response = await this.http.get<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/updated-info-token`).toPromise();
+    await this.saveToken(response);
+    return response;
   }
 
   async saveToken(response): Promise<UserTokenResponse> {

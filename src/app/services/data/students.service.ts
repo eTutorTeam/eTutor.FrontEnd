@@ -15,6 +15,6 @@ export class StudentsService {
   ) { }
 
   getActiveMeetings() {
-    return this.httpClient.get<StudentMeeting[]>(`${this.apiBaseUrl}/api/meetings/student-meetings`);
+    return this.httpClient.get<StudentMeeting[]>(`${this.apiBaseUrl}/api/meetings/student-meetings`).toPromise();
   }
 }
