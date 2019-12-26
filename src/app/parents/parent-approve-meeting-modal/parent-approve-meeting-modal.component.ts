@@ -27,7 +27,9 @@ export class ParentApproveMeetingModalComponent implements OnInit {
       private alertService: AlertServiceService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getMeeting();
+  }
 
   get startTime() {
     return moment(this.meeting.startDateTime).format('LLLL');
@@ -43,6 +45,24 @@ export class ParentApproveMeetingModalComponent implements OnInit {
 
   get subject() {
     return this.meeting.subject;
+  }
+
+  get student() {
+    return this.meeting.student;
+  }
+
+  getMeeting() {
+    this.getMeetingRequest().catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+      this.closeModal();
+    });
+  }
+
+  private async getMeetingRequest() {
+    await this.loadingService.startLoading('Buscando datos de la tutoría solicitada');
+    this.meeting = await this.parentMeetingService.getMeetingSummary(this.meetingId);
+    this.loadingService.stopLoading();
   }
 
   reject() {
