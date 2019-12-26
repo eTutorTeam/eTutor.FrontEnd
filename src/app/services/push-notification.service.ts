@@ -9,6 +9,7 @@ import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting
 import {ToastNotificationService} from "./toast-notification.service";
 import {NotificationTypesEnum} from "../enums/notification-types.enum";
 import {AlertServiceService} from "./alert-service.service";
+import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 
 @Injectable({
   providedIn: 'root'
@@ -35,28 +36,35 @@ export class PushNotificationService {
 
   private async handleNotification(notification: any) {
     if (!notification.tap && notification.tap !== 'background') {
-      await this.handleNotificationWhenAppIsActive(notification);
+      await this.handleNotificationActionInForeground(notification);
     } else {
-      await this.handleAppActionDependingOnNotification(notification);
+      await this.handleNotificationActionInBackground(notification);
     }
   }
 
-  private async handleNotificationWhenAppIsActive(notification: any) {
-    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
-      await this.meetingNotification(notification.newSolicitedMeetingId);
-    } else if (this.getNotificationType(notification) === NotificationTypesEnum.ParentRejectedMeeting) {
-      await this.rejectedMeetingNotification(notification.body);
-    } else {
-      console.log(JSON.stringify(notification), "NOTIFICATION");
-      await this.toastNotificationService.presentToast(notification.title, notification.body);
-    }
+  private async handleNotificationActionInForeground(notification: any) {
+    const notificationType = this.getNotificationType(notification);
+    await this.handleNotificationSharedBehavior(notification);
   }
 
-  private async handleAppActionDependingOnNotification(notification: any) {
-    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
+  private async handleNotificationActionInBackground(notification: any) {
+    await this.handleNotificationSharedBehavior(notification);
+  }
+
+  private async handleNotificationSharedBehavior(notification: any) {
+    const notificationType = this.getNotificationType(notification);
+
+    if (notificationType === NotificationTypesEnum.NewSolicitedMeeting) {
       await this.meetingNotification(notification.newSolicitedMeetingId);
-    } else if (this.getNotificationType(notification) === NotificationTypesEnum.ParentRejectedMeeting) {
+
+    } else if (notificationType === NotificationTypesEnum.ParentRejectedMeeting) {
       await this.rejectedMeetingNotification(notification.body);
+
+    } else if (notificationType === NotificationTypesEnum.ParentMeeting) {
+      await this.meetingSolicitedParentNotification(notification);
+
+    } else {
+      await this.presentNotificationToast(notification);
     }
   }
 
@@ -72,6 +80,17 @@ export class PushNotificationService {
     if (notification.hasOwnProperty('rejectedMeeting')) {
       return NotificationTypesEnum.ParentRejectedMeeting;
     }
+
+    if (notification.hasOwnProperty('parentMeetingId')) {
+      return NotificationTypesEnum.ParentMeeting;
+    }
+  }
+
+  private async meetingSolicitedParentNotification(notification: any) {
+    if (this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      const meetingId = notification.parentMeetingId;
+      await this.modalPagesService.openModal(ParentApproveMeetingModalComponent, {meetingId});
+    }
   }
 
   private async rejectedMeetingNotification(message: string) {
@@ -83,6 +102,10 @@ export class PushNotificationService {
     if (isTutor) {
       await this.modalPagesService.openModal(TutorAcceptMeetingComponent, {meetingId});
     }
+  }
+
+  private async presentNotificationToast(notification: any) {
+    await this.toastNotificationService.presentToast(notification.title, notification.body);
   }
 
 }

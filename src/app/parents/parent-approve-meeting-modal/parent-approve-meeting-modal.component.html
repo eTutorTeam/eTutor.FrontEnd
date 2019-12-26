@@ -12,7 +12,7 @@
         <label>Tutor</label>
         <div class="ion-text-center">
           <ion-avatar class="image-center">
-            <img src="{{tutor.profileImageUrl}}">
+            <ngx-avatar [src]="tutor.profileImageUrl" [name]="tutor.fullName" [round]="false"></ngx-avatar>
           </ion-avatar>
         </div>
         <h3>{{tutor.fullName}}</h3>
@@ -21,7 +21,7 @@
         <label>Estudiante</label>
         <div class="ion-text-center">
           <ion-avatar class="image-center">
-            <img src="{{student.profileImageUrl}}">
+            <ngx-avatar [src]="student.profileImageUrl" [name]="student.fullName" [round]="false"></ngx-avatar>
           </ion-avatar>
         </div>
         <h3>{{student.fullName}}</h3>

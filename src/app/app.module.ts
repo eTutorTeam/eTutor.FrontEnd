@@ -18,6 +18,7 @@ import {FirebaseX} from '@ionic-native/firebase-x/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {ImageHandlingService} from "./services/image-handling.service";
 import {NgxMaskModule} from "ngx-mask";
+import {AvatarModule} from "ngx-avatar";
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,7 @@ import {NgxMaskModule} from "ngx-mask";
     ComponentsModule,
     HttpClientModule,
     NgxMaskModule,
+    AvatarModule,
     FormsModule,
     ReactiveFormsModule,
     IonicStorageModule.forRoot(),

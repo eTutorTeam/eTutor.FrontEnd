@@ -9,6 +9,7 @@ import { ParentsPage } from './parents.page';
 import {ComponentsModule} from "../components/components.module";
 import {ParentPendingMeetingsComponent} from "./parent-pending-meetings/parent-pending-meetings.component";
 import {ParentsHomeComponent} from "./parents-home/parents-home.component";
+import {AvatarModule} from "ngx-avatar";
 
 const routes: Routes = [
   {
@@ -32,13 +33,14 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    AvatarModule,
     ComponentsModule,
     RouterModule.forChild(routes)
   ],
   declarations: [
-      ParentsPage,
-      ParentPendingMeetingsComponent,
-      ParentsHomeComponent
+    ParentsPage,
+    ParentPendingMeetingsComponent,
+    ParentsHomeComponent
   ]
 })
 export class ParentsPageModule {}
