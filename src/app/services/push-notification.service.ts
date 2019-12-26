@@ -43,6 +43,7 @@ export class PushNotificationService {
   }
 
   private async handleNotificationActionInForeground(notification: any) {
+    console.log(notification);
     const notificationType = this.getNotificationType(notification);
     await this.handleNotificationSharedBehavior(notification);
   }

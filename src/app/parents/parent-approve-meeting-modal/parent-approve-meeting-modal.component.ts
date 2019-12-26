@@ -74,12 +74,13 @@ export class ParentApproveMeetingModalComponent implements OnInit {
   }
 
   private async answerRequest(answeredStatus: ParentAuthorizationStatusEnum) {
-    await this.loadingService.startLoading('Respondiendo a tutoría solicitada');
+
     let reason = '';
     if (answeredStatus === ParentAuthorizationStatusEnum.Rejected) {
       reason = await this.alertService.inputAlert('Puede indicar una razón para la denegación.', 'Agregar Razón', 'Responder sin razón');
     }
 
+    await this.loadingService.startLoading('Respondiendo a tutoría solicitada');
     const model: ParentMeetingAnswer = {
       reason,
       statusAnswer: answeredStatus

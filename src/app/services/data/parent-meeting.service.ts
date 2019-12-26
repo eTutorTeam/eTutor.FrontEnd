@@ -19,7 +19,7 @@ export class ParentMeetingService {
   }
 
   async respondToPendingMeeting(meetingId: number, answer: ParentMeetingAnswer): Promise<ParentAuthorizationResponse> {
-    return this.http.post<ParentAuthorizationResponse>(`${environment.apiBaseUrl}/api/parent-meeting/${meetingId}/answer`, answer).toPromise();
+    return this.http.post<ParentAuthorizationResponse>(`${environment.apiBaseUrl}/api/parent-meetings/${meetingId}/answer`, answer).toPromise();
   }
 
   async getMeetingSummary(meetingId: number): Promise<ParentMeetingResponse> {

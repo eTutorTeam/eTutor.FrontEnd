@@ -24,9 +24,11 @@ export class ParentPendingMeetingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getMeetings();
   }
 
+  ionViewWillEnter() {
+    this.getMeetings();
+  }
 
   meetingSelected(meetingId: number) {
     this.openApproveMeetingModal(meetingId).catch(err => {
@@ -49,6 +51,7 @@ export class ParentPendingMeetingsComponent implements OnInit {
   private getMeetings() {
     this.getMeetingsRequest().catch(err => {
       this.loadingService.stopLoading();
+      console.log(err);
       this.toastNotificationService.presentErrorToast(err);
     });
   }
