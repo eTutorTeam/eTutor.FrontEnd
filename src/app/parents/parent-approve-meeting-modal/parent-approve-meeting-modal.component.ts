@@ -87,6 +87,8 @@ export class ParentApproveMeetingModalComponent implements OnInit {
     };
 
     await this.parentMeetingService.respondToPendingMeeting(this.meetingId, model);
+    this.loadingService.stopLoading();
+    this.closeModal();
   }
 
   approve() {
