@@ -20,7 +20,7 @@ export class ParentPendingMeetingsComponent implements OnInit {
       private parentMeetingService: ParentMeetingService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
-      private modalPageService: ModalPagesService
+      private modalPageService: ModalPagesService,
   ) { }
 
   ngOnInit() {
@@ -46,6 +46,7 @@ export class ParentPendingMeetingsComponent implements OnInit {
 
   private async openApproveMeetingModal(meetingId: number) {
     await this.modalPageService.openModal(ParentApproveMeetingModalComponent, {meetingId});
+    this.getMeetings(); 
   }
 
   private getMeetings() {
