@@ -100,4 +100,9 @@ export class ParentApproveMeetingModalComponent implements OnInit {
     this.modalPageService.closeModal();
   }
 
+  async close() {
+    const confirmed = await this.alertService.confirmationAlert('¿Está seguro que desea salir de esta pantalla?', 'Si', 'No');
+    if (confirmed) {this.closeModal(); }
+  }
+
 }

@@ -1,10 +1,10 @@
-<app-header [showBack]="true" title="Agendar Tutoría"></app-header>
+<app-simple-header title="Tutoría Solicitada por Estudiante" (close)="close()"></app-simple-header>
 
 <ion-content>
   <ion-grid *ngIf="meeting !== undefined">
     <ion-row>
       <ion-col>
-        <ion-title>Verifique los datos antes de agendar</ion-title>
+        <ion-title>Estos son los datos de la tutoría solicitada por el estudiante asociado a usted</ion-title>
       </ion-col>
     </ion-row>
     <ion-row>
