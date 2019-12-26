@@ -1,12 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ModalPagesService} from "../../services/modal-pages.service";
-import {SubjectSimpleResponse} from "../../models/subject-simple-response";
-import {TutorSimpleResponse} from "../../models/tutor-simple-response";
 import * as moment from "moment";
 import {ParentMeetingResponse} from "../../models/parent-meeting-response";
 import {ParentMeetingService} from "../../services/data/parent-meeting.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastNotificationService} from "../../services/toast-notification.service";
+import {ParentAuthorizationStatusEnum} from "../../enums/parent-authorization-status.enum";
+import {AlertServiceService} from "../../services/alert-service.service";
+import {ParentMeetingAnswer} from "../../models/parent-meeting-answer";
 
 @Component({
   selector: 'app-parent-aprrove-meeting-modal',
@@ -22,7 +23,8 @@ export class ParentApproveMeetingModalComponent implements OnInit {
       private modalPageService: ModalPagesService,
       private parentMeetingService: ParentMeetingService,
       private loadingService: LoadingService,
-      private toastNotificationService: ToastNotificationService
+      private toastNotificationService: ToastNotificationService,
+      private alertService: AlertServiceService
   ) { }
 
   ngOnInit() {}
@@ -44,11 +46,34 @@ export class ParentApproveMeetingModalComponent implements OnInit {
   }
 
   reject() {
+    this.answerRequest(ParentAuthorizationStatusEnum.Rejected).catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+      this.closeModal();
+    });
+  }
 
+  private async answerRequest(answeredStatus: ParentAuthorizationStatusEnum) {
+    await this.loadingService.startLoading('Respondiendo a tutoría solicitada');
+    let reason = '';
+    if (answeredStatus === ParentAuthorizationStatusEnum.Rejected) {
+      reason = await this.alertService.inputAlert('Puede indicar una razón para la denegación.', 'Agregar Razón', 'Responder sin razón');
+    }
+
+    const model: ParentMeetingAnswer = {
+      reason,
+      statusAnswer: answeredStatus
+    };
+
+    await this.parentMeetingService.respondToPendingMeeting(this.meetingId, model);
   }
 
   approve() {
-
+    this.answerRequest(ParentAuthorizationStatusEnum.Approved).catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+      this.closeModal();
+    });
   }
 
   closeModal() {
