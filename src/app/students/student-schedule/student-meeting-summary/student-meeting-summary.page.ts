@@ -11,6 +11,8 @@ import {MeetingStudentRequest} from "../../../models/meeting-student-request";
 import * as moment from 'moment';
 import {Router} from "@angular/router";
 import {AlertServiceService} from "../../../services/alert-service.service";
+import { AlertController, Platform } from '@ionic/angular';
+import {LocalNotifications, ELocalNotificationTriggerUnit} from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-student-meeting-summary',
@@ -34,8 +36,15 @@ export class StudentMeetingSummaryPage implements OnInit {
       private meetingService: MeetingService,
       private alertService: AlertServiceService,
       private router: Router,
-      private schedulingService: SchedulingService
-  ) { }
+      private schedulingService: SchedulingService,
+      private alertCtrl: AlertController,
+      private plt: Platform,
+      private localNotifications: LocalNotifications
+  ) { 
+    this.plt.ready().then(()=>{
+      this.localNotifications.on('click').subscribe
+    })
+  }
 
   ngOnInit() {
     this.loadComponent().then(res => {
@@ -108,5 +117,20 @@ export class StudentMeetingSummaryPage implements OnInit {
 
   private async getTutor() {
     this.tutor = await this.tutorService.getTutorById(this.tutorId);
+  }
+  showAlert(header,sub,msg){
+    this.alertCtrl.create({
+      header: header,
+      subHeader: sub,
+      message: msg,
+      buttons: ['Ok']
+    }).then(alert => alert.present());
+  }
+  scheduleNotification(){
+    this.localNotifications.schedule({
+      title: 'Falta 1 hora para que inicie su tutoria',
+      text: 'Su tutoria iniciara en 1 hora',
+      trigger: {in: 5, unit: ELocalNotificationTriggerUnit.SECOND}
+    });
   }
 }
