@@ -8,6 +8,7 @@ import {ModalPagesService} from "./modal-pages.service";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 import {ToastNotificationService} from "./toast-notification.service";
 import {NotificationTypesEnum} from "../enums/notification-types.enum";
+import {AlertServiceService} from "./alert-service.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class PushNotificationService {
       private firebase: FirebaseX,
       private toastController: ToastController,
       private router: Router,
+      private alertService: AlertServiceService,
       private accountService: AccountService,
       private toastNotificationService: ToastNotificationService,
       private modalPagesService: ModalPagesService
@@ -42,15 +44,19 @@ export class PushNotificationService {
   private async handleNotificationWhenAppIsActive(notification: any) {
     if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
       await this.meetingNotification(notification.newSolicitedMeetingId);
+    } else if (this.getNotificationType(notification) === NotificationTypesEnum.ParentRejectedMeeting) {
+      await this.rejectedMeetingNotification(notification.body);
     } else {
       console.log(JSON.stringify(notification), "NOTIFICATION");
-      this.toastNotificationService.presentToast(notification.title, notification.body);
+      await this.toastNotificationService.presentToast(notification.title, notification.body);
     }
   }
 
   private async handleAppActionDependingOnNotification(notification: any) {
     if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
       await this.meetingNotification(notification.newSolicitedMeetingId);
+    } else if (this.getNotificationType(notification) === NotificationTypesEnum.ParentRejectedMeeting) {
+      await this.rejectedMeetingNotification(notification.body);
     }
   }
 
@@ -62,6 +68,14 @@ export class PushNotificationService {
     if (notification.hasOwnProperty('answeredMeetingId')) {
       return NotificationTypesEnum.AnsweredMeeting;
     }
+
+    if (notification.hasOwnProperty('rejectedMeeting')) {
+      return NotificationTypesEnum.ParentRejectedMeeting;
+    }
+  }
+
+  private async rejectedMeetingNotification(message: string) {
+    await this.toastNotificationService.presentToast('Tutoría Denegada', message);
   }
 
   private async meetingNotification(meetingId: number) {
