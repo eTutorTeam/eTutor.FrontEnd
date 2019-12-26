@@ -7,7 +7,13 @@ import { UserPopoverComponent } from '../../components/user-popover/user-popover
 import { AccountService } from 'src/app/services/accounts/account.service';
 import { RoleTypes } from 'src/app/enums/role-types.enum';
 import { StudentsService } from 'src/app/services/data/students.service';
-
+import { MeetingPopoverComponent } from '../../components/meeting-popover/meeting-popover.component';
+import { AlertController } from '@ionic/angular';
+import { formatDate, FormatWidth } from '@angular/common';
+import { Subject } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { callCordovaPlugin } from '@ionic-native/core/decorators/common';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -40,16 +46,19 @@ export class HomePage implements OnInit {
 
   constructor(
     public router: Router,
+    
     private popoverCtrl: PopoverController,
     @Inject(LOCALE_ID) private locale: string,
     private accountService: AccountService,
-    private studentService: StudentsService
-  ) {}
-
+    private studentService: StudentsService,
+    public alertController: AlertController,
+    private callNumber: CallNumber
+    ) {}
+  
 
   async mostrarPop( event ) {
     const popover = await this.popoverCtrl.create({
-      component: UserPopoverComponent,
+      component: MeetingPopoverComponent,
       event,
       mode: 'ios',
     });
@@ -58,7 +67,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
+  
   }
   ionViewWillEnter() {
     this.getMeetings();
@@ -68,11 +77,13 @@ export class HomePage implements OnInit {
     if (this.accountService.user.roles.includes(RoleTypes.Student)) {
       this.studentService.getActiveMeetings().toPromise().then(resp => {
         resp.forEach(meeting => {
+         
           this.eventSource.push({
             title: `Tutoría de ${meeting.subjectName} con ${meeting.tutorName}`,
             startTime: new Date( meeting.startDateTime ),
             endTime: new Date( meeting.endDateTime ),
             allDay: false
+            
           });
         });
       });
@@ -86,7 +97,26 @@ export class HomePage implements OnInit {
   reloadSource(startTime, endTime) {
 
   }
-  onEventSelected(event) {
+   async onEventSelected(event) {
+     
+     
+    const alert = await this.alertController.create({
+      header: ` informacion `,
+      subHeader: ''+ (event.title),
+      message:''+ (event.title) + '<br><br>desde '+(event.startTime)+ "<br><br> Hasta"+ (event.endTime) ,
+      buttons: [
+        {text:'OK'},
+        {text:'Contactar',
+        handler: () => {
+          this.calltutor();}
+        },
+        {text:'Cancelar'}
+      ]
+    
+    
+    });
+
+    await alert.present();
 
   }
   onViewTitleChanged(title) {
@@ -104,5 +134,11 @@ export class HomePage implements OnInit {
     });
     this.myCal.loadEvents();
   }
+  calltutor(){
+    this.callNumber.callNumber('111111111', true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
+  }
+  cancelmeeting(){}
 
 }

@@ -19,11 +19,13 @@ import {FirebaseX} from '@ionic-native/firebase-x/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {ImageHandlingService} from "./services/image-handling.service";
 import {NgxMaskModule} from "ngx-mask";
-
+import { MeetingPopoverComponent } from './components/meeting-popover/meeting-popover.component';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,MeetingPopoverComponent],
   entryComponents: [
-    UserPopoverComponent
+    UserPopoverComponent,MeetingPopoverComponent
+
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import {NgxMaskModule} from "ngx-mask";
   providers: [
     StatusBar,
     SplashScreen,
+    CallNumber,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
