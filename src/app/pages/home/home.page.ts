@@ -28,13 +28,17 @@ export class HomePage implements OnInit {
       title: 'Tutoria Algebra',
       startTime: new Date(2019, 11, 10, 14),
       endTime: new Date(2019, 11, 10, 15),
-      allDay: false
+      allDay: false,
+      contact:"0000000",
+      id:0
     },
     {
       title: 'Tutoria Logica simbolica',
       startTime: new Date(2019, 11, 25, 6),
       endTime: new Date(2019, 11, 25, 8),
-      allDay: false
+      allDay: false,
+      contact:"0000000",
+      id:0
     }
   ];
 
@@ -82,7 +86,10 @@ export class HomePage implements OnInit {
             title: `Tutoría de ${meeting.subjectName} con ${meeting.tutorName}`,
             startTime: new Date( meeting.startDateTime ),
             endTime: new Date( meeting.endDateTime ),
-            allDay: false
+            allDay: false,
+            contact:"000000",
+            id: (meeting.id)
+            
             
           });
         });
@@ -103,14 +110,28 @@ export class HomePage implements OnInit {
     const alert = await this.alertController.create({
       header: ` informacion `,
       subHeader: ''+ (event.title),
-      message:''+ (event.title) + '<br><br>desde '+(event.startTime)+ "<br><br> Hasta"+ (event.endTime) ,
+      message:'desde '+(event.startTime)+ "<br><br> Hasta  "+ (event.endTime) ,
+      mode:'ios',
       buttons: [
-        {text:'OK'},
-        {text:'Contactar',
+       
+        {text:'Contactar tutor',
+        cssClass:'call',
         handler: () => {
-          this.calltutor();}
+          console.log()
+          this.calltutor(event.contact);}
         },
-        {text:'Cancelar'}
+
+        {text:'Cancelar tutoria',
+    
+        cssClass:'secundary',
+        handler: () => {
+          console.log(event.id)
+          this.cancelmeetingmwarnig(event.id)}
+        },
+        
+        {text:'Cerrar',
+        cssClass:'primary'},
+      
       ]
     
     
@@ -130,15 +151,44 @@ export class HomePage implements OnInit {
       title: 'Event - test',
       startTime: new Date(),
       endTime: new Date(2019, 12, 15),
-      allDay: false
+      allDay: false,
+      contact:"00",
+      id:0
     });
     this.myCal.loadEvents();
   }
-  calltutor(){
-    this.callNumber.callNumber('111111111', true)
+  calltutor(num){
+    this.callNumber.callNumber(num, true)
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
-  cancelmeeting(){}
+  async cancelmeetingmwarnig(idt){
+    const alert = await this.alertController.create({
+      header: 'CANCELAR TUTORIA',
+      subHeader: 'Estas seguro?',
+      mode:'ios',
+      buttons: [
+                {
+                  text:"si",
+                  cssClass:'secundary',
+                  handler: () =>  
+                  {
+                    console.log(idt);
+                    this.cancelmeeting(idt);
+                  }    
+                },
+                {
+                  text:'no',
+                  cssClass:'primary'
+                }
+              ]
+    }); 
+    await alert.present();
 
+
+
+  }
+  cancelmeeting(idt){
+    console.log("cancelada")
+  }
 }
