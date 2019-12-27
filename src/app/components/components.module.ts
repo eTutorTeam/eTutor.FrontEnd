@@ -11,6 +11,7 @@ import {NgCalendarModule} from "ionic2-calendar";
 import {SimpleHeaderComponent} from "./simple-header/simple-header.component";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
+import {AvatarModule} from "ngx-avatar";
 
 
 const components = [
@@ -35,11 +36,12 @@ const components = [
     TutorAcceptMeetingComponent,
     ParentApproveMeetingModalComponent
   ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    RouterModule,
-    NgCalendarModule
-  ]
+    imports: [
+        CommonModule,
+        IonicModule,
+        RouterModule,
+        NgCalendarModule,
+        AvatarModule
+    ]
 })
 export class ComponentsModule { }

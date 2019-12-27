@@ -31,4 +31,28 @@ export class ToastNotificationService {
 
     await this.presentToast('Error', message);
   }
+
+  async presentToastWithOk(title: string, message: string): Promise<boolean> {
+    let accepted = false;
+    const toast = await this.toastController.create({
+      showCloseButton: true,
+      message,
+      header: title,
+      duration: 7500,
+      position: 'top',
+      buttons: [
+        {
+            side: 'end',
+          icon: 'return-right',
+          handler: () => {
+              accepted = true;
+          }
+        }
+      ]
+    });
+
+    await toast.present();
+    await toast.onDidDismiss();
+    return accepted;
+  }
 }

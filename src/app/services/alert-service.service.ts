@@ -37,4 +37,37 @@ export class AlertServiceService {
     await this.alert.onDidDismiss();
     return confirmed;
   }
+
+  public async inputAlert(header: string = 'Ingrese el dato solicitado en el campo',
+                          btnOk: string = 'Ok', btnCancel: string = 'Cancelar'): Promise<string> {
+    let entered = '';
+    this.alert = await this.alertController.create({
+      header,
+      inputs: [
+        {
+          name: 'input1',
+          type: 'text',
+          placeholder: 'Ingrese el dato en este campo'
+        }
+      ],
+      buttons: [
+        {
+          text: btnCancel,
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: btnOk,
+          handler: (alertData) => {
+            entered = alertData.input1;
+          }
+        }
+      ]
+    });
+
+    await this.alert.present();
+    await this.alert.onDidDismiss();
+    return entered;
+
+  }
 }

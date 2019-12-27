@@ -20,13 +20,15 @@ export class ParentPendingMeetingsComponent implements OnInit {
       private parentMeetingService: ParentMeetingService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
-      private modalPageService: ModalPagesService
+      private modalPageService: ModalPagesService,
   ) { }
 
   ngOnInit() {
-    this.getMeetings();
   }
 
+  ionViewWillEnter() {
+    this.getMeetings();
+  }
 
   meetingSelected(meetingId: number) {
     this.openApproveMeetingModal(meetingId).catch(err => {
@@ -44,11 +46,13 @@ export class ParentPendingMeetingsComponent implements OnInit {
 
   private async openApproveMeetingModal(meetingId: number) {
     await this.modalPageService.openModal(ParentApproveMeetingModalComponent, {meetingId});
+    this.getMeetings();
   }
 
   private getMeetings() {
     this.getMeetingsRequest().catch(err => {
       this.loadingService.stopLoading();
+      console.log(err);
       this.toastNotificationService.presentErrorToast(err);
     });
   }
