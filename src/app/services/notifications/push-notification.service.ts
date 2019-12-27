@@ -2,14 +2,14 @@ import {Injectable} from '@angular/core';
 import {FirebaseX} from '@ionic-native/firebase-x/ngx';
 import {ToastController} from '@ionic/angular';
 import {Router} from '@angular/router';
-import {AccountService} from "./accounts/account.service";
-import {RoleTypes} from "../enums/role-types.enum";
-import {ModalPagesService} from "./modal-pages.service";
-import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
-import {ToastNotificationService} from "./toast-notification.service";
-import {NotificationTypesEnum} from "../enums/notification-types.enum";
-import {AlertServiceService} from "./alert-service.service";
-import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
+import {AccountService} from "../accounts/account.service";
+import {RoleTypes} from "../../enums/role-types.enum";
+import {ModalPagesService} from "../modal-pages.service";
+import {TutorAcceptMeetingComponent} from "../../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
+import {ToastNotificationService} from "../toast-notification.service";
+import {NotificationTypesEnum} from "../../enums/notification-types.enum";
+import {AlertServiceService} from "../alert-service.service";
+import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 
 @Injectable({
   providedIn: 'root'
