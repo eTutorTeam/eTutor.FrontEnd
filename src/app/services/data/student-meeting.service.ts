@@ -14,4 +14,8 @@ export class StudentMeetingService {
     return this.http
         .get<TutorSimpleResponse[]>(`${environment.apiBaseUrl}/api/student-meetings/${meetingId}/not-selected-tutors`).toPromise();
   }
+
+  async getRandomTutorForStudentInRejectedMeeting(meetingId: number): Promise<TutorSimpleResponse> {
+    return this.http.get<TutorSimpleResponse>(`${environment.apiBaseUrl}/api/student-meetings/${meetingId}/random-tutor`).toPromise();
+  }
 }
