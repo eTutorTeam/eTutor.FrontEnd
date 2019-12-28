@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingStudentRequest} from "../../models/meeting-student-request";
 import {MeetingSummary} from "../../models/meeting-summary";
 import {MeetingStatusEnum} from "../../enums/meeting-status.enum";
+import { Meeting } from 'src/app/models/meeting-model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,8 @@ export class MeetingService {
 
   async tutorSendMeetingResponse(meetingId: number, answeredStatus: MeetingStatusEnum) {
     return this.http.patch(`${environment.apiBaseUrl}/api/meetings/${meetingId}/tutor-answer`, {answeredStatus}).toPromise();
+  }
+  async getMeeting(meetingId: number): Promise<Meeting>{
+    return this.http.get<Meeting>(`${environment.apiBaseUrl}/api/meetings/${meetingId}`).toPromise();
   }
 }
