@@ -30,12 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'students',
-    children: [
-      {
-        path: 'schedule',
-        loadChildren: './students/student-schedule/student-schedule.module#StudentSchedulePageModule'
-      }
-    ],
+    loadChildren: './students/student/student.module#StudentPageModule',
     data: {
       roles: [RoleTypes.Student]
     },

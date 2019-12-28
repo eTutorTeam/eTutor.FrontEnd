@@ -10,6 +10,7 @@ import {ToastNotificationService} from "../toast-notification.service";
 import {NotificationTypesEnum} from "../../enums/notification-types.enum";
 import {AlertServiceService} from "../alert-service.service";
 import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
+import {not} from "rxjs/internal-compatibility";
 
 @Injectable({
   providedIn: 'root'
@@ -55,17 +56,20 @@ export class PushNotificationService {
   private async handleNotificationSharedBehavior(notification: any) {
     const notificationType = this.getNotificationType(notification);
 
-    if (notificationType === NotificationTypesEnum.NewSolicitedMeeting) {
-      await this.meetingNotification(notification.newSolicitedMeetingId);
-
-    } else if (notificationType === NotificationTypesEnum.ParentRejectedMeeting) {
-      await this.rejectedMeetingNotification(notification.body);
-
-    } else if (notificationType === NotificationTypesEnum.ParentMeeting) {
-      await this.meetingSolicitedParentNotification(notification);
-
-    } else {
-      await this.presentNotificationToast(notification);
+    switch (notificationType) {
+      case NotificationTypesEnum.NewSolicitedMeeting:
+        await this.meetingNotification(notification.newSolicitedMeetingId);
+        break;
+      case NotificationTypesEnum.ParentRejectedMeeting:
+        await this.rejectedMeetingNotification(notification.body);
+        break;
+      case NotificationTypesEnum.ParentMeeting:
+        await this.meetingSolicitedParentNotification(notification);
+        break;
+      case NotificationTypesEnum.AnsweredRejectedMeeting:
+        await this.answerToMeetingRejected(notification);
+      default:
+        await this.presentNotificationToast(notification);
     }
   }
 
@@ -75,6 +79,9 @@ export class PushNotificationService {
     }
 
     if (notification.hasOwnProperty('answeredMeetingId')) {
+      if (notification.hasOwnProperty('meetingRejected')) {
+        return NotificationTypesEnum.AnsweredRejectedMeeting;
+      }
       return NotificationTypesEnum.AnsweredMeeting;
     }
 
@@ -102,6 +109,13 @@ export class PushNotificationService {
     const isTutor = await this.accountService.checkIfUserHasRole(RoleTypes.Tutor);
     if (isTutor) {
       await this.modalPagesService.openModal(TutorAcceptMeetingComponent, {meetingId});
+    }
+  }
+
+  private async answerToMeetingRejected(notification: any) {
+    const isStudent = await this.accountService.checkIfUserHasRole(RoleTypes.Student);
+    if (isStudent) {
+      const meetingId = notification.answeredMeetingId;
     }
   }
 

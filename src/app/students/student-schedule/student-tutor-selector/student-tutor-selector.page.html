@@ -11,17 +11,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-list>
-          <ion-item *ngFor="let tutor of tutors" (click)="selectTutor(tutor.id)" detail>
-            <ion-avatar slot="start">
-              <img [src]="tutor.profileImageUrl">
-            </ion-avatar>
-            <ion-label>
-              <h2>{{tutor.fullName}}</h2>
-              <p style="color: red">[Pending Tutor Ratings In Stars]</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+        <app-student-tutors-list [tutors]="tutors" (selected)="selectTutor($event)"></app-student-tutors-list>
       </ion-col>
     </ion-row>
   </ion-grid>

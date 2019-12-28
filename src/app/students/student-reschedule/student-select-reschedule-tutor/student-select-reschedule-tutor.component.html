@@ -1,0 +1,22 @@
+<app-header></app-header>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h3>Tutoría Rechazada</h3>
+          <p>Seleccione otro tutor</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <app-student-tutors-list [tutors]="tutors"></app-student-tutors-list>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

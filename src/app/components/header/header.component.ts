@@ -4,6 +4,8 @@ import { UserPopoverComponent } from '../user-popover/user-popover.component';
 import { AccountService } from 'src/app/services/accounts/account.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserTokenResponse } from 'src/app/models/user-token-response';
+import {ActivatedRoute, Router} from "@angular/router";
+import {AppRoutingService} from "../../services/app-routing.service";
 
 @Component({
   selector: 'app-header',
@@ -13,12 +15,14 @@ import { UserTokenResponse } from 'src/app/models/user-token-response';
 export class HeaderComponent implements OnInit {
 
   user: UserTokenResponse;
-  @Input() showBack: boolean = false;
-  @Input() title: string = '';
+  @Input() showBack = false;
+  @Input() title = '';
 
   constructor(
     private popoverCtrl: PopoverController,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router,
+    private routerService: AppRoutingService
     ) { }
 
   ngOnInit() {
@@ -35,5 +39,12 @@ export class HeaderComponent implements OnInit {
     });
 
     await popover.present();
+  }
+
+  private readTitleFromRoute() {
+    const tit = this.routerService.getRouteTitle();
+    if (tit !== undefined) {
+      this.title = tit;
+    }
   }
 }
