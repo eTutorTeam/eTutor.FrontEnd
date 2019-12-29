@@ -87,7 +87,7 @@ export class HomePage implements OnInit {
             startTime: new Date( meeting.startDateTime ),
             endTime: new Date( meeting.endDateTime ),
             allDay: false,
-            contact:"000000",
+            contact:(meeting.tutorContact),
             id: (meeting.id)
             
             
@@ -117,7 +117,7 @@ export class HomePage implements OnInit {
         {text:'Contactar tutor',
         cssClass:'call',
         handler: () => {
-          console.log()
+          console.log(event.contact);
           this.calltutor(event.contact);}
         },
 
@@ -189,6 +189,6 @@ export class HomePage implements OnInit {
 
   }
   cancelmeeting(idt){
-    console.log("cancelada")
+   this.studentService.cacelmeetings(idt);
   }
 }
