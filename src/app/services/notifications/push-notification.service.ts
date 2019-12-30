@@ -68,6 +68,7 @@ export class PushNotificationService {
         break;
       case NotificationTypesEnum.AnsweredRejectedMeeting:
         await this.answerToMeetingRejected(notification);
+        break;
       default:
         await this.presentNotificationToast(notification);
     }
@@ -79,6 +80,7 @@ export class PushNotificationService {
     }
 
     if (notification.hasOwnProperty('answeredMeetingId')) {
+      console.log(notification);
       if (notification.hasOwnProperty('meetingRejected')) {
         return NotificationTypesEnum.AnsweredRejectedMeeting;
       }
@@ -116,6 +118,7 @@ export class PushNotificationService {
     const isStudent = await this.accountService.checkIfUserHasRole(RoleTypes.Student);
     if (isStudent) {
       const meetingId = notification.answeredMeetingId;
+      await this.router.navigate([`students/reschedule/${meetingId}/type`]);
     }
   }
 

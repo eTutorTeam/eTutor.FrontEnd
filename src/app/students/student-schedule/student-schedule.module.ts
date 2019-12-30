@@ -41,16 +41,12 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule
   ],
-  exports: [
-    StudentTutorsListComponent
-  ],
   declarations: [
     StudentSchedulePage,
     StudentSubjectSelectorComponent,
     StudentDatetimeSelectorPage,
     StudentTutorSelectorPage,
-    StudentMeetingSummaryPage,
-    StudentTutorsListComponent
+    StudentMeetingSummaryPage
   ]
 })
 export class StudentSchedulePageModule {}

@@ -13,9 +13,12 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div>
-          <app-student-tutors-list [tutors]="tutors"></app-student-tutors-list>
+        <div *ngIf="tutors.length > 0; else noTutors">
+          <app-student-tutors-list [tutors]="tutors" (selected)="tutorSelected($event)"></app-student-tutors-list>
         </div>
+        <ng-template #noTutors>
+          <h4>No hay más tutores disponibles que puedan dar esta asignatura, disculpe los inconvenientes</h4>
+        </ng-template>
       </ion-col>
     </ion-row>
   </ion-grid>

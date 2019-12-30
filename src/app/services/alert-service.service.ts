@@ -12,7 +12,8 @@ export class AlertServiceService {
       private alertController: AlertController
   ) { }
 
-  public async confirmationAlert(msg: string = '¿Seguro que desea hacer esto?', btnOk: string = 'Ok', btnCancel: string = 'Cancelar'): Promise<boolean> {
+  public async confirmationAlert(msg: string = '¿Seguro que desea hacer esto?',
+                                 btnOk: string = 'Ok', btnCancel: string = 'Cancelar'): Promise<boolean> {
     let confirmed = false;
     this.alert = await this.alertController.create(
          {

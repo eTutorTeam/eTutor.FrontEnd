@@ -13,6 +13,6 @@ export class TutorMeetingService {
   ) { }
 
   async tutorSendMeetingResponse(meetingId: number, answeredStatus: MeetingStatusEnum) {
-    return this.http.patch(`${environment.apiBaseUrl}/api/meetings/${meetingId}/tutor-answer`, {answeredStatus}).toPromise();
+    return this.http.patch(`${environment.apiBaseUrl}/api/tutor-meetings/${meetingId}/tutor-answer`, {answeredStatus}).toPromise();
   }
 }
