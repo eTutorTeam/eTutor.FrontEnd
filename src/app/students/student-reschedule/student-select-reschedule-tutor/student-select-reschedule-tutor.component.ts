@@ -23,10 +23,6 @@ export class StudentSelectRescheduleTutorComponent implements OnInit {
       private toastNotificationService: ToastNotificationService
   ) { }
 
-  ionViewWillEnter() {
-    this.loadScreen();
-  }
-
   ngOnInit() {
     this.loadScreen();
   }
