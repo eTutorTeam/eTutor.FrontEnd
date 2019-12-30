@@ -21,8 +21,4 @@ export class MeetingService {
   async getMeetingSummary(meetingId: number): Promise<MeetingSummary> {
     return this.http.get<MeetingSummary>(`${environment.apiBaseUrl}/api/meetings/${meetingId}/summary`).toPromise();
   }
-
-  async tutorSendMeetingResponse(meetingId: number, answeredStatus: MeetingStatusEnum) {
-    return this.http.patch(`${environment.apiBaseUrl}/api/meetings/${meetingId}/tutor-answer`, {answeredStatus}).toPromise();
-  }
 }
