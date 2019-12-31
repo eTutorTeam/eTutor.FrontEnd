@@ -1,4 +1,7 @@
 export enum NotificationTypesEnum {
     NewSolicitedMeeting = 1,
-    AnsweredMeeting
+    AnsweredMeeting,
+    AnsweredRejectedMeeting,
+    ParentRejectedMeeting,
+    ParentMeeting
 }

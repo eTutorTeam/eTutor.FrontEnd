@@ -1,0 +1,35 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h3>Su tutoría ha sido rechazada</h3>
+          <p>Debe de proceder a elegir este tutor o cancelar está tutoría</p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+            <ion-button color="primary" expand="full" (click)="randomTutor()">Tutor Aleatorio</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button color="secondary" expand="full" (click)="selectTutor()">Elegir tutor</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button color="danger" expand="full" (click)="cancel()">Cancelar Tutoría</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

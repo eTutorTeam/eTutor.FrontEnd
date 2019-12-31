@@ -10,6 +10,7 @@ import {MeetingStatusEnum} from "../../../enums/meeting-status.enum";
 import {ModalPagesService} from "../../../services/modal-pages.service";
 import { LocalNotificationService } from 'src/app/services/local-notification.service';
 import { Meeting } from 'src/app/models/meeting-model';
+import {TutorMeetingService} from "../../../services/data/tutor-meeting.service";
 
 @Component({
   selector: 'app-tutor-accept-meeting',
@@ -24,6 +25,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   constructor(
       private modalCtrl: ModalController,
+      private tutorMeetingService: TutorMeetingService,
       private meetingService: MeetingService,
       private modalPagesService: ModalPagesService,
       private loadingService: LoadingService,
@@ -98,6 +100,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
     await this.loadingService.startLoading('Aceptando tutoría');
     await this.meetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.localNotificationService.scheduleNotification(this.meetingDetails.subjectName, this.meetingDetails.tutorName, this.meetingDetails.startDateTime)
+    await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
     this.modalPagesService.closeModal();
     this.loadingService.stopLoading();
@@ -105,7 +108,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   private async sendRejectMeetingRequest() {
     await this.loadingService.startLoading('Rechazando Tutoría');
-    await this.meetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Rejected);
+    await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Rejected);
     await this.toastNotificationService.presentToast('Listo!', 'La tutoría ha sido rechazada');
     this.modalPagesService.closeModal();
     this.loadingService.stopLoading();

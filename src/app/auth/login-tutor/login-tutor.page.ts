@@ -8,8 +8,8 @@ import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
 import { MenuComponent } from 'src/app/components/menu/menu.component';
 import {ToastNotificationService} from "../../services/toast-notification.service";
-import {FcmService} from "../../services/fcm.service";
-import {PushNotificationService} from "../../services/push-notification.service";
+import {FcmService} from "../../services/notifications/fcm.service";
+import {PushNotificationService} from "../../services/notifications/push-notification.service";
 
 
 // ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator

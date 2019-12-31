@@ -16,7 +16,7 @@ export class LocalNotificationService {
       id: new Date().getUTCMilliseconds(),
       title: `Recordatorio: Tutoría de ${subject}`,
       text: `Su tutoria de ${subject} pautada para las ${moment(start).format('h:mm')} con el tutor ${tutor} iniciara en 1 hora`,
-      trigger: {at: new Date(start.setHours(start.getHours() + 3))}
+      trigger: {at: new Date(start.getHours())}
     });
   }
 }

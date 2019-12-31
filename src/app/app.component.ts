@@ -6,8 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { MenuComponent } from './components/menu/menu.component';
 import { AccountService } from './services/accounts/account.service';
-import { PushNotificationService } from './services/push-notification.service';
-import { FcmService } from './services/fcm.service';
+import { PushNotificationService } from './services/notifications/push-notification.service';
+import { FcmService } from './services/notifications/fcm.service';
 
 @Component({
   selector: 'app-root',

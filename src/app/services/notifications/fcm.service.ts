@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import {Platform, ToastController} from '@ionic/angular';
 import {HttpClient} from '@angular/common/http';
-import {environment} from "../../environments/environment";
-import {DeviceTokenRequest} from "../models/device-token-request";
+import {environment} from "../../../environments/environment";
+import {DeviceTokenRequest} from "../../models/device-token-request";
 import {tap} from "rxjs/operators";
 
 @Injectable({
