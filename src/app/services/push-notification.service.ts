@@ -8,6 +8,8 @@ import {ModalPagesService} from "./modal-pages.service";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 import {ToastNotificationService} from "./toast-notification.service";
 import {NotificationTypesEnum} from "../enums/notification-types.enum";
+import {AlertServiceService} from "./alert-service.service";
+import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class PushNotificationService {
       private firebase: FirebaseX,
       private toastController: ToastController,
       private router: Router,
+      private alertService: AlertServiceService,
       private accountService: AccountService,
       private toastNotificationService: ToastNotificationService,
       private modalPagesService: ModalPagesService
@@ -33,24 +36,36 @@ export class PushNotificationService {
 
   private async handleNotification(notification: any) {
     if (!notification.tap && notification.tap !== 'background') {
-      await this.handleNotificationWhenAppIsActive(notification);
+      await this.handleNotificationActionInForeground(notification);
     } else {
-      await this.handleAppActionDependingOnNotification(notification);
+      await this.handleNotificationActionInBackground(notification);
     }
   }
 
-  private async handleNotificationWhenAppIsActive(notification: any) {
-    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
-      await this.meetingNotification(notification.newSolicitedMeetingId);
-    } else {
-      console.log(JSON.stringify(notification), "NOTIFICATION");
-      this.toastNotificationService.presentToast(notification.title, notification.body);
-    }
+  private async handleNotificationActionInForeground(notification: any) {
+    console.log(notification);
+    const notificationType = this.getNotificationType(notification);
+    await this.handleNotificationSharedBehavior(notification);
   }
 
-  private async handleAppActionDependingOnNotification(notification: any) {
-    if (this.getNotificationType(notification) === NotificationTypesEnum.NewSolicitedMeeting) {
+  private async handleNotificationActionInBackground(notification: any) {
+    await this.handleNotificationSharedBehavior(notification);
+  }
+
+  private async handleNotificationSharedBehavior(notification: any) {
+    const notificationType = this.getNotificationType(notification);
+
+    if (notificationType === NotificationTypesEnum.NewSolicitedMeeting) {
       await this.meetingNotification(notification.newSolicitedMeetingId);
+
+    } else if (notificationType === NotificationTypesEnum.ParentRejectedMeeting) {
+      await this.rejectedMeetingNotification(notification.body);
+
+    } else if (notificationType === NotificationTypesEnum.ParentMeeting) {
+      await this.meetingSolicitedParentNotification(notification);
+
+    } else {
+      await this.presentNotificationToast(notification);
     }
   }
 
@@ -62,6 +77,25 @@ export class PushNotificationService {
     if (notification.hasOwnProperty('answeredMeetingId')) {
       return NotificationTypesEnum.AnsweredMeeting;
     }
+
+    if (notification.hasOwnProperty('rejectedMeeting')) {
+      return NotificationTypesEnum.ParentRejectedMeeting;
+    }
+
+    if (notification.hasOwnProperty('parentMeetingId')) {
+      return NotificationTypesEnum.ParentMeeting;
+    }
+  }
+
+  private async meetingSolicitedParentNotification(notification: any) {
+    if (this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      const meetingId = notification.parentMeetingId;
+      await this.modalPagesService.openModal(ParentApproveMeetingModalComponent, {meetingId});
+    }
+  }
+
+  private async rejectedMeetingNotification(message: string) {
+    await this.toastNotificationService.presentToast('Tutoría Denegada', message);
   }
 
   private async meetingNotification(meetingId: number) {
@@ -69,6 +103,10 @@ export class PushNotificationService {
     if (isTutor) {
       await this.modalPagesService.openModal(TutorAcceptMeetingComponent, {meetingId});
     }
+  }
+
+  private async presentNotificationToast(notification: any) {
+    await this.toastNotificationService.presentToast(notification.title, notification.body);
   }
 
 }
