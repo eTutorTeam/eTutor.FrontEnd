@@ -14,8 +14,6 @@ import {ToastNotificationService} from "../../services/toast-notification.servic
 
 const {Modals} = Plugins;
 
-let eveents: CalendarMeetingEventModel[] = [];
-
 @Component({
   selector: 'app-scheduled-meetings',
   templateUrl: './scheduled-meetings.component.html',
@@ -36,12 +34,15 @@ export class ScheduledMeetingsComponent implements OnInit {
 
   viewTitle: string;
 
+
   constructor(
       @Inject(LOCALE_ID) private locale: string,
       private meetingService: MeetingService,
+      private accountService: AccountService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.getMeetings();
@@ -56,22 +57,62 @@ export class ScheduledMeetingsComponent implements OnInit {
 
   private async getMeetingsRequest() {
     const events = await this.meetingService.getMeetingsForCalendar();
-    this.eventSource = events.map((m: CalendarMeetingEventModel) => {
-      const res: CalendarMeetingEventModel = {
-        allDay: false,
-        endTime: new Date(m.endTime),
-        meetingId: m.meetingId,
-        startTime: new Date(m.startTime),
-        student: m.student,
-        subject: m.subject,
-        title: m.title,
-        tutor: m.tutor
-      };
-      return res;
-    });
-    console.log(this.eventSource);
+    const roles = await this.accountService.getRolesForUser();
+    const role = roles[0];
+
+    switch (role) {
+      case RoleTypes.Parent:
+        this.eventSource = events.map(m => this.setMeetingTitleForParent(m));
+        break;
+      case RoleTypes.Tutor:
+        this.eventSource = events.map(m => this.setMeetingTitleForTutor(m));
+        break;
+      default:
+        this.eventSource = events.map(m => this.setMeetingsTitleForStudent(m));
+    }
     this.myCal.loadEvents();
-    //this.loadingService.stopLoading();
+  }
+
+  private setMeetingsTitleForStudent(event: CalendarMeetingEventModel): CalendarMeetingEventModel {
+    const res: CalendarMeetingEventModel = {
+      allDay: false,
+      endTime: new Date(event.endTime),
+      meetingId: event.meetingId,
+      startTime: new Date(event.startTime),
+      student: event.student,
+      subject: event.subject,
+      title: `${event.subject.name} - ${event.tutor.fullName}`,
+      tutor: event.tutor
+    };
+    return res;
+  }
+
+  private setMeetingTitleForParent(event: CalendarMeetingEventModel): CalendarMeetingEventModel {
+    const res: CalendarMeetingEventModel = {
+      allDay: false,
+      endTime: new Date(event.endTime),
+      meetingId: event.meetingId,
+      startTime: new Date(event.startTime),
+      student: event.student,
+      subject: event.subject,
+      title: `${event.subject.name} - ${event.tutor.fullName} | ${event.student.fullName}`,
+      tutor: event.tutor
+    };
+    return res;
+  }
+
+  private setMeetingTitleForTutor(event: CalendarMeetingEventModel): CalendarMeetingEventModel {
+    const res: CalendarMeetingEventModel = {
+      allDay: false,
+      endTime: new Date(event.endTime),
+      meetingId: event.meetingId,
+      startTime: new Date(event.startTime),
+      student: event.student,
+      subject: event.subject,
+      title: `${event.subject.name} - ${event.student.fullName}`,
+      tutor: event.tutor
+    };
+    return res;
   }
 
   onCurrentDateChanged(event) {

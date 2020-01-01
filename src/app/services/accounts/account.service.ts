@@ -117,6 +117,15 @@ export class AccountService {
     return false;
   }
 
+  async getRolesForUser(): Promise<RoleTypes[]> {
+    await this.updateUserVariable();
+    if (this.user !== null && this.user !== undefined) {
+      const roles = this.user.roles;
+      return roles;
+    }
+    return [];
+  }
+
   async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {
       const requestUrl = `${this.apiBaseUrl}/api/accounts/forgot-password`;
       const response = await this.http.post(requestUrl,
