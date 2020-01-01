@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/scheduled-meetings.component";
 
 @Component({
   selector: 'app-parents-home',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ParentsHomeComponent implements OnInit {
 
+  @ViewChild(ScheduledMeetingsComponent, {static: true}) meetingsCompontent: ScheduledMeetingsComponent;
   constructor() { }
+
+  ionViewDidEnter() {
+    if (this.meetingsCompontent !== undefined) {
+      this.meetingsCompontent.getMeetings();
+    }
+  }
 
   ngOnInit() {}
 

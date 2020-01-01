@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingStudentRequest} from "../../models/meeting-student-request";
 import {MeetingSummary} from "../../models/meeting-summary";
 import {MeetingStatusEnum} from "../../enums/meeting-status.enum";
+import {CalendarMeetingEventModel} from "../../models/calendar-meeting-event-model";
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +22,9 @@ export class MeetingService {
   async getMeetingSummary(meetingId: number): Promise<MeetingSummary> {
     return this.http.get<MeetingSummary>(`${environment.apiBaseUrl}/api/meetings/${meetingId}/summary`).toPromise();
   }
+
+   async getMeetingsForCalendar() {
+    return this.http.get<CalendarMeetingEventModel[]>(`${environment.apiBaseUrl}/api/meetings/calendar`).toPromise();
+    }
 }
+

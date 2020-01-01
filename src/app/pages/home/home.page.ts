@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {AccountService} from "../../services/accounts/account.service";
 import {RoleTypes} from "../../enums/role-types.enum";
+import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/scheduled-meetings.component";
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ import {RoleTypes} from "../../enums/role-types.enum";
 export class HomePage implements OnInit {
 
   isLoading = true;
+  isStudent = false;
+  @ViewChild(ScheduledMeetingsComponent, {static: true}) meetingsCompontent: ScheduledMeetingsComponent;
 
   constructor(
       public router: Router,
@@ -19,6 +22,10 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     this.reroute();
+    this.checkIfUserIsStudent();
+    if (this.meetingsCompontent !== undefined) {
+      this.meetingsCompontent.getMeetings();
+    }
   }
 
   ngOnInit() {
@@ -42,6 +49,10 @@ export class HomePage implements OnInit {
     }
 
     this.isLoading = false;
+  }
+
+  private async checkIfUserIsStudent() {
+    this.isStudent = await this.accountService.checkIfUserHasRole(RoleTypes.Student);
   }
 
 }
