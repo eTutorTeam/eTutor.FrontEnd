@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {AccountService} from "../../services/accounts/account.service";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/scheduled-meetings.component";
+import {MeetingService} from "../../services/data/meeting.service";
 
 @Component({
   selector: 'app-home',
@@ -17,15 +18,14 @@ export class HomePage implements OnInit {
 
   constructor(
       public router: Router,
-      private accountService: AccountService
+      private accountService: AccountService,
+      private meetingService: MeetingService
   ) {}
 
   ionViewWillEnter() {
     this.reroute();
     this.checkIfUserIsStudent();
-    if (this.meetingsCompontent !== undefined) {
-      this.meetingsCompontent.getMeetings();
-    }
+    this.meetingService.getMeetingsForCalendar();
   }
 
   ngOnInit() {

@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {ModalController} from "@ionic/angular";
 import {TutorMeetingDetailComponent} from "../tutor-meeting-detail/tutor-meeting-detail.component";
 import {ScheduledMeetingsComponent} from "../../../components/scheduled-meetings/scheduled-meetings.component";
+import {MeetingService} from "../../../services/data/meeting.service";
 
 @Component({
     selector: 'app-tutor-home',
@@ -15,13 +16,12 @@ export class TutorHomeComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private modalCtrl: ModalController
+        private modalCtrl: ModalController,
+        private meetingService: MeetingService
     ) { }
 
     ionViewDidEnter() {
-        if (this.meetingsCompontent !== undefined) {
-            this.meetingsCompontent.getMeetings();
-        }
+        this.meetingService.getMeetingsForCalendar();
     }
 
     ngOnInit() {}
