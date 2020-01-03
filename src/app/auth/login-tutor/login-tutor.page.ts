@@ -48,9 +48,6 @@ export class LoginTutorPage implements OnInit {
       console.log(err, 'ERROR VAR');
       this.toastNotificationService.presentErrorToast(err);
       this.loading.dismiss();
-      this.fcmService.getToken()
-          .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
-          .catch(error => console.log(error));
     });
   }
 
@@ -87,6 +84,9 @@ export class LoginTutorPage implements OnInit {
     this.accountService.reloadUserInfo().then(async (res) => {
       if (logged) {
         await this.goHome();
+        this.fcmService.getToken()
+            .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
+            .catch(err => this.toastNotificationService.presentErrorToast(err));
       }
     }).catch(async (err) => {
       await this.accountService.logoutUser();

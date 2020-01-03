@@ -10,7 +10,7 @@ import {ToastNotificationService} from "../toast-notification.service";
 import {NotificationTypesEnum} from "../../enums/notification-types.enum";
 import {AlertServiceService} from "../alert-service.service";
 import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
-import {not} from "rxjs/internal-compatibility";
+import {MeetingService} from "../data/meeting.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,8 @@ export class PushNotificationService {
       private alertService: AlertServiceService,
       private accountService: AccountService,
       private toastNotificationService: ToastNotificationService,
-      private modalPagesService: ModalPagesService
+      private modalPagesService: ModalPagesService,
+      private meetingsService: MeetingService
   ) {}
 
   public listenWhenUserTapsNotification() {
@@ -69,6 +70,12 @@ export class PushNotificationService {
       case NotificationTypesEnum.AnsweredRejectedMeeting:
         await this.answerToMeetingRejected(notification);
         break;
+      case NotificationTypesEnum.AnsweredMeeting:
+        await this.answerToMeetingAccepted(notification);
+        break;
+      case NotificationTypesEnum.CanceledMeeting:
+        await this.canceledMeeting(notification);
+        break;
       default:
         await this.presentNotificationToast(notification);
     }
@@ -94,12 +101,17 @@ export class PushNotificationService {
     if (notification.hasOwnProperty('parentMeetingId')) {
       return NotificationTypesEnum.ParentMeeting;
     }
+
+    if (notification.hasOwnProperty('canceledMeeting')) {
+      return NotificationTypesEnum.CanceledMeeting;
+    }
+
   }
 
   private async meetingSolicitedParentNotification(notification: any) {
     if (this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
       const meetingId = notification.parentMeetingId;
-      await this.modalPagesService.openModal(ParentApproveMeetingModalComponent, {meetingId});
+      await this.modalPagesService.openModal(ParentApproveMeetingModalComponent, {meetingId, loading: false});
     }
   }
 
@@ -122,8 +134,22 @@ export class PushNotificationService {
     }
   }
 
+  private async answerToMeetingAccepted(notification: any) {
+    await this.updateCalendarOnNotification(notification);
+  }
+
+  private async canceledMeeting(notification: any) {
+    await this.updateCalendarOnNotification(notification);
+  }
+
+  private async updateCalendarOnNotification(notification: any) {
+    await this.meetingsService.getMeetingsForCalendar();
+    await this.presentNotificationToast(notification);
+  }
+
   private async presentNotificationToast(notification: any) {
     await this.toastNotificationService.presentToast(notification.title, notification.body);
   }
+
 
 }

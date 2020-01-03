@@ -9,4 +9,5 @@ export interface StudentUserViewModel {
     age: number;
     fullName: string;
     ratings: number;
+    aboutMe: string;
 }

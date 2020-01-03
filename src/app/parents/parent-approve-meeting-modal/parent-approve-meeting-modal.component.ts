@@ -17,6 +17,7 @@ import {ParentMeetingAnswer} from "../../models/parent-meeting-answer";
 export class ParentApproveMeetingModalComponent implements OnInit {
 
   @Input() meetingId: number;
+  @Input() loading = true;
   meeting: ParentMeetingResponse;
 
   constructor(
@@ -53,16 +54,16 @@ export class ParentApproveMeetingModalComponent implements OnInit {
 
   getMeeting() {
     this.getMeetingRequest().catch(err => {
-      this.loadingService.stopLoading();
+      this.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
       this.closeModal();
     });
   }
 
   private async getMeetingRequest() {
-    await this.loadingService.startLoading('Buscando datos de la tutoría solicitada');
+    await this.startLoading();
     this.meeting = await this.parentMeetingService.getMeetingSummary(this.meetingId);
-    this.loadingService.stopLoading();
+    this.stopLoading();
   }
 
   reject() {
@@ -106,6 +107,18 @@ export class ParentApproveMeetingModalComponent implements OnInit {
   async close() {
     const confirmed = await this.alertService.confirmationAlert('¿Está seguro que desea salir de esta pantalla?', 'Si', 'No');
     if (confirmed) {this.closeModal(); }
+  }
+
+  private async startLoading() {
+    if (this.loading) {
+      await this.loadingService.startLoading('Buscando datos de la tutoría solicitada');
+    }
+  }
+
+  private stopLoading() {
+    if (this.loading) {
+      this.loadingService.stopLoading();
+    }
   }
 
 }

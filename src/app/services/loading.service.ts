@@ -13,14 +13,16 @@ export class LoadingService {
   ) { }
 
   async startLoading(msg: string = 'Cargando') {
+    this.stopLoading();
     this.loader = await this.loadingController.create({
       message: msg,
     });
-
     this.loader.present();
   }
 
   stopLoading() {
-    this.loader.dismiss();
+    if (this.loader !== undefined) {
+      this.loader.dismiss();
+    }
   }
 }
