@@ -5,7 +5,9 @@
     </ion-avatar>
     <ion-label>
       <h2>{{tutor.fullName}}</h2>
-      <p style="color: red">[Pending Tutor Ratings In Stars]</p>
+      <p>
+        <app-stars-ratings [ratings]="tutor.ratings"></app-stars-ratings>
+      </p>
     </ion-label>
   </ion-item>
 </ion-list>

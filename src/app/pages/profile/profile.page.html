@@ -10,9 +10,9 @@
     </ion-avatar>
   </ion-item>
   <ion-item lines="none">
-    <ion-buttons class="rating">
-      <ion-icon *ngFor="let i of stars" [name]="i" color="warning" class="star-button"></ion-icon>
-    </ion-buttons>
+    <div class="rating">
+      <app-stars-ratings [ratings]="ratingSummary"></app-stars-ratings>
+    </div>
   </ion-item>
   <ion-item>
     <ion-label class="ion-text-center" *ngIf="profile !== undefined"> {{profile.fullName}} </ion-label>
