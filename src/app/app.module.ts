@@ -19,6 +19,8 @@ import {Camera} from '@ionic-native/camera/ngx';
 import {ImageHandlingService} from "./services/image-handling.service";
 import {NgxMaskModule} from "ngx-mask";
 import {AvatarModule} from "ngx-avatar";
+import { GoogleMaps } from '@ionic-native/google-maps';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,6 +50,7 @@ import {AvatarModule} from "ngx-avatar";
     },
     ImageHandlingService,
     Camera,
+    GoogleMaps,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FirebaseX,
 

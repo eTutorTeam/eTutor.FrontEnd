@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,6 +14,9 @@ export class ParentsHomeComponent implements OnInit {
 
   meetingSelected(meetingId: number) {
 
+
+
   }
+
 
 }
