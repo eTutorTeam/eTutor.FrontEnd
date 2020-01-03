@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {CalendarComponent} from "ionic2-calendar/calendar";
 import {Router} from "@angular/router";
 import {PopoverController} from "@ionic/angular";
@@ -11,6 +11,7 @@ import {StudentsService} from "../../services/data/students.service";
 import {MeetingService} from "../../services/data/meeting.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastNotificationService} from "../../services/toast-notification.service";
+import {Subscription} from "rxjs";
 
 const {Modals} = Plugins;
 
@@ -19,13 +20,14 @@ const {Modals} = Plugins;
   templateUrl: './scheduled-meetings.component.html',
   styleUrls: ['./scheduled-meetings.component.scss'],
 })
-export class ScheduledMeetingsComponent implements OnInit {
+export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
 
   @ViewChild(CalendarComponent, {static: true}) myCal: CalendarComponent;
   @Input() Title = 'Tutorías Agendadas';
   @Output() MeetingSelected = new EventEmitter<number>();
 
   eventSource: CalendarMeetingEventModel[] = [];
+  subscriptions: Subscription[] = [];
 
   calendar = {
     mode: 'month',
@@ -50,25 +52,38 @@ export class ScheduledMeetingsComponent implements OnInit {
 
   getMeetings() {
     this.getMeetingsRequest().catch(err => {
-      this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
+    this.subscribeToMeetings();
+  }
+
+  subscribeToMeetings() {
+   const sub = this.meetingService.calendarMeetings.subscribe(async (meetings) => {
+      await this.processMeetingsForCalendar(meetings);
+    }, error1 => {
+      this.toastNotificationService.presentErrorToast(error1);
+    });
+
+   this.subscriptions.push(sub);
   }
 
   private async getMeetingsRequest() {
-    const events = await this.meetingService.getMeetingsForCalendar();
+    await this.meetingService.getMeetingsForCalendar();
+  }
+
+  private async processMeetingsForCalendar(meetings: CalendarMeetingEventModel[]) {
     const roles = await this.accountService.getRolesForUser();
     const role = roles[0];
 
     switch (role) {
       case RoleTypes.Parent:
-        this.eventSource = events.map(m => this.setMeetingTitleForParent(m));
+        this.eventSource = meetings.map(m => this.setMeetingTitleForParent(m));
         break;
       case RoleTypes.Tutor:
-        this.eventSource = events.map(m => this.setMeetingTitleForTutor(m));
+        this.eventSource = meetings.map(m => this.setMeetingTitleForTutor(m));
         break;
       default:
-        this.eventSource = events.map(m => this.setMeetingsTitleForStudent(m));
+        this.eventSource = meetings.map(m => this.setMeetingsTitleForStudent(m));
     }
     this.myCal.loadEvents();
   }
@@ -131,8 +146,10 @@ export class ScheduledMeetingsComponent implements OnInit {
 
   }
 
-  doRefresh(event) {
-
+  ngOnDestroy(): void {
+    for (const sub of this.subscriptions) {
+      sub.unsubscribe();
+    }
   }
 
 }
