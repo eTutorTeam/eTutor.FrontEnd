@@ -1,5 +1,6 @@
 export interface MeetingSummary {
     meetingId: number;
+    studentId: number;
     studentName: string;
     studentImg: string;
     subjectName: string;
@@ -9,4 +10,5 @@ export interface MeetingSummary {
     locationSummary: string;
     longitude: number;
     latitude: number;
+    studentRatings: number;
 }

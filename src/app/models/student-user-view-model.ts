@@ -8,4 +8,5 @@ export interface StudentUserViewModel {
     profileImageUrl: string;
     age: number;
     fullName: string;
+    ratings: number;
 }
