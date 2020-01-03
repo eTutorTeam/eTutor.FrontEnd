@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
   profile: UserProfileResponse;
   pageTitle = 'Perfil de usuario';
   loading: HTMLIonLoadingElement;
-  ratingSummary = 3.5;
+  ratingSummary = 0;
   formAboutMeField = '';
 
   constructor(
@@ -35,27 +35,6 @@ export class ProfilePage implements OnInit {
       await this.stopLoading();
       await this.toastNotificationService.presentErrorToast(err);
     });
-  }
-
-  get stars(): string[] {
-    const arr: string[] = [];
-    let rat = this.ratingSummary;
-    for (let i = 1; i <= 5; i++) {
-      if (rat === 0.5) {
-        rat--;
-        arr.push('star-half');
-        continue;
-      }
-
-      if (rat <= 0) {
-        arr.push('star-outline');
-        continue;
-      }
-
-      arr.push('star');
-      rat--;
-    }
-    return arr;
   }
 
   get validated(): boolean {
@@ -95,6 +74,7 @@ export class ProfilePage implements OnInit {
   private async getData() {
     await this.startLoading('Cargando datos');
     this.profile = await this.userService.getUserProfile();
+    this.ratingSummary = this.profile.ratings;
     this.updateAboutField();
     await this.updatePageTitle();
     await this.stopLoading();

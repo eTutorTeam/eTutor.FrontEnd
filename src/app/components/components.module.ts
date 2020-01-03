@@ -13,6 +13,7 @@ import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting
 import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 import {AvatarModule} from "ngx-avatar";
 import {StudentTutorsListComponent} from "../students/student-tutors-list/student-tutors-list.component";
+import {StarsRatingsComponent} from "./stars-ratings/stars-ratings.component";
 
 
 const components = [
@@ -25,6 +26,7 @@ const components = [
     TutorAcceptMeetingComponent,
     ParentApproveMeetingModalComponent,
     StudentTutorsListComponent,
+    StarsRatingsComponent
 ];
 
 @NgModule({

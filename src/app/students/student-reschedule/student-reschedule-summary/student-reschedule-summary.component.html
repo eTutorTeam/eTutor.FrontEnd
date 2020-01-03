@@ -15,6 +15,9 @@
           </ion-avatar>
         </div>
         <h3>{{newTutor.fullName}}</h3>
+        <div class="rating">
+          <app-stars-ratings [ratings]="newTutor.ratings"></app-stars-ratings>
+        </div>
         <h2>{{meeting.subjectName}}</h2>
         <ion-list>
           <ion-item>

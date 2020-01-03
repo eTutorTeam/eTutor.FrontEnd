@@ -6,4 +6,5 @@ export interface TutorSimpleResponse {
     gender: number;
     fullName: string;
     profileImageUrl: string;
+    ratings: number;
 }
