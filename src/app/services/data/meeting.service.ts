@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {MeetingStudentRequest} from "../../models/meeting-student-request";
 import {MeetingSummary} from "../../models/meeting-summary";
 import {MeetingStatusEnum} from "../../enums/meeting-status.enum";
+import { MeetingResponse } from 'src/app/models/meeting-response';
 import {CalendarMeetingEventModel} from "../../models/calendar-meeting-event-model";
 import {BehaviorSubject} from "rxjs";
 
@@ -17,7 +18,6 @@ export class MeetingService {
     constructor(
         private http: HttpClient
     ) { }
-
     async createMeeting(meeting: MeetingStudentRequest) {
         return this.http.post(`${environment.apiBaseUrl}/api/meetings`, meeting).toPromise();
     }

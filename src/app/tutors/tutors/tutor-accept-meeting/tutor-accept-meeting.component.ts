@@ -8,7 +8,9 @@ import {ToastNotificationService} from "../../../services/toast-notification.ser
 import {AlertServiceService} from "../../../services/alert-service.service";
 import {MeetingStatusEnum} from "../../../enums/meeting-status.enum";
 import {ModalPagesService} from "../../../services/modal-pages.service";
+import { LocalNotificationService } from 'src/app/services/local-notification.service';
 import {TutorMeetingService} from "../../../services/data/tutor-meeting.service";
+import { MeetingResponse } from 'src/app/models/meeting-response';
 
 @Component({
   selector: 'app-tutor-accept-meeting',
@@ -27,7 +29,8 @@ export class TutorAcceptMeetingComponent implements OnInit {
       private modalPagesService: ModalPagesService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
-      private alertService: AlertServiceService
+      private alertService: AlertServiceService,
+      private localNotificationService: LocalNotificationService
   ) { }
 
   get formatedDate(): string {
@@ -90,6 +93,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   private async sendAcceptMeetingRequest() {
     await this.loadingService.startLoading('Aceptando tutoría');
+    await this.localNotificationService.scheduleNotification(this.meetingSummary.subjectName, this.meetingSummary.startTime)
     await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
     this.modalPagesService.closeModal();

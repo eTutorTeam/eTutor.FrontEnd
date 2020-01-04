@@ -11,12 +11,17 @@ import {NotificationTypesEnum} from "../../enums/notification-types.enum";
 import {AlertServiceService} from "../alert-service.service";
 import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 import {MeetingService} from "../data/meeting.service";
+import { LocalNotificationService } from '../local-notification.service';
+import { MeetingResponse } from 'src/app/models/meeting-response';
+import { MeetingSummary } from 'src/app/models/meeting-summary';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PushNotificationService {
+
+  meetingSummary: MeetingSummary;
 
   constructor(
       private firebase: FirebaseX,
@@ -26,7 +31,8 @@ export class PushNotificationService {
       private accountService: AccountService,
       private toastNotificationService: ToastNotificationService,
       private modalPagesService: ModalPagesService,
-      private meetingsService: MeetingService
+      private meetingsService: MeetingService,
+      private localNotificationService: LocalNotificationService
   ) {}
 
   public listenWhenUserTapsNotification() {
@@ -56,7 +62,6 @@ export class PushNotificationService {
 
   private async handleNotificationSharedBehavior(notification: any) {
     const notificationType = this.getNotificationType(notification);
-
     switch (notificationType) {
       case NotificationTypesEnum.NewSolicitedMeeting:
         await this.meetingNotification(notification.newSolicitedMeetingId);
@@ -135,6 +140,8 @@ export class PushNotificationService {
   }
 
   private async answerToMeetingAccepted(notification: any) {
+    await this.getMeetingDetails(notification.answeredMeetingId);
+    await this.scheduleLocalNotification(this.meetingSummary);
     await this.updateCalendarOnNotification(notification);
   }
 
@@ -149,6 +156,12 @@ export class PushNotificationService {
 
   private async presentNotificationToast(notification: any) {
     await this.toastNotificationService.presentToast(notification.title, notification.body);
+  }
+  private async getMeetingDetails(meetingId: number){
+    this.meetingSummary = await this.meetingsService.getMeetingSummary(meetingId);
+  }
+  private async scheduleLocalNotification(meetingSummary: MeetingSummary){
+    this.localNotificationService.scheduleNotification(this.meetingSummary.subjectName,  this.meetingSummary.startTime)
   }
 
 
