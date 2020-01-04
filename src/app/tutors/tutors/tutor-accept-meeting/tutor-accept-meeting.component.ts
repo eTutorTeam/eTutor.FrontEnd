@@ -59,7 +59,6 @@ export class TutorAcceptMeetingComponent implements OnInit {
   private async getMeetingSummary(meetingId: number) {
     await this.loadingService.startLoading();
     this.meetingSummary = await this.meetingService.getMeetingSummary(meetingId);
-    this.meetingDetails = await this.meetingService.getMeetingDetails(meetingId);
     this.loadingService.stopLoading();
   }
 
@@ -95,7 +94,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   private async sendAcceptMeetingRequest() {
     await this.loadingService.startLoading('Aceptando tutoría');
-    await this.localNotificationService.scheduleNotification(this.meetingDetails.subjectName, this.meetingDetails.tutorName, this.meetingDetails.startDateTime)
+    await this.localNotificationService.scheduleNotification(this.meetingDetails.subjectName, this.meetingDetails.startDateTime)
     await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
     this.modalPagesService.closeModal();

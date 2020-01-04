@@ -18,9 +18,6 @@ export class MeetingService {
     constructor(
         private http: HttpClient
     ) { }
-  async getMeetingDetails(meetingId: number): Promise<MeetingResponse>{
-    return this.http.get<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/${meetingId}`).toPromise();
-  }
     async createMeeting(meeting: MeetingStudentRequest) {
         return this.http.post(`${environment.apiBaseUrl}/api/meetings`, meeting).toPromise();
     }

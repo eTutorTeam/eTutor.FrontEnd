@@ -9,12 +9,12 @@ export class LocalNotificationService {
 
   constructor(private localNotifications: LocalNotifications) { }
 
-  scheduleNotification(subject: string, tutor: string, startTime: Date){
+  scheduleNotification(subject: string, startTime: Date){
     var start = new Date(startTime);
     this.localNotifications.schedule({
       id: new Date().getUTCMilliseconds(),
       title: `Recordatorio: Tutoría de ${subject}`,
-      text: `Su tutoria de ${subject} pautada para las ${moment(start).format('h:mm')} con el tutor ${tutor} iniciara en 1 hora`,
+      text: `Su tutoria de ${subject} pautada para las ${moment(start).format('h:mm')} iniciara en 1 hora`,
       trigger: {at: new Date(start.getHours())}
     });
   }
