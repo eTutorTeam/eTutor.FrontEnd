@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import {LocalNotifications, ELocalNotificationTriggerUnit} from '@ionic-native/local-notifications/ngx';
 import * as moment from 'moment';
-import { AlertController, Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalNotificationService {
 
-  constructor(private localNotifications: LocalNotifications, private alertCtrl: AlertController) { }
+  constructor(private localNotifications: LocalNotifications) { }
 
-  scheduleNotification(subject, tutor, startTime){
+  scheduleNotification(subject: string, tutor: string, startTime: Date){
     var start = new Date(startTime);
     this.localNotifications.schedule({
       id: new Date().getUTCMilliseconds(),

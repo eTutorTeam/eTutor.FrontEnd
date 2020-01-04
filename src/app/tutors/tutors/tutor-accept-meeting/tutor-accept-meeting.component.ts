@@ -9,8 +9,8 @@ import {AlertServiceService} from "../../../services/alert-service.service";
 import {MeetingStatusEnum} from "../../../enums/meeting-status.enum";
 import {ModalPagesService} from "../../../services/modal-pages.service";
 import { LocalNotificationService } from 'src/app/services/local-notification.service';
-import { Meeting } from 'src/app/models/meeting-model';
 import {TutorMeetingService} from "../../../services/data/tutor-meeting.service";
+import { MeetingResponse } from 'src/app/models/meeting-response';
 
 @Component({
   selector: 'app-tutor-accept-meeting',
@@ -21,7 +21,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   @Input() meetingId: number;
   meetingSummary: MeetingSummary;
-  meetingDetails: Meeting;
+  meetingDetails: MeetingResponse;
 
   constructor(
       private modalCtrl: ModalController,
@@ -54,12 +54,12 @@ export class TutorAcceptMeetingComponent implements OnInit {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
-    this.getMeetingDetails(this.meetingId);
   }
 
   private async getMeetingSummary(meetingId: number) {
     await this.loadingService.startLoading();
     this.meetingSummary = await this.meetingService.getMeetingSummary(meetingId);
+    this.meetingDetails = await this.meetingService.getMeetingDetails(meetingId);
     this.loadingService.stopLoading();
   }
 
@@ -92,13 +92,9 @@ export class TutorAcceptMeetingComponent implements OnInit {
       this.loadingService.stopLoading();
     });
   }
-  private async getMeetingDetails(meetingId: number){
-    this.meetingDetails = await this.meetingService.getMeeting(meetingId);
-  }
 
   private async sendAcceptMeetingRequest() {
     await this.loadingService.startLoading('Aceptando tutoría');
-    await this.meetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.localNotificationService.scheduleNotification(this.meetingDetails.subjectName, this.meetingDetails.tutorName, this.meetingDetails.startDateTime)
     await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
