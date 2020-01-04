@@ -21,7 +21,6 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   @Input() meetingId: number;
   meetingSummary: MeetingSummary;
-  meetingDetails: MeetingResponse;
 
   constructor(
       private modalCtrl: ModalController,
@@ -94,7 +93,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   private async sendAcceptMeetingRequest() {
     await this.loadingService.startLoading('Aceptando tutoría');
-    await this.localNotificationService.scheduleNotification(this.meetingDetails.subjectName, this.meetingDetails.startDateTime)
+    await this.localNotificationService.scheduleNotification(this.meetingSummary.subjectName, this.meetingSummary.startTime)
     await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
     this.modalPagesService.closeModal();
