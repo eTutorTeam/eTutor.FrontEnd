@@ -98,8 +98,8 @@ export class StudentMeetingSummaryPage implements OnInit {
     const meetingObj = this.schedulingService.getMeetingObject();
     this.tutorId = meetingObj.tutorId;
     this.subjectId = meetingObj.subjectId;
-    this.startDateTime = meetingObj.startDateTime;
-    this.endDateTime = meetingObj.endDateTime;
+    this.startDateTime = new Date(meetingObj.startDateTime);
+    this.endDateTime = new Date(meetingObj.endDateTime);
   }
 
   private async getSubject() {

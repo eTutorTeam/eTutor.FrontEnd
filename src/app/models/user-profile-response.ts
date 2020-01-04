@@ -17,4 +17,5 @@ export interface UserProfileResponse {
     fullName: string;
     aboutMe: string;
     userName: string;
+    ratings: number;
 }

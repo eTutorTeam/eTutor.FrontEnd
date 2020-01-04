@@ -23,6 +23,7 @@ interface UserResponse {
     twoFactorEnabled: boolean;
     lockoutEnabled: boolean;
     accessFailedCount: number;
+    ratings: number;
 }
 
 interface ParentStudent {

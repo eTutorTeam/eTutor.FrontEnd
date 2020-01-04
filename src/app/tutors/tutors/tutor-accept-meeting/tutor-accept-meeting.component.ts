@@ -99,6 +99,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
     await this.tutorMeetingService.tutorSendMeetingResponse(this.meetingId, MeetingStatusEnum.Accepted);
     await this.toastNotificationService.presentToast('Exito!', 'La tutoría ha sido aceptada y agendada');
     this.modalPagesService.closeModal();
+    await this.meetingService.getMeetingsForCalendar();
     this.loadingService.stopLoading();
   }
 
