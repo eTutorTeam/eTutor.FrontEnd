@@ -14,7 +14,6 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  // { path: 'login-tutor', loadChildren: './pages/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'login-tutor', loadChildren: './auth/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'register-tutor', loadChildren: './auth/register-tutor/register-tutor.module#RegisterTutorPageModule' },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' , canActivate: [AuthGuard]},
@@ -30,14 +29,25 @@ const routes: Routes = [
   },
   {
     path: 'students',
-    children: [
-      {
-        path: 'schedule',
-        loadChildren: './students/student-schedule/student-schedule.module#StudentSchedulePageModule'
-      }
-    ],
+    loadChildren: './students/student.module#StudentPageModule',
     data: {
       roles: [RoleTypes.Student]
+    },
+    canActivate: [RoleAuthGuard]
+  },
+  {
+    path: 'tutors',
+    loadChildren: './tutors/tutors/tutors.module#TutorsPageModule',
+    data: {
+      roles: [RoleTypes.Tutor]
+    },
+    canActivate: [RoleAuthGuard]
+  },
+  {
+    path: 'parents',
+    loadChildren: './parents/parents.module#ParentsPageModule',
+    data: {
+      roles: [RoleTypes.Parent]
     },
     canActivate: [RoleAuthGuard]
   }

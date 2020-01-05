@@ -4,7 +4,6 @@ export interface StudentMeeting {
     tutorId: number;
     tutorName: string;
     tutorImage: string;
-    tutorContact: string;
     subjectId: number;
     subjectName: string;
     startDateTime: string;

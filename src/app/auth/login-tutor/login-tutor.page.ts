@@ -8,8 +8,8 @@ import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
 import { MenuComponent } from 'src/app/components/menu/menu.component';
 import {ToastNotificationService} from "../../services/toast-notification.service";
-import {FcmService} from "../../services/fcm.service";
-import {PushNotificationService} from "../../services/push-notification.service";
+import {FcmService} from "../../services/notifications/fcm.service";
+import {PushNotificationService} from "../../services/notifications/push-notification.service";
 
 
 // ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
@@ -27,15 +27,15 @@ export class LoginTutorPage implements OnInit {
   user: UserTokenResponse;
   loading: HTMLIonLoadingElement;
   constructor(
-    private router: Router,
-    private menuCtrl: MenuController,
-    private alertCtrl: AlertController,
-    private loadingCtrl: LoadingController,
-    private accountService: AccountService,
-    private toastNotificationService: ToastNotificationService,
-    private fb: FormBuilder,
-    private fcmService: FcmService,
-    private notificationService: PushNotificationService
+      private router: Router,
+      private menuCtrl: MenuController,
+      private alertCtrl: AlertController,
+      private loadingCtrl: LoadingController,
+      private accountService: AccountService,
+      private toastNotificationService: ToastNotificationService,
+      private fb: FormBuilder,
+      private fcmService: FcmService,
+      private notificationService: PushNotificationService
   ) { }
 
   ngOnInit() {
@@ -50,10 +50,8 @@ export class LoginTutorPage implements OnInit {
       this.loading.dismiss();
       this.fcmService.getToken()
           .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
-          .catch(err => this.toastNotificationService.presentErrorToast(err));
+          .catch(error => console.log(error));
     });
-
-
   }
 
   get email() { return this.userForm.get('email'); }
@@ -86,11 +84,14 @@ export class LoginTutorPage implements OnInit {
 
   private async checkIfUserIsLoggedIn() {
     const logged = await this.accountService.isUserLoggedIn();
-    if (logged) {
-      this.goHome();
-    }
+    this.accountService.reloadUserInfo().then(async (res) => {
+      if (logged) {
+        await this.goHome();
+      }
+    }).catch(async (err) => {
+      await this.accountService.logoutUser();
+    });
   }
-
 
   private async createLoading(msg: string = '', spin: LoadingOptions['spinner'] = 'lines') {
     this.loading = await this.loadingCtrl.create({
@@ -107,9 +108,9 @@ export class LoginTutorPage implements OnInit {
       message,
       buttons: [
         {
-            text: 'Ok',
-            handler: (blah) => {
-              console.log('Botón OK');
+          text: 'Ok',
+          handler: (blah) => {
+            console.log('Botón OK');
           }
         }
       ]
@@ -118,9 +119,9 @@ export class LoginTutorPage implements OnInit {
     await alert.present();
   }
 
-  goHome() {
-    this.router.navigate(['home']);
-    this.menuCtrl.enable(true);
+  private async goHome() {
+    await this.router.navigate(['home']);
+    await this.menuCtrl.enable(true);
   }
 
   forgotPassword() {

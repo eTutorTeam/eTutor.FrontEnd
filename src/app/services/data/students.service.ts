@@ -15,10 +15,12 @@ export class StudentsService {
   ) { }
 
   getActiveMeetings() {
-    return this.httpClient.get<StudentMeeting[]>(`${this.apiBaseUrl}/api/meetings/all`);
+    return this.httpClient.get<StudentMeeting[]>(`${this.apiBaseUrl}/api/meetings/student-meetings`);
+   // return this.httpClient.get<StudentMeeting[]>(`${this.apiBaseUrl}/api/meetings/all`);
   }
   async cacelmeetings(meetingId: number){
 
 
   }
 }
+

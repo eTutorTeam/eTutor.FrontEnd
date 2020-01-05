@@ -3,5 +3,10 @@
         "icon": "star",
         "name": "Mis estudiantes",
         "redirectTo": "/student-manager"
+    },
+    {
+        "icon": "briefcase",
+        "name": "Tutorias Sin Aprobar",
+        "redirectTo": "/parents/pending"
     }
 ]

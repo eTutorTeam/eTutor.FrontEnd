@@ -1,6 +1,7 @@
 
 <app-header></app-header>
 <ion-content>
+<<<<<<< HEAD
   <ion-item> 
     <ion-label color="secondary" class="title"> Tutorías Agendadas </ion-label>
   </ion-item>
@@ -20,4 +21,7 @@
   (onTitleChanged)="onViewTitleChanged($event)"
   (onTimeSelected)="onTimeSelected($event)"
   ></calendar>
+=======
+  <app-scheduled-meetings *ngIf="!isLoading"></app-scheduled-meetings>
+>>>>>>> 8927f3dbd37d62e41c8ada310793dc9801bd2cc8
 </ion-content>

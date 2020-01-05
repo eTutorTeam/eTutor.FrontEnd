@@ -117,8 +117,9 @@ export class HomePage implements OnInit {
         {text:'Contactar tutor',
         cssClass:'call',
         handler: () => {
-          console.log(event.contact);
-          this.calltutor(event.contact);}
+         // console.log(event.contact);
+          //this.calltutor(event.contact);
+        }
         },
 
         {text:'Cancelar tutoria',
@@ -162,7 +163,7 @@ export class HomePage implements OnInit {
       .then(res => console.log('Launched dialer!', res))
       .catch(err => console.log('Error launching dialer', err));
   }
-  async cancelmeetingmwarnig(idt){
+  async cancelmeetingmwarnig(idm){
     const alert = await this.alertController.create({
       header: 'CANCELAR TUTORIA',
       subHeader: 'Estas seguro?',
@@ -173,8 +174,8 @@ export class HomePage implements OnInit {
                   cssClass:'secundary',
                   handler: () =>  
                   {
-                    console.log(idt);
-                    this.cancelmeeting(idt);
+                    console.log(idm);
+                    this.cancelmeeting(idm);
                   }    
                 },
                 {
@@ -188,7 +189,7 @@ export class HomePage implements OnInit {
 
 
   }
-  cancelmeeting(idt){
-   this.studentService.cacelmeetings(idt);
+  cancelmeeting(idm){
+   this.studentService.cacelmeetings(idm);
   }
 }

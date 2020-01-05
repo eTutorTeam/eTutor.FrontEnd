@@ -22,8 +22,7 @@ registerLocaleData(localeZh);
         path: '',
         component: HomePage
       }
-    ]),
-    NgCalendarModule
+    ])
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es-DO' }

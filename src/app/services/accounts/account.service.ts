@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
-import {FcmService} from "../fcm.service";
-import { PushNotificationService } from '../push-notification.service';
+import {FcmService} from "../notifications/fcm.service";
+import { PushNotificationService } from '../notifications/push-notification.service';
 import { BehaviorSubject } from 'rxjs';
 import {RoleTypes} from "../../enums/role-types.enum";
 import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
@@ -38,11 +38,16 @@ export class AccountService {
     await this.saveToken(response);
     return response;
   }
-  async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
+  async registerUser(registerRequest: RegisterRequest, userType: string) {
     const requestUrl = `${this.apiBaseUrl}/api/accounts/register-${userType}`;
     const response = await this.http.post<UserTokenResponse>(requestUrl,
         registerRequest).toPromise();
-    return this.saveToken(response);
+  }
+
+  async reloadUserInfo(): Promise<UserTokenResponse> {
+    const response = await this.http.get<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/updated-info-token`).toPromise();
+    await this.saveToken(response);
+    return response;
   }
 
   async saveToken(response): Promise<UserTokenResponse> {

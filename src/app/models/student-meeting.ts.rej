@@ -1,0 +1,9 @@
+diff a/src/app/models/student-meeting.ts b/src/app/models/student-meeting.ts	(rejected hunks)
+@@ -4,6 +4,7 @@
+     tutorId: number;
+     tutorName: string;
+     tutorImage: string;
++    tutorContact: string;
+     subjectId: number;
+     subjectName: string;
+     startDateTime: string;
