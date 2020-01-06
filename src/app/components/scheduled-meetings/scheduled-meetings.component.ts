@@ -67,6 +67,16 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
    this.subscriptions.push(sub);
   }
 
+  refresh() {
+    this.loadingService.startLoading();
+    this.getMeetingsRequest().then(res => {
+      this.loadingService.stopLoading();
+    }).catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+    });
+  }
+
   private async getMeetingsRequest() {
     await this.meetingService.getMeetingsForCalendar();
   }
