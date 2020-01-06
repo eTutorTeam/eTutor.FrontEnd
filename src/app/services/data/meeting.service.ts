@@ -35,5 +35,9 @@ export class MeetingService {
     async getMeetingsHistory(): Promise<HistoryMeetingResponse[]> {
         return this.http.get<HistoryMeetingResponse[]>(`${environment.apiBaseUrl}/api/meetings/history`).toPromise();
     }
+
+    async cancelMeeting(meetingId: number): Promise<MeetingResponse> {
+        return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`, {}).toPromise();
+    }
 }
 

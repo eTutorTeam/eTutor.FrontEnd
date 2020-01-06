@@ -1,0 +1,45 @@
+<app-simple-header title="Detalles Tutoría" (close)="closeModal()"></app-simple-header>
+
+<ion-content *ngIf="meetingSummary !== undefined">
+  <ion-grid>
+    <ion-row *ngIf="currentRole === roles.Tutor">
+      <ion-col>
+        <div class="avatar-container">
+          <img class="avatar-img" [src]="meetingSummary.studentImg"/>
+        </div>
+        <div class="rating">
+          <app-stars-ratings [ratings]="meetingSummary.studentRatings"></app-stars-ratings>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <h3>{{meetingSummary.studentName}}</h3>
+          <h5>Tel: {{meetingSummary.studentPhone}}</h5>
+          <a class="phone-button" [href]="'tel:'+ meetingSummary.studentPhone">Llamar por Teléfono</a>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentRole !== roles.Tutor">
+      <ion-col>
+        <div class="avatar-container">
+          <img class="avatar-img" [src]="meetingSummary.tutorImg"/>
+        </div>
+        <div class="rating">
+          <app-stars-ratings [ratings]="meetingSummary.tutorRatings"></app-stars-ratings>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <h3>{{meetingSummary.tutorName}}</h3>
+          <h5>Tel: {{meetingSummary.tutorPhone}}</h5>
+          <a class="phone-button" [href]="'tel:'+ meetingSummary.tutorPhone">Llamar por Teléfono</a>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -2,6 +2,7 @@ export interface MeetingSummary {
     meetingId: number;
     studentId: number;
     studentName: string;
+    studentPhone: string;
     studentImg: string;
     subjectName: string;
     meetingDate: Date;
@@ -11,6 +12,9 @@ export interface MeetingSummary {
     longitude: number;
     latitude: number;
     studentRatings: number;
+    tutorId: number;
     tutorName: string;
     tutorImg: string;
+    tutorRatings: number;
+    tutorPhone: string;
 }

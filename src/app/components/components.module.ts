@@ -8,12 +8,14 @@ import { UserPopoverComponent } from './user-popover/user-popover.component';
 import {EtutorLogoComponent} from './etutor-logo/etutor-logo.component';
 import {ScheduledMeetingsComponent} from "./scheduled-meetings/scheduled-meetings.component";
 import {NgCalendarModule} from "ionic2-calendar";
-import {SimpleHeaderComponent} from "./simple-header/simple-header.component";
+import {SimpleHeaderComponent} from "./menu/simple-header/simple-header.component";
 import {TutorAcceptMeetingComponent} from "../tutors/tutors/tutor-accept-meeting/tutor-accept-meeting.component";
 import {ParentApproveMeetingModalComponent} from "../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 import {AvatarModule} from "ngx-avatar";
 import {StudentTutorsListComponent} from "../students/student-tutors-list/student-tutors-list.component";
 import {StarsRatingsComponent} from "./stars-ratings/stars-ratings.component";
+import {CalendarMeetingSummaryComponent} from "./calendar-meeting-summary/calendar-meeting-summary.component";
+import {ParentMeetingSummaryComponent} from "../parents/parent-meeting-summary/parent-meeting-summary.component";
 
 
 const components = [
@@ -26,7 +28,9 @@ const components = [
     TutorAcceptMeetingComponent,
     ParentApproveMeetingModalComponent,
     StudentTutorsListComponent,
-    StarsRatingsComponent
+    ParentMeetingSummaryComponent,
+    StarsRatingsComponent,
+    CalendarMeetingSummaryComponent
 ];
 
 @NgModule({
@@ -38,7 +42,9 @@ const components = [
     ],
     entryComponents: [
         TutorAcceptMeetingComponent,
-        ParentApproveMeetingModalComponent
+        ParentApproveMeetingModalComponent,
+        CalendarMeetingSummaryComponent,
+        ParentMeetingSummaryComponent
     ],
     imports: [
         CommonModule,
