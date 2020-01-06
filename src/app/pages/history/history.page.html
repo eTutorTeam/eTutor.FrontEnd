@@ -4,7 +4,7 @@
   <ion-item> 
     <ion-label color="secondary" class="title"> Historial de tutorías </ion-label>
   </ion-item>
-  <ion-card *ngFor="let item of items">
-    <app-history-item [meeting]="item" [userRole]="role"></app-history-item>
-  </ion-card>
+
+  <app-history-item *ngFor="let item of items" [meeting]="item" [userRole]="role"></app-history-item>
+  
 </ion-content>
