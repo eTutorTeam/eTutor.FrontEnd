@@ -47,11 +47,13 @@ export class StudentMeetingSummaryPage implements OnInit {
   }
 
   get startTime() {
-    return moment(this.startDateTime).format('LLLL');
+    const date = moment(new Date(this.startDateTime)).add(4, 'hours');
+    return date.format('LLLL');
   }
 
   get endTime() {
-    return moment(this.endDateTime).format('LLLL');
+    const date = moment(new Date(this.endDateTime)).add(4, 'hours');
+    return date.format('LLLL');
   }
 
   cancel() {
