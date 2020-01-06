@@ -92,7 +92,6 @@ export class PushNotificationService {
     }
 
     if (notification.hasOwnProperty('answeredMeetingId')) {
-      console.log(notification);
       if (notification.hasOwnProperty('meetingRejected')) {
         return NotificationTypesEnum.AnsweredRejectedMeeting;
       }

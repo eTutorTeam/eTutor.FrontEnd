@@ -23,7 +23,7 @@ export class HistoryPage implements OnInit {
       private toastNotificationService: ToastNotificationService
   ) { }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.loadingService.startLoading('Buscando historial...');
     this.getPageData().then(res => {
       this.loadingService.stopLoading();
@@ -31,6 +31,9 @@ export class HistoryPage implements OnInit {
       this.toastNotificationService.presentErrorToast(err);
       this.loadingService.stopLoading();
     });
+  }
+
+  ngOnInit() {
   }
 
   private async getPageData() {

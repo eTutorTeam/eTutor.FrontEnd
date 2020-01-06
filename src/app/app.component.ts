@@ -8,6 +8,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { AccountService } from './services/accounts/account.service';
 import { PushNotificationService } from './services/notifications/push-notification.service';
 import { FcmService } from './services/notifications/fcm.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     private notificationService: PushNotificationService,
     private fcmService: FcmService
   ) {
+    moment.locale('es');
     this.initializeApp();
   }
 

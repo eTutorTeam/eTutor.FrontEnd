@@ -23,15 +23,16 @@ export class HistoryItemComponent implements OnInit {
 
   get startTime() {
     const date = new Date(this.meeting.scheduledDate);
-    return moment(date).format('LLLL h:mm a');
+    return moment(date).format('ddd D MMMM YYYY, h:mm A');
   }
 
   get duration() {
     const startDate = moment(new Date(this.meeting.startTime));
     const endDate = moment(new Date(this.meeting.endTime));
 
+    //moment.utc(duration.as('milliseconds')).format('HH:mm:ss')
     const calculation = moment.duration(endDate.diff(startDate));
-    return calculation.humanize(true);
+    return calculation.humanize(false);
   }
 
   get meetingStatus() {
