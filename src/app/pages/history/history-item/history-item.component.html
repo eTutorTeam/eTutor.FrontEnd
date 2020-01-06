@@ -1,0 +1,32 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      <ion-item>
+        <ion-label color="medium" class="card-title">
+          <h2>{{meeting.subject}}</h2>
+          <h4>{{meetingStatus}}</h4>
+        </ion-label>
+      </ion-item>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none" class="info" *ngIf="userRole !== roleTypes.Tutor">
+      <ion-avatar slot="start">
+        <img [src]="meeting.tutorImg">
+      </ion-avatar>
+      <ion-label class="info">Tutor: {{meeting.tutorName}}</ion-label>
+    </ion-item>
+    <ion-item lines="none" class="info" *ngIf="userRole === roleTypes.Tutor">
+      <ion-avatar slot="start">
+        <img [src]="meeting.studentImg">
+      </ion-avatar>
+      <ion-label class="info">Estudiante: {{meeting.studentName}}</ion-label>
+    </ion-item>
+    <ion-item lines="none" class="info">
+      <ion-label class="info">Fecha: {{startTime}}</ion-label>
+    </ion-item>
+    <ion-item lines="none" class="info" *ngIf="meeting.status === statuses.Complete">
+      <ion-label class="info">Duración: {{duration}}</ion-label>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

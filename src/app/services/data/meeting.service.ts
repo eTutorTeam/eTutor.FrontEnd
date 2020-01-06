@@ -7,6 +7,7 @@ import {MeetingStatusEnum} from "../../enums/meeting-status.enum";
 import { MeetingResponse } from 'src/app/models/meeting-response';
 import {CalendarMeetingEventModel} from "../../models/calendar-meeting-event-model";
 import {BehaviorSubject} from "rxjs";
+import {HistoryMeetingResponse} from "../../models/history-meeting-response";
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +30,10 @@ export class MeetingService {
     async getMeetingsForCalendar() {
         const meetings = await this.http.get<CalendarMeetingEventModel[]>(`${environment.apiBaseUrl}/api/meetings/calendar`).toPromise();
         this.calendarMeetings.next(meetings);
+    }
+
+    async getMeetingsHistory(): Promise<HistoryMeetingResponse[]> {
+        return this.http.get<HistoryMeetingResponse[]>(`${environment.apiBaseUrl}/api/meetings/history`).toPromise();
     }
 }
 
