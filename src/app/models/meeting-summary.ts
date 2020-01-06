@@ -11,4 +11,6 @@ export interface MeetingSummary {
     longitude: number;
     latitude: number;
     studentRatings: number;
+    tutorName: string;
+    tutorImg: string;
 }
