@@ -35,7 +35,7 @@ export class TutorAcceptMeetingComponent implements OnInit {
 
   get formatedDate(): string {
     const dt = this.meetingSummary.meetingDate;
-    return moment(dt).format('LLLL');
+    return moment(dt).format('ddd D MMMM YYYY');
   }
 
   get startTime(): string {
