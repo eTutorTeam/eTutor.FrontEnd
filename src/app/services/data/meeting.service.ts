@@ -39,5 +39,9 @@ export class MeetingService {
     async cancelMeeting(meetingId: number): Promise<MeetingResponse> {
         return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`, {}).toPromise();
     }
+
+    async startMeeting(meetingId: number): Promise<MeetingResponse> {
+        return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/start-meeting/${meetingId}`).toPromise();
+    }
 }
 

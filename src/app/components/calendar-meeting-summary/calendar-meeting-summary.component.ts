@@ -69,4 +69,34 @@ export class CalendarMeetingSummaryComponent implements OnInit {
     this.modalPageService.closeModal();
   }
 
+  startMeeting() {
+    if (this.currentRole === this.roles.Tutor) {
+      this.startMeetingRequest().catch(err => {
+        this.loadingService.stopLoading();
+        this.toastNotificationService.presentErrorToast(err);
+      });
+    }
+  }
+
+  cancelMeeting() {
+    this.cancelMeetingRequest().catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+    });
+  }
+
+  private async startMeetingRequest() {
+    await this.loadingService.startLoading('La tutoría está iniciando');
+    await this.meetingService.startMeeting(this.meetingId);
+    this.closeModal();
+    this.loadingService.stopLoading();
+  }
+
+  private async cancelMeetingRequest() {
+    await this.loadingService.startLoading('Cancelando Tutoría');
+    await this.meetingService.cancelMeeting(this.meetingId);
+    this.closeModal();
+    this.loadingService.stopLoading();
+  }
+
 }
