@@ -21,6 +21,7 @@ export class ProfilePage implements OnInit {
   loading: HTMLIonLoadingElement;
   ratingSummary = 0;
   formAboutMeField = '';
+  formphoneNumber = '';
 
   constructor(
       private accountService: AccountService,
@@ -39,7 +40,7 @@ export class ProfilePage implements OnInit {
 
   get validated(): boolean {
     if (this.profile !== undefined) {
-      return this.profile.aboutMe !== this.formAboutMeField;
+      return this.profile.aboutMe !== this.formAboutMeField || this.profile.phoneNumber !== this.formphoneNumber;
     }
     return false;
   }
@@ -76,6 +77,7 @@ export class ProfilePage implements OnInit {
     this.profile = await this.userService.getUserProfile();
     this.ratingSummary = this.profile.ratings;
     this.updateAboutField();
+    this.updatePhoneField();
     await this.updatePageTitle();
     await this.stopLoading();
   }
@@ -83,6 +85,11 @@ export class ProfilePage implements OnInit {
   private updateAboutField() {
     if (this.formAboutMeField === '') {
       this.formAboutMeField = this.profile.aboutMe;
+    }
+  }
+  private updatePhoneField(){
+    if(this.formphoneNumber === ''){
+      this.formphoneNumber = this.profile.phoneNumber;
     }
   }
 
@@ -94,8 +101,10 @@ export class ProfilePage implements OnInit {
       return;
     }
     curUser.aboutMe = this.formAboutMeField;
+    curUser.phoneNumber = this.formphoneNumber;
     await this.userService.updateUser(curUser);
     this.profile.aboutMe = this.formAboutMeField;
+    this.profile.phoneNumber = this.formphoneNumber;
     await this.stopLoading();
   }
 
