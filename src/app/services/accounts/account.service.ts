@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
-import {FcmService} from "../fcm.service";
-import { PushNotificationService } from '../push-notification.service';
+import {FcmService} from "../notifications/fcm.service";
+import { PushNotificationService } from '../notifications/push-notification.service';
 import { BehaviorSubject } from 'rxjs';
 import {RoleTypes} from "../../enums/role-types.enum";
 import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
@@ -115,6 +115,15 @@ export class AccountService {
       return roles.some(r => r === role);
     }
     return false;
+  }
+
+  async getRolesForUser(): Promise<RoleTypes[]> {
+    await this.updateUserVariable();
+    if (this.user !== null && this.user !== undefined) {
+      const roles = this.user.roles;
+      return roles;
+    }
+    return [];
   }
 
   async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {

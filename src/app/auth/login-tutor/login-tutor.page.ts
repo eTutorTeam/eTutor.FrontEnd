@@ -8,8 +8,8 @@ import { UserTokenResponse } from 'src/app/models/user-token-response';
 import { LoadingOptions } from '@ionic/core';
 import { MenuComponent } from 'src/app/components/menu/menu.component';
 import {ToastNotificationService} from "../../services/toast-notification.service";
-import {FcmService} from "../../services/fcm.service";
-import {PushNotificationService} from "../../services/push-notification.service";
+import {FcmService} from "../../services/notifications/fcm.service";
+import {PushNotificationService} from "../../services/notifications/push-notification.service";
 
 
 // ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$ <- Email Validator
@@ -48,9 +48,6 @@ export class LoginTutorPage implements OnInit {
       console.log(err, 'ERROR VAR');
       this.toastNotificationService.presentErrorToast(err);
       this.loading.dismiss();
-      this.fcmService.getToken()
-          .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
-          .catch(error => console.log(error));
     });
   }
 
@@ -87,6 +84,9 @@ export class LoginTutorPage implements OnInit {
     this.accountService.reloadUserInfo().then(async (res) => {
       if (logged) {
         await this.goHome();
+        this.fcmService.getToken()
+            .then(() => {this.notificationService.listenWhenUserTapsNotification(); })
+            .catch(err => this.toastNotificationService.presentErrorToast(err));
       }
     }).catch(async (err) => {
       await this.accountService.logoutUser();

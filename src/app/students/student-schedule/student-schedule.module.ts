@@ -11,6 +11,7 @@ import {StudentSubjectSelectorComponent} from "./student-subject-selector/studen
 import {StudentDatetimeSelectorPage} from "./student-datetime-selector/student-datetime-selector.page";
 import {StudentTutorSelectorPage} from "./student-tutor-selector/student-tutor-selector.page";
 import {StudentMeetingSummaryPage} from "./student-meeting-summary/student-meeting-summary.page";
+import {StudentTutorsListComponent} from "../student-tutors-list/student-tutors-list.component";
 
 const routes: Routes = [
   {

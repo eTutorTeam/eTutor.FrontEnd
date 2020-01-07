@@ -16,6 +16,9 @@
           </ion-avatar>
         </div>
         <label>{{tutor.fullName}}</label>
+        <div class="rating">
+          <app-stars-ratings [ratings]="tutor.ratings"></app-stars-ratings>
+        </div>
       </ion-col>
       <ion-col class="ion-text-center">
         <label>Estudiante</label>
@@ -25,6 +28,9 @@
           </ion-avatar>
         </div>
         <label>{{student.fullName}}</label>
+        <div class="rating">
+          <app-stars-ratings [ratings]="student.ratings"></app-stars-ratings>
+        </div>
       </ion-col>
     </ion-row>
     <ion-row>
