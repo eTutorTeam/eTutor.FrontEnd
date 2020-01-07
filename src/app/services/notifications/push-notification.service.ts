@@ -167,7 +167,7 @@ export class PushNotificationService {
   private async meetingStartedNotification(notification: any) {
     const meetingId = notification.startedMeetingId;
     await this.presentNotificationToast(notification);
-    alert('meeting started ID: ' + meetingId);
+    //TODO: Aquí va el codigo que debe de abrir la pantalla de tutoria en curso
   }
 
   private async presentNotificationToast(notification: any) {
