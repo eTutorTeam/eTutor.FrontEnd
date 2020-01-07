@@ -37,26 +37,29 @@ export class MeetingService {
   async cancelMeeting(meetingId: number) {
     return this.http.put(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`,{}).toPromise();
   }
-  
+  async startMeeting(meetingId: number): Promise<MeetingResponse> {
+    return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/start-meeting/${meetingId}`,{}).toPromise();
+  }
   async endMeeting(meetingId: number) {
     return this.http.patch(`${environment.apiBaseUrl}/api/meetings/end-meeting/${meetingId}`,{}).toPromise();
   }
 
-    async getMeetingsForCalendar() {
-        const meetings = await this.http.get<CalendarMeetingEventModel[]>(`${environment.apiBaseUrl}/api/meetings/calendar`).toPromise();
-        this.calendarMeetings.next(meetings);
-    }
+  async getMeetingsForCalendar() {
+      const meetings = await this.http.get<CalendarMeetingEventModel[]>(`${environment.apiBaseUrl}/api/meetings/calendar`).toPromise();
+      this.calendarMeetings.next(meetings);
+  }
 
-    async getMeetingsHistory(): Promise<HistoryMeetingResponse[]> {
-        return this.http.get<HistoryMeetingResponse[]>(`${environment.apiBaseUrl}/api/meetings/history`).toPromise();
-    }
+  async getMeetingsHistory(): Promise<HistoryMeetingResponse[]> {
+      return this.http.get<HistoryMeetingResponse[]>(`${environment.apiBaseUrl}/api/meetings/history`).toPromise();
+  }
 
+  async getMeetingInCourse(): Promise<MeetingResponse> {
+    return this.http.get<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/meeting-in-course`).toPromise();
+}
     // async cancelMeeting(meetingId: number): Promise<MeetingResponse> {
     //     return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`, {}).toPromise();
     // }
 
-    async startMeeting(meetingId: number): Promise<MeetingResponse> {
-        return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/start-meeting/${meetingId}`).toPromise();
-    }
+
 }
 

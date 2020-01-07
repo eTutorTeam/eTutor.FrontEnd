@@ -9,6 +9,8 @@ import { AccountService } from 'src/app/services/accounts/account.service';
 import { RoleTypes } from 'src/app/enums/role-types.enum';
 import { TutorsService } from 'src/app/services/data/tutors.service';
 import { StudentsService } from 'src/app/services/data/students.service';
+import { UserService } from 'src/app/services/accounts/user.service';
+import { MeetingResponse } from 'src/app/models/meeting-response';
 
 
 @Component({
@@ -18,7 +20,7 @@ import { StudentsService } from 'src/app/services/data/students.service';
 })
 export class MeetingInCoursePage implements OnInit {
 
-  meetingId: number;
+  meetingId = 0;
   avatarImg: string;
   isStudent: boolean;
   name: string;
@@ -26,7 +28,7 @@ export class MeetingInCoursePage implements OnInit {
   endTime: Date;
   subjectName: string;
   isTutor: boolean;
-  ratingSummary = 3.5;
+  ratingSummary = 0;
   isParent: boolean;
 
   @ViewChild('slidingItem', {static:true}) itemSliding: IonItemSliding; 
@@ -35,6 +37,7 @@ export class MeetingInCoursePage implements OnInit {
     private tutorService: TutorsService,
     private studentService: StudentsService,
     private loadingService: LoadingService,
+    private userService: UserService,
     private toastService: ToastNotificationService,
     private router: Router,
     private accountService: AccountService) {
@@ -50,52 +53,37 @@ export class MeetingInCoursePage implements OnInit {
 
   ngOnInit() {
     this.isStudent = this.accountService.user.roles.includes(RoleTypes.Student);
-    this.meetingId = 1;
-    
+    this.meetingService.getMeetingInCourse().then(resp =>{
+      this.meetingId = resp.id;
+      this.loadMeetingData();
+    });   
+  }
+
+  loadMeetingData(){
     if (this.isStudent) {
-        // load tutor info
-      this.meetingService.getMeeting(this.meetingId).then(resp => {
-        this.avatarImg = resp.tutorImage;
-        this.name = resp.tutorName;
-        this.subjectName = resp.subjectName;
-        this.realStartedTime = resp.RealStartedDateTime;
-        this.endTime = resp.endDateTime;
-      });
-    }
-    else{
-       // load student info
+      // load tutor info
+
       this.meetingService.getMeetingSummary(this.meetingId).then(resp => {
-        this.avatarImg = resp.studentImg;
-        this.name = resp.studentName;
-        this.subjectName = resp.subjectName;
-        this.realStartedTime = resp.RealStartedDateTime;
-        this.endTime = resp.endTime;
-      });
-    }
+      this.avatarImg = resp.tutorImg;
+      this.name = resp.tutorName;
+      this.subjectName = resp.subjectName;
+      this.realStartedTime = resp.RealStartedDateTime;
+      this.endTime = resp.endTime;
+      this.ratingSummary = resp.tutorRatings
+    });
   }
-
-  get stars(): string[] {
-    const arr: string[] = [];
-    let rat = this.ratingSummary;
-    for (let i = 1; i <= 5; i++) {
-      if (rat === 0.5) {
-        rat--;
-        arr.push('star-half');
-        continue;
-      }
-
-      if (rat <= 0) {
-        arr.push('star-outline');
-        continue;
-      }
-
-      arr.push('star');
-      rat--;
-    }
-    return arr;
+  else{
+     // load student info
+    this.meetingService.getMeetingSummary(this.meetingId).then(resp => {
+      this.avatarImg = resp.studentImg;
+      this.name = resp.studentName;
+      this.subjectName = resp.subjectName;
+      this.realStartedTime = resp.RealStartedDateTime;
+      this.endTime = resp.endTime;
+      this.ratingSummary = resp.studentRatings;
+    });
   }
-
-  
+  }
   finishMeeting() {
 
     this.itemSliding.close();
