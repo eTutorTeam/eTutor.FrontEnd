@@ -6,6 +6,7 @@ import {ToastNotificationService} from "../../services/toast-notification.servic
 import {MeetingSummary} from "../../models/meeting-summary";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {AccountService} from "../../services/accounts/account.service";
+import * as moment from "moment";
 
 @Component({
   selector: 'calendar-meeting-summary',
@@ -32,8 +33,21 @@ export class CalendarMeetingSummaryComponent implements OnInit {
     this.getMeeting();
   }
 
-  get stringified() {
-    return JSON.stringify(this.meetingSummary);
+  get startTime() {
+    const m = moment(new Date(this.meetingSummary.startTime));
+    return m.format('ddd D MMMM YYYY, h:mm A');
+  }
+
+  get endTime() {
+    const m = moment(new Date(this.meetingSummary.endTime));
+    return m.format('ddd D MMMM YYYY, h:mm A');
+  }
+
+  get meetingCanBeStarted() {
+    const start = new Date(this.meetingSummary.startTime);
+    const momentStart = moment(start).subtract(11, 'minutes');
+
+    return moment().isAfter(momentStart);
   }
 
   private getMeeting() {
