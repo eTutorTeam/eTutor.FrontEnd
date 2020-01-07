@@ -6,6 +6,7 @@ export interface MeetingSummary {
     meetingDate: Date;
     startTime: Date;
     endTime: Date;
+    RealStartedDateTime: Date;
     locationSummary: string;
     longitude: number;
     latitude: number;
