@@ -11,9 +11,8 @@ import {NotificationTypesEnum} from "../../enums/notification-types.enum";
 import {AlertServiceService} from "../alert-service.service";
 import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-meeting-modal/parent-approve-meeting-modal.component";
 import {MeetingService} from "../data/meeting.service";
-import { LocalNotificationService } from '../local-notification.service';
-import { MeetingResponse } from 'src/app/models/meeting-response';
-import { MeetingSummary } from 'src/app/models/meeting-summary';
+import {LocalNotificationService} from '../local-notification.service';
+import {MeetingSummary} from 'src/app/models/meeting-summary';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +21,7 @@ import { MeetingSummary } from 'src/app/models/meeting-summary';
 export class PushNotificationService {
 
   meetingSummary: MeetingSummary;
+  currentRole: RoleTypes;
 
   constructor(
       private firebase: FirebaseX,
@@ -33,7 +33,11 @@ export class PushNotificationService {
       private modalPagesService: ModalPagesService,
       private meetingsService: MeetingService,
       private localNotificationService: LocalNotificationService
-  ) {}
+  ) {
+    this.accountService.getRolesForUser().then(roles => {
+      this.currentRole = roles[0];
+    });
+  }
 
   public listenWhenUserTapsNotification() {
     console.log('this method was instantiated');
@@ -81,6 +85,9 @@ export class PushNotificationService {
       case NotificationTypesEnum.CanceledMeeting:
         await this.canceledMeeting(notification);
         break;
+      case NotificationTypesEnum.MeetingStarted:
+        await this.meetingStartedNotification(notification);
+        break;
       default:
         await this.presentNotificationToast(notification);
     }
@@ -108,6 +115,10 @@ export class PushNotificationService {
 
     if (notification.hasOwnProperty('canceledMeeting')) {
       return NotificationTypesEnum.CanceledMeeting;
+    }
+
+    if (notification.hasOwnProperty('startedMeetingId')) {
+      return NotificationTypesEnum.MeetingStarted;
     }
 
   }
@@ -153,13 +164,21 @@ export class PushNotificationService {
     await this.presentNotificationToast(notification);
   }
 
+  private async meetingStartedNotification(notification: any) {
+    const meetingId = notification.startedMeetingId;
+    await this.presentNotificationToast(notification);
+    //TODO: Aquí va el codigo que debe de abrir la pantalla de tutoria en curso
+  }
+
   private async presentNotificationToast(notification: any) {
     await this.toastNotificationService.presentToast(notification.title, notification.body);
   }
-  private async getMeetingDetails(meetingId: number){
+
+  private async getMeetingDetails(meetingId: number) {
     this.meetingSummary = await this.meetingsService.getMeetingSummary(meetingId);
   }
-  private async scheduleLocalNotification(meetingSummary: MeetingSummary){
+
+  private async scheduleLocalNotification(meetingSummary: MeetingSummary) {
     this.localNotificationService.scheduleNotification(this.meetingSummary.subjectName,  this.meetingSummary.startTime)
   }
 

@@ -1,0 +1,79 @@
+<app-simple-header title="Detalles Tutoría" (close)="closeModal()"></app-simple-header>
+
+<ion-content *ngIf="meetingSummary !== undefined">
+  <ion-grid>
+    <ion-row *ngIf="currentRole === roles.Tutor">
+      <ion-col>
+        <div class="avatar-container">
+          <img class="avatar-img" [src]="meetingSummary.studentImg"/>
+        </div>
+        <div class="rating">
+          <app-stars-ratings [ratings]="meetingSummary.studentRatings"></app-stars-ratings>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="user-info">
+          <h3>{{meetingSummary.studentName}}</h3>
+          <h5>Tel: {{meetingSummary.studentPhone}}</h5>
+          <a class="phone-button" [href]="'tel:'+ meetingSummary.studentPhone">
+            <span>
+              <ion-icon name="call"></ion-icon>
+              Llamar por Teléfono
+            </span>
+          </a>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="currentRole !== roles.Tutor">
+      <ion-col>
+        <div class="avatar-container">
+          <img class="avatar-img" [src]="meetingSummary.tutorImg"/>
+        </div>
+        <div class="rating">
+          <app-stars-ratings [ratings]="meetingSummary.tutorRatings"></app-stars-ratings>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="user-info">
+          <h3>{{meetingSummary.tutorName}}</h3>
+          <h5>Tel: {{meetingSummary.tutorPhone}}</h5>
+          <a class="phone-button" [href]="'tel:'+ meetingSummary.tutorPhone">
+            <span>
+              <ion-icon name="call"></ion-icon>
+              Llamar por Teléfono
+            </span>
+          </a>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="centered-info">
+          <h3><ion-icon name="book"></ion-icon> &nbsp;{{meetingSummary.subjectName}}</h3>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-list>
+            <ion-item>
+              <ion-label>Inicia: <strong>{{startTime}}</strong></ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>Termina: <strong>{{endTime}}</strong></ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="btns-container">
+          <ion-button color="success" (click)="startMeeting()" [disabled]="!meetingCanBeStarted" *ngIf="currentRole === roles.Tutor">Iniciar</ion-button>
+          <ion-button color="danger" (click)="cancelMeeting()">Cancelar</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

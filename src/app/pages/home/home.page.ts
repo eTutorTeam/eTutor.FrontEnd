@@ -4,6 +4,8 @@ import {AccountService} from "../../services/accounts/account.service";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/scheduled-meetings.component";
 import {MeetingService} from "../../services/data/meeting.service";
+import {ModalPagesService} from "../../services/modal-pages.service";
+import {CalendarMeetingSummaryComponent} from "../../components/calendar-meeting-summary/calendar-meeting-summary.component";
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,8 @@ export class HomePage implements OnInit {
   constructor(
       public router: Router,
       private accountService: AccountService,
-      private meetingService: MeetingService
+      private meetingService: MeetingService,
+      private modalPageService: ModalPagesService
   ) {}
 
   ionViewWillEnter() {
@@ -30,6 +33,12 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  selectedMeeting(meetingId: number) {
+    this.modalPageService.openModal(CalendarMeetingSummaryComponent, {meetingId}).then(() => {
+      this.meetingService.getMeetingsForCalendar();
+    });
   }
 
   private reroute() {

@@ -4,5 +4,6 @@ export enum NotificationTypesEnum {
     AnsweredRejectedMeeting,
     ParentRejectedMeeting,
     ParentMeeting,
-    CanceledMeeting
+    CanceledMeeting,
+    MeetingStarted
 }
