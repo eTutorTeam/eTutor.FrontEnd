@@ -14,7 +14,6 @@ export class UserService {
   async getUserProfile(): Promise<UserProfileResponse> {
     return this.http.get<UserProfileResponse>(`${environment.apiBaseUrl}/api/users/profile`).toPromise();
   }
-
   async addImageToUser(base64img: string, filename: string) {
     return this.http.patch(`${environment.apiBaseUrl}/api/users/profile/image`,
         {

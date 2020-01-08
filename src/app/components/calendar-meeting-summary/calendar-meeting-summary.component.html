@@ -70,7 +70,8 @@
     <ion-row>
       <ion-col>
         <div class="btns-container">
-          <ion-button color="success" (click)="startMeeting()" [disabled]="!meetingCanBeStarted" *ngIf="currentRole === roles.Tutor">Iniciar</ion-button>
+          <ion-button color="success" (click)="startMeeting()"
+                      *ngIf="currentRole === roles.Tutor">Iniciar</ion-button><!--[disabled]="!meetingCanBeStarted"-->
           <ion-button color="danger" (click)="cancelMeeting()">Cancelar</ion-button>
         </div>
       </ion-col>

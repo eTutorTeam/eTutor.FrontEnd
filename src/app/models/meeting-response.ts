@@ -9,5 +9,8 @@ export interface MeetingResponse {
     subjectName: string;
     startDateTime: Date;
     endDateTime: Date;
+    RealStartedDateTime: Date;
     status: number;
 }
+
+

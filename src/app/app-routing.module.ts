@@ -50,7 +50,14 @@ const routes: Routes = [
       roles: [RoleTypes.Parent]
     },
     canActivate: [RoleAuthGuard]
-  }
+  },
+  { path: 'meeting-in-course',
+    loadChildren: './pages/meeting-in-course/meeting-in-course.module#MeetingInCoursePageModule' ,
+    data: {
+      roles: [RoleTypes.Tutor, RoleTypes.Student]
+    },
+    canActivate: [RoleAuthGuard]
+  },
 ];
 
 @NgModule({

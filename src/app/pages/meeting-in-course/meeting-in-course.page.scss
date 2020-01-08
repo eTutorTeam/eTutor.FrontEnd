@@ -1,0 +1,30 @@
+.hidden {
+    display: none;
+}
+
+.star-button {
+    margin: 0;
+    padding: 0;
+}
+
+.rating {
+    padding: 0;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.avatar {
+    width:100% !important;  
+    height : 100% !important;  
+    max-width: 100px !important;  //any size
+    max-height: 100px !important; //any size 
+    margin: 30px auto 0;
+}
+
+.timer {
+    background: rgba(30, 32, 35, 0.62);
+    color: white;
+    padding: 20px 10px;
+    font-size: 2em;
+}

@@ -3,7 +3,7 @@
   <ion-toolbar color="secondary" mode="md">
 
     <ion-title class="ion-text-capitalize"> {{title}} </ion-title>
-    <ion-buttons slot="end" (click)="closeAction()">
+    <ion-buttons *ngIf="!hiddenClose" slot="end" (click)="closeAction()">
       <ion-icon name="close"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
