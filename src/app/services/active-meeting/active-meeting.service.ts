@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {MeetingService} from "../data/meeting.service";
 import {MeetingInProgressResponse} from "../../models/meeting-in-progress-response";
+import {ModalPagesService} from "../modal-pages.service";
+import {StarsRatingModalPage} from "../../pages/stars-rating-modal/stars-rating-modal.page";
+import {AccountService} from "../accounts/account.service";
+import {RoleTypes} from "../../enums/role-types.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +18,16 @@ export class ActiveMeetingService {
   constructor(
       private router: Router,
       private meetingService: MeetingService,
+      private modalPageService: ModalPagesService,
+      private accountService: AccountService
   ) { }
 
   goToActiveMeetingPage() {
     this.router.navigate(['meeting-in-course']);
   }
 
-  goToHome() {
-    this.router.navigate(['home']);
+  async goToHome() {
+    await this.router.navigate(['home']);
   }
 
   getCurrentActiveMeeting() {
@@ -36,6 +42,18 @@ export class ActiveMeetingService {
         reject();
       });
     });
+  }
+
+  openRatinsModal(meetingId: number) {
+    this.openRatingsModalPage(meetingId);
+  }
+
+  private async openRatingsModalPage(meetingId: number) {
+    const roles = await this.accountService.getRolesForUser();
+    const role = roles[0];
+    if (role !== RoleTypes.Parent) {
+      await this.modalPageService.openModal(StarsRatingModalPage, {meetingId});
+    }
   }
 
 

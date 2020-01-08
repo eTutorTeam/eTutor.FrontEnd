@@ -16,6 +16,8 @@ import {StudentTutorsListComponent} from "../students/student-tutors-list/studen
 import {StarsRatingsComponent} from "./stars-ratings/stars-ratings.component";
 import {CalendarMeetingSummaryComponent} from "./calendar-meeting-summary/calendar-meeting-summary.component";
 import {ParentMeetingSummaryComponent} from "../parents/parent-meeting-summary/parent-meeting-summary.component";
+import {StarsRatingModalPage} from "../pages/stars-rating-modal/stars-rating-modal.page";
+import {StarRatingModule} from "ionic4-star-rating";
 
 
 const components = [
@@ -30,7 +32,8 @@ const components = [
     StudentTutorsListComponent,
     ParentMeetingSummaryComponent,
     StarsRatingsComponent,
-    CalendarMeetingSummaryComponent
+    CalendarMeetingSummaryComponent,
+    StarsRatingModalPage
 ];
 
 @NgModule({
@@ -44,14 +47,16 @@ const components = [
         TutorAcceptMeetingComponent,
         ParentApproveMeetingModalComponent,
         CalendarMeetingSummaryComponent,
-        ParentMeetingSummaryComponent
+        ParentMeetingSummaryComponent,
+        StarsRatingModalPage
     ],
     imports: [
         CommonModule,
         IonicModule,
         RouterModule,
         NgCalendarModule,
-        AvatarModule
+        AvatarModule,
+        StarRatingModule
     ]
 })
 export class ComponentsModule { }

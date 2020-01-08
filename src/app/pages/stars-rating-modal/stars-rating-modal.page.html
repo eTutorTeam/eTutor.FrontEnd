@@ -1,0 +1,27 @@
+<app-simple-header title="Califica al {{userType}}"  [hiddenClose]="true"></app-simple-header>
+<ion-content *ngIf="meeting !== undefined">
+  <div class="container">
+    <div class="content">
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">
+          <h1>Califica al {{userType}}</h1>
+        </ion-label>
+      </ion-item>
+      <div id="rating">
+        <ionic4-star-rating #rating
+                            activeIcon = "ios-star"
+                            defaultIcon = "ios-star-outline"
+                            activeColor = "#ffd966"
+                            defaultColor = "#aaaaaa"
+                            readonly = "false"
+                            rating="0"
+                            fontSize = "32px"
+                            (ratingChanged)="logRatingChange($event)">
+        </ionic4-star-rating>
+      </div>
+      <ion-button color="primary" expand="full" [disabled]="buttonDisabled" (click)="sendRatings()">
+        Calificar
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

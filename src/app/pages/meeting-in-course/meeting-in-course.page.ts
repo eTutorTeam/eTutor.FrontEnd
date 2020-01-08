@@ -51,15 +51,15 @@ export class MeetingInCoursePage implements OnInit {
   }
 
   get avatarImg() {
-    return this.isStudent ? this.currentMeeting.studentImg : this.currentMeeting.tutorImg;
+    return !this.isStudent ? this.currentMeeting.studentImg : this.currentMeeting.tutorImg;
   }
 
   get name() {
-    return this.isStudent ? this.currentMeeting.studentName : this.currentMeeting.tutorName;
+    return !this.isStudent ? this.currentMeeting.studentName : this.currentMeeting.tutorName;
   }
 
   get ratings() {
-    return this.isStudent ? this.currentMeeting.studentRatings : this.currentMeeting.tutorRatings;
+    return !this.isStudent ? this.currentMeeting.studentRatings : this.currentMeeting.tutorRatings;
   }
 
   get realStartedTime() {
