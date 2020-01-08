@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {ModalController} from "@ionic/angular";
-import {TutorMeetingDetailComponent} from "../tutor-meeting-detail/tutor-meeting-detail.component";
 import {ScheduledMeetingsComponent} from "../../../components/scheduled-meetings/scheduled-meetings.component";
 import {MeetingService} from "../../../services/data/meeting.service";
 import {ModalPagesService} from "../../../services/modal-pages.service";
