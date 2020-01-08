@@ -9,10 +9,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
-    data: {
-      roles: [RoleTypes.Tutor]
-    },
-    canActivate: [RoleAuthGuard]
+    canActivate: [AuthGuard]
   },
   { path: 'login-tutor', loadChildren: './auth/login-tutor/login-tutor.module#LoginTutorPageModule' },
   { path: 'register-tutor', loadChildren: './auth/register-tutor/register-tutor.module#RegisterTutorPageModule' },
