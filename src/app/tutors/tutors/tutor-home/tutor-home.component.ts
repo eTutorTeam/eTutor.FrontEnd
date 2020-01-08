@@ -34,15 +34,4 @@ export class TutorHomeComponent implements OnInit {
             this.ionViewDidEnter();
         });
     }
-
-    private async openDetailsModel(meetingId: number) {
-        const modal = await this.modalCtrl.create({
-            component: TutorMeetingDetailComponent,
-            componentProps: {
-                meetingId
-            }
-        });
-
-        modal.present();
-    }
 }

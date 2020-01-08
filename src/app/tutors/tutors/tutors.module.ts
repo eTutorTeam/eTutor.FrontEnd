@@ -8,8 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { TutorsPage } from './tutors.page';
 import {ComponentsModule} from "../../components/components.module";
 import {TutorHomeComponent} from "./tutor-home/tutor-home.component";
-import {TutorAcceptMeetingComponent} from "./tutor-accept-meeting/tutor-accept-meeting.component";
-import {TutorMeetingDetailComponent} from "./tutor-meeting-detail/tutor-meeting-detail.component";
 
 const routes: Routes = [
   {
@@ -34,8 +32,7 @@ const routes: Routes = [
   ],
   declarations: [
     TutorsPage,
-    TutorHomeComponent,
-    TutorMeetingDetailComponent
+    TutorHomeComponent
   ]
 })
 export class TutorsPageModule {}
