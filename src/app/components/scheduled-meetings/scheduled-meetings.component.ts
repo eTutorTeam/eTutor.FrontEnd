@@ -12,6 +12,7 @@ import {MeetingService} from "../../services/data/meeting.service";
 import {LoadingService} from "../../services/loading.service";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {Subscription} from "rxjs";
+import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
 
 const {Modals} = Plugins;
 
@@ -42,7 +43,8 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
       private meetingService: MeetingService,
       private accountService: AccountService,
       private loadingService: LoadingService,
-      private toastNotificationService: ToastNotificationService
+      private toastNotificationService: ToastNotificationService,
+      private activeMeetingService: ActiveMeetingService
   ) {
   }
 
@@ -75,6 +77,15 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
+
+    this.getActiveMeetingIfOngoing();
+  }
+
+  private async getActiveMeetingIfOngoing() {
+    await this.activeMeetingService.getCurrentActiveMeeting();
+    if (this.activeMeetingService.activeMeeting) {
+      this.activeMeetingService.goToActiveMeetingPage();
+    }
   }
 
   private async getMeetingsRequest() {

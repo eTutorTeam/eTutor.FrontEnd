@@ -13,6 +13,7 @@ import {ParentApproveMeetingModalComponent} from "../../parents/parent-approve-m
 import {MeetingService} from "../data/meeting.service";
 import {LocalNotificationService} from '../local-notification.service';
 import {MeetingSummary} from 'src/app/models/meeting-summary';
+import {ActiveMeetingService} from "../active-meeting/active-meeting.service";
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,8 @@ export class PushNotificationService {
       private toastNotificationService: ToastNotificationService,
       private modalPagesService: ModalPagesService,
       private meetingsService: MeetingService,
-      private localNotificationService: LocalNotificationService
+      private localNotificationService: LocalNotificationService,
+      private activeMeetingService: ActiveMeetingService
   ) {
     this.accountService.getRolesForUser().then(roles => {
       this.currentRole = roles[0];
@@ -167,7 +169,10 @@ export class PushNotificationService {
   private async meetingStartedNotification(notification: any) {
     const meetingId = notification.startedMeetingId;
     await this.presentNotificationToast(notification);
-    //TODO: Aquí va el codigo que debe de abrir la pantalla de tutoria en curso
+    this.activeMeetingService.getCurrentActiveMeeting();
+    if (this.activeMeetingService.activeMeeting) {
+      this.activeMeetingService.goToActiveMeetingPage();
+    }
   }
 
   private async presentNotificationToast(notification: any) {

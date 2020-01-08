@@ -18,7 +18,6 @@ const routes: Routes = [
   { path: 'register-tutor', loadChildren: './auth/register-tutor/register-tutor.module#RegisterTutorPageModule' },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' , canActivate: [AuthGuard]},
   { path: 'history', loadChildren: './pages/history/history.module#HistoryPageModule' , canActivate: [AuthGuard] },
-  { path: 'meeting-in-course', loadChildren: './pages/meeting-in-course/meeting-in-course.module#MeetingInCoursePageModule' , canActivate: [AuthGuard] },
   { path: 'forgot-password', loadChildren: './pages/forgot-password/forgot-password.module#ForgotPasswordPageModule' },
   {
     path: 'student-manager',
@@ -51,7 +50,14 @@ const routes: Routes = [
       roles: [RoleTypes.Parent]
     },
     canActivate: [RoleAuthGuard]
-  }
+  },
+  { path: 'meeting-in-course',
+    loadChildren: './pages/meeting-in-course/meeting-in-course.module#MeetingInCoursePageModule' ,
+    data: {
+      roles: [RoleTypes.Tutor, RoleTypes.Student]
+    },
+    canActivate: [RoleAuthGuard]
+  },
 ];
 
 @NgModule({

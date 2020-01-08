@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonItemSliding, IonDatetime } from '@ionic/angular';
-import { MeetingService } from 'src/app/services/data/meeting.service';
-import { LoadingService } from 'src/app/services/loading.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { ToastNotificationService } from 'src/app/services/toast-notification.service';
-import { Router } from '@angular/router';
-import { AccountService } from 'src/app/services/accounts/account.service';
-import { RoleTypes } from 'src/app/enums/role-types.enum';
-import { TutorsService } from 'src/app/services/data/tutors.service';
-import { StudentsService } from 'src/app/services/data/students.service';
-import { UserService } from 'src/app/services/accounts/user.service';
-import { MeetingResponse } from 'src/app/models/meeting-response';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IonItemSliding} from '@ionic/angular';
+import {MeetingService} from 'src/app/services/data/meeting.service';
+import {LoadingService} from 'src/app/services/loading.service';
+import {ToastNotificationService} from 'src/app/services/toast-notification.service';
+import {Router} from '@angular/router';
+import {AccountService} from 'src/app/services/accounts/account.service';
+import {RoleTypes} from 'src/app/enums/role-types.enum';
+import {TutorsService} from 'src/app/services/data/tutors.service';
+import {StudentsService} from 'src/app/services/data/students.service';
+import {UserService} from 'src/app/services/accounts/user.service';
+import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
+import {MeetingInProgressResponse} from "../../models/meeting-in-progress-response";
+import * as moment from "moment";
 
 
 @Component({
@@ -20,24 +21,21 @@ import { MeetingResponse } from 'src/app/models/meeting-response';
 })
 export class MeetingInCoursePage implements OnInit {
 
-  meetingId = 0;
-  avatarImg: string;
+  meetingId: number;
+  currentMeeting: MeetingInProgressResponse;
   isStudent: boolean;
-  name: string;
-  realStartedTime: Date;
-  endTime: Date;
-  subjectName: string;
-  isTutor: boolean;
-  ratingSummary = 0;
-  isParent: boolean;
 
-  @ViewChild('slidingItem', {static:true}) itemSliding: IonItemSliding; 
+  ratingSummary = 0;
+
+  @ViewChild('slidingItem', {static: true}) itemSliding: IonItemSliding;
+
   constructor(
     private meetingService: MeetingService,
     private tutorService: TutorsService,
     private studentService: StudentsService,
     private loadingService: LoadingService,
     private userService: UserService,
+    private activeMeetingService: ActiveMeetingService,
     private toastService: ToastNotificationService,
     private router: Router,
     private accountService: AccountService) {
@@ -46,61 +44,78 @@ export class MeetingInCoursePage implements OnInit {
   get finishMeetingTitle() {
     return this.isStudent ? 'Cancelar' : 'Terminar';
   }
+
   get slideTitle() {
     return this.isStudent ? 'Cancelada' : 'Terminada';
   }
 
+  get avatarImg() {
+    return this.isStudent ? this.currentMeeting.studentImg : this.currentMeeting.tutorImg;
+  }
+
+  get name() {
+    return this.isStudent ? this.currentMeeting.studentName : this.currentMeeting.tutorName;
+  }
+
+  get realStartedTime() {
+    const date = new Date(this.currentMeeting.realStartTime);
+    return moment(date).format('ddd D MMMM YYYY, h:mm A');
+  }
+
+  get endTime() {
+    const date = new Date(this.currentMeeting.endTime);
+    return moment(date).format('ddd D MMMM YYYY, h:mm A');
+  }
 
   ngOnInit() {
-    this.isStudent = this.accountService.user.roles.includes(RoleTypes.Student);
-    this.meetingService.getMeetingInCourse().then(resp =>{
-      this.meetingId = resp.id;
-      this.loadMeetingData();
-    });   
-  }
-
-  loadMeetingData(){
-    if (this.isStudent) {
-      // load tutor info
-
-      this.meetingService.getMeetingSummary(this.meetingId).then(resp => {
-      this.avatarImg = resp.tutorImg;
-      this.name = resp.tutorName;
-      this.subjectName = resp.subjectName;
-      this.realStartedTime = resp.RealStartedDateTime;
-      this.endTime = resp.endTime;
-      this.ratingSummary = resp.tutorRatings
-    });
-  }
-  else{
-     // load student info
-    this.meetingService.getMeetingSummary(this.meetingId).then(resp => {
-      this.avatarImg = resp.studentImg;
-      this.name = resp.studentName;
-      this.subjectName = resp.subjectName;
-      this.realStartedTime = resp.RealStartedDateTime;
-      this.endTime = resp.endTime;
-      this.ratingSummary = resp.studentRatings;
-    });
-  }
-  }
-  finishMeeting() {
-
-    this.itemSliding.close();
-    if(this.isStudent){
-      this.loadingService.startLoading('Cancelando la tutoría')
-      this.meetingService.cancelMeeting(this.meetingId).then(resp => {
-        this.loadingService.stopLoading();
-        this.toastService.presentToast('Cancelado', 'Se ha Cancelado la tutoría con éxito');  
-      });
-    }
-    else{      
-    this.loadingService.startLoading('Terminando la tutoría')
-    this.meetingService.endMeeting(this.meetingId).then(resp => {
+    this.performRequests().catch(err => {
       this.loadingService.stopLoading();
-      this.toastService.presentToast('Completado', 'Se ha completado la tutoría con éxito');
+      this.activeMeetingService.goToHome();
     });
-    }
-    this.router.navigate(['/home']);
+  }
+
+  private async performRequests() {
+    this.loadingService.startLoading('Cargando datos actualizados tutoría');
+    await this.getMeetingData();
+    await this.getUserRole();
+    this.loadingService.stopLoading();
+  }
+
+  private async getMeetingData() {
+    this.currentMeeting = await this.meetingService.getMeetingInProgress();
+    this.meetingId = this.currentMeeting.meetingId;
+  }
+
+  private async getUserRole() {
+    const roles = await this.accountService.getRolesForUser();
+    const role = roles[0];
+    this.isStudent = role === RoleTypes.Student;
+  }
+
+  finishMeeting() {
+    this.finishMeetingRequest().catch(err => {
+      this.toastService.presentErrorToast(err);
+      this.loadingService.stopLoading();
+    });
+  }
+
+  private async finishMeetingRequest() {
+    this.itemSliding.close();
+    this.isStudent ? await this.finishMeetingStudent() : await this.finisheMeetingTutor();
+    this.activeMeetingService.goToHome();
+  }
+
+  private async finishMeetingStudent() {
+    await this.loadingService.startLoading('Cancelando la tutoría')
+    await this.meetingService.cancelMeeting(this.meetingId);
+    this.loadingService.stopLoading();
+    await this.toastService.presentToast('Cancelado', 'Se ha Cancelado la tutoría con éxito');
+  }
+
+  private async finisheMeetingTutor() {
+    await this.loadingService.startLoading('Terminando la tutoría')
+    await this.meetingService.endMeeting(this.meetingId);
+    this.loadingService.stopLoading();
+    await this.toastService.presentToast('Completado', 'Se ha completado la tutoría con éxito');
   }
 }
