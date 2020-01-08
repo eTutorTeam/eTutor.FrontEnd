@@ -12,7 +12,6 @@ import {UserService} from 'src/app/services/accounts/user.service';
 import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
 import {MeetingInProgressResponse} from "../../models/meeting-in-progress-response";
 import * as moment from "moment";
-import {setInterval} from "timers";
 
 
 @Component({
@@ -26,7 +25,7 @@ export class MeetingInCoursePage implements OnInit {
   currentMeeting: MeetingInProgressResponse;
   startTime: Date;
   isStudent: boolean;
-  time: string;
+  elapsedMeetingTime = '';
   interval: any;
 
   @ViewChild('slidingItem', {static: true}) itemSliding: IonItemSliding;
@@ -113,7 +112,7 @@ export class MeetingInCoursePage implements OnInit {
     const elapsed = calculation.asMinutes();
     const hours = Math.floor(elapsed / 60);
     const minutes = Math.floor(elapsed - (hours * 60));
-    this.time = `${hours}:${minutes}`;
+    this.elapsedMeetingTime = `${hours}:${minutes}`;
   }
 
   private async getUserRole() {
