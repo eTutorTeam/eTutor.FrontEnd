@@ -2,12 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {AccountService} from "../../services/accounts/account.service";
 import {UserService} from "../../services/accounts/user.service";
 import {UserProfileResponse} from "../../models/user-profile-response";
-import {LoadingController} from "@ionic/angular";
+import {LoadingController, ModalController} from "@ionic/angular";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {ImageHandlingService} from "../../services/image-handling.service";
 import {Camera} from "@ionic-native/camera/ngx";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
+import { StarsRatingModalPage } from '../stars-rating-modal/stars-rating-modal.page';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +30,7 @@ export class ProfilePage implements OnInit {
       private loadingController: LoadingController,
       private toastNotificationService: ToastNotificationService,
       private imageHandlingService: ImageHandlingService,
+      private modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -127,6 +129,15 @@ export class ProfilePage implements OnInit {
       message: msg
     });
     await this.loading.present();
+  }
+
+  async openModal() {
+    const modal = await this.modalController.create({
+      component: StarsRatingModalPage
+    });
+
+    await modal.present();
+
   }
 
   private async stopLoading() {
