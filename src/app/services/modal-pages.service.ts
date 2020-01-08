@@ -19,5 +19,6 @@ export class ModalPagesService {
 
   closeModal() {
     this.currentModal.dismiss();
+    this.currentModal = undefined;
   }
 }

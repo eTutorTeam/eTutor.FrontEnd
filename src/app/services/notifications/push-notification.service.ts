@@ -183,8 +183,8 @@ export class PushNotificationService {
   }
   private async meetingFinalizedNotification(notification: any) {
     const meetingId = notification.finalizedMeetingId;
-    await this.presentNotificationToast(notification);
-    this.activeMeetingService.goToHome();
+    await this.activeMeetingService.goToHome();
+    this.activeMeetingService.openRatinsModal(meetingId);
   }
 
   private async presentNotificationToast(notification: any) {

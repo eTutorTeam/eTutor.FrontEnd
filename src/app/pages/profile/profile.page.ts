@@ -5,10 +5,8 @@ import {UserProfileResponse} from "../../models/user-profile-response";
 import {LoadingController, ModalController} from "@ionic/angular";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {ImageHandlingService} from "../../services/image-handling.service";
-import {Camera} from "@ionic-native/camera/ngx";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
-import { StarsRatingModalPage } from '../stars-rating-modal/stars-rating-modal.page';
 
 @Component({
   selector: 'app-profile',
@@ -129,15 +127,6 @@ export class ProfilePage implements OnInit {
       message: msg
     });
     await this.loading.present();
-  }
-
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: StarsRatingModalPage
-    });
-
-    await modal.present();
-
   }
 
   private async stopLoading() {

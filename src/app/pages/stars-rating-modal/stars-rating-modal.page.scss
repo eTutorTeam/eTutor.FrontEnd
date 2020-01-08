@@ -1,4 +1,22 @@
 #rating {
     display: flex;
     justify-content: center;
+
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    .content {
+        height: 170px;
+        ion-button {
+            margin: 10px 20px;
+        }
+    }
 }

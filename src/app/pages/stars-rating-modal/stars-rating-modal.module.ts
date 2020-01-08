@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { StarsRatingModalPage } from './stars-rating-modal.page';
 
 import { StarRatingModule } from 'ionic4-star-rating';
+import {ComponentsModule} from "../../components/components.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    StarRatingModule
+    StarRatingModule,
+    ComponentsModule
   ],
   declarations: [StarsRatingModalPage]
 })

@@ -1,5 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ModalPagesService} from "../../services/modal-pages.service";
+import {AccountService} from "../../services/accounts/account.service";
+import {RoleTypes} from "../../enums/role-types.enum";
+import {RatingsService} from "../../services/data/ratings.service";
+import {LoadingService} from "../../services/loading.service";
+import {ToastNotificationService} from "../../services/toast-notification.service";
+import {RatingRequest} from "../../models/rating-request";
+import {MeetingService} from "../../services/data/meeting.service";
+import {MeetingSummary} from "../../models/meeting-summary";
 
 @Component({
   selector: 'app-stars-rating-modal',
@@ -8,28 +16,79 @@ import { ModalController } from '@ionic/angular';
 })
 export class StarsRatingModalPage implements OnInit {
 
-  starsRating = [0];
+  starsRating = 0;
+  meetingId: number;
+  meeting: MeetingSummary;
+  isTutor = false;
   buttonDisabled = true;
-  constructor(private modalCtrl: ModalController) { }
+  constructor(
+      private modalPageService: ModalPagesService,
+      private accountService: AccountService,
+      private ratingsService: RatingsService,
+      private meetingService: MeetingService,
+      private loadingService: LoadingService,
+      private toastNotificationService: ToastNotificationService
+  ) { }
 
   @ViewChild('rating', {static: true} ) rating: any;
 
-  ngOnInit() {
-
+  get userType() {
+    return this.isTutor ? 'Tutor' : 'Estudiante';
   }
+
+  get userTypeInverted() {
+    return !this.isTutor ? 'Tutor' : 'Estudiante';
+  }
+
+  ngOnInit() {
+    this.getMeeting().catch(err => {
+      this.toastNotificationService.presentErrorToast(err);
+      this.loadingService.stopLoading();
+    });
+  }
+
+  private async getUserRole() {
+    const roles = await this.accountService.getRolesForUser();
+    const role = roles[0];
+    this.isTutor = role === RoleTypes.Tutor;
+  }
+
+  private async getMeeting() {
+    await this.getUserRole();
+    await this.loadingService.startLoading();
+    this.meeting = await this.meetingService.getMeetingSummary(this.meetingId);
+    this.loadingService.stopLoading();
+  }
+
   dismiss() {
-    this.modalCtrl.dismiss();
+
+    this.modalPageService.closeModal();
   }
 
   logRatingChange(rating) {
-    console.log("changed rating: ", rating);
-    console.log("this.starsRating: ", this.starsRating);
+    this.starsRating = rating * 2;
     this.buttonDisabled = false;
-    // do your stuff
+    console.log("changed rating: ", this.starsRating);
   }
-  SendCalification() {
-    console.log("Sending Calification");
-    this.dismiss();
 
+
+  sendRatings() {
+    this.sendRatingRequest().catch(err => {
+      this.loadingService.stopLoading();
+      this.toastNotificationService.presentErrorToast(err);
+    })
+  }
+
+  private async sendRatingRequest() {
+    this.loadingService.startLoading(`Calificando al ${this.userTypeInverted}`);
+    const userId = !this.isTutor ? this.meeting.tutorId : this.meeting.studentId;
+    const data: RatingRequest = {
+      userId,
+      meetingId: this.meetingId,
+      calification: this.starsRating
+    };
+    await this.ratingsService.createRating(data);
+    this.loadingService.stopLoading();
+    this.dismiss();
   }
 }
