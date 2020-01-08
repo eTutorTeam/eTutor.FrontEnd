@@ -90,6 +90,9 @@ export class PushNotificationService {
       case NotificationTypesEnum.MeetingStarted:
         await this.meetingStartedNotification(notification);
         break;
+      case NotificationTypesEnum.FinalizedMeeting:
+        await this.meetingFinalizedNotification(notification);
+        break;
       default:
         await this.presentNotificationToast(notification);
     }
@@ -121,6 +124,10 @@ export class PushNotificationService {
 
     if (notification.hasOwnProperty('startedMeetingId')) {
       return NotificationTypesEnum.MeetingStarted;
+    }
+
+    if (notification.hasOwnProperty('finalizedMeetingId')) {
+      return NotificationTypesEnum.FinalizedMeeting;
     }
 
   }
@@ -173,6 +180,11 @@ export class PushNotificationService {
     if (this.activeMeetingService.activeMeeting) {
       this.activeMeetingService.goToActiveMeetingPage();
     }
+  }
+  private async meetingFinalizedNotification(notification: any) {
+    const meetingId = notification.finalizedMeetingId;
+    await this.presentNotificationToast(notification);
+    this.activeMeetingService.goToHome();
   }
 
   private async presentNotificationToast(notification: any) {

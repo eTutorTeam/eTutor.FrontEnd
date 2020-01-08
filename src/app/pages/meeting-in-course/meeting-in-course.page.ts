@@ -12,6 +12,7 @@ import {UserService} from 'src/app/services/accounts/user.service';
 import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
 import {MeetingInProgressResponse} from "../../models/meeting-in-progress-response";
 import * as moment from "moment";
+import {setInterval} from "timers";
 
 
 @Component({
@@ -23,9 +24,10 @@ export class MeetingInCoursePage implements OnInit {
 
   meetingId: number;
   currentMeeting: MeetingInProgressResponse;
+  startTime: Date;
   isStudent: boolean;
-
-  ratingSummary = 0;
+  time: string;
+  interval: any;
 
   @ViewChild('slidingItem', {static: true}) itemSliding: IonItemSliding;
 
@@ -57,8 +59,12 @@ export class MeetingInCoursePage implements OnInit {
     return this.isStudent ? this.currentMeeting.studentName : this.currentMeeting.tutorName;
   }
 
+  get ratings() {
+    return this.isStudent ? this.currentMeeting.studentRatings : this.currentMeeting.tutorRatings;
+  }
+
   get realStartedTime() {
-    const date = new Date(this.currentMeeting.realStartTime);
+    const date = this.startTime;
     return moment(date).format('ddd D MMMM YYYY, h:mm A');
   }
 
@@ -83,7 +89,27 @@ export class MeetingInCoursePage implements OnInit {
 
   private async getMeetingData() {
     this.currentMeeting = await this.meetingService.getMeetingInProgress();
+    this.startTime = new Date(this.currentMeeting.realStartTime);
     this.meetingId = this.currentMeeting.meetingId;
+    this.startTimer();
+  }
+
+  private startTimer() {
+    const start = this.startTime;
+    this.meetingCounter(start);
+    this.interval = setInterval(() => {
+      this.meetingCounter(start);
+    }, 60000);
+  }
+
+  private meetingCounter(startTime: Date) {
+    const start = moment(startTime);
+    const now = moment();
+    const calculation = moment.duration(now.diff(start));
+    const elapsed = calculation.asMinutes();
+    const hours = Math.floor(elapsed / 60);
+    const minutes = Math.floor(elapsed - (hours * 60));
+    this.time = `${hours}:${minutes}`;
   }
 
   private async getUserRole() {
@@ -107,7 +133,7 @@ export class MeetingInCoursePage implements OnInit {
 
   private async finishMeetingStudent() {
     await this.loadingService.startLoading('Cancelando la tutoría')
-    await this.meetingService.cancelMeeting(this.meetingId);
+    await this.meetingService.endMeeting(this.meetingId);
     this.loadingService.stopLoading();
     await this.toastService.presentToast('Cancelado', 'Se ha Cancelado la tutoría con éxito');
   }

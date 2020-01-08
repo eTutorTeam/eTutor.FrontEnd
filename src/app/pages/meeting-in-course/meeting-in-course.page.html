@@ -1,11 +1,7 @@
-<app-simple-header title="Tutoría en Curso"></app-simple-header>
+<app-simple-header title="Tutoría en Curso" [hiddenClose]="true"></app-simple-header>
 
 <ion-content  class="ion-no-padding">
-  <ion-item> 
-    <ion-label color="secondary" class="title"> Tutoría en curso</ion-label>
-  </ion-item>
-
-  <ion-grid>
+  <ion-grid *ngIf="currentMeeting !== undefined">
     <ion-row>
         <ion-col class="ion-text-center">
           <div class="ion-text-center">
@@ -19,11 +15,13 @@
           <h3>{{name}}</h3>
          <ion-item lines="none">
             <div class="rating">
-              <app-stars-ratings [ratings]="ratingSummary"></app-stars-ratings>
+              <app-stars-ratings [ratings]="ratings"></app-stars-ratings>
             </div>
           </ion-item>          
             <h2>{{currentMeeting.subjectName}}</h2>
+            <h3 class="timer" *ngIf="time !== undefined || time !== ''">Duración {{time}}</h3>
             <ion-list>
+                
                 <ion-item>
                     <ion-label>
                         <h2>Inicio: </h2>
@@ -32,7 +30,7 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>
-                        <h2>Final: </h2>
+                        <h2>Final Pautado: </h2>
                         <p>{{endTime}}</p>
                     </ion-label>
                 </ion-item>

@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class SimpleHeaderComponent implements OnInit {
 
   @Input() title: string;
+  @Input() hiddenClose = false;
   @Output() close = new EventEmitter();
   constructor() { }
 
