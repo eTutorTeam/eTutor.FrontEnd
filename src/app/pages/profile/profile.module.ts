@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfilePage } from './profile.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { StarsRatingModalPageModule } from '../stars-rating-modal/stars-rating-modal.module';
+import { StarsRatingModalPage } from '../stars-rating-modal/stars-rating-modal.page';
 
 const routes: Routes = [
   {
@@ -16,12 +18,16 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [
+    StarsRatingModalPage
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ComponentsModule
+    ComponentsModule,
+    StarsRatingModalPageModule
   ],
   declarations: [ProfilePage]
 })
