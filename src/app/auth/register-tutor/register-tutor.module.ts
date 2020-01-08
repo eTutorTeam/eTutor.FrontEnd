@@ -9,6 +9,7 @@ import { RegisterTutorPage } from './register-tutor.page';
 import { RegisterModalPageModule } from 'src/app/pages/register-modal/register-modal.module';
 import { RegisterModalPage } from 'src/app/pages/register-modal/register-modal.page';
 import {ComponentsModule} from '../../components/components.module';
+import {NgxMaskModule} from "ngx-mask";
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     RegisterModalPageModule,
     RouterModule.forChild(routes),
-    ComponentsModule
+    ComponentsModule,
+    NgxMaskModule
   ],
   declarations: [RegisterTutorPage]
 })

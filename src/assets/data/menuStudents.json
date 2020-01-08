@@ -1,0 +1,7 @@
+[
+    {
+        "icon": "star",
+        "name": "Agendar Tutoría",
+        "redirectTo": "/students/schedule"
+    }
+]

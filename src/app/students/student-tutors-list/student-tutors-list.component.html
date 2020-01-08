@@ -1,0 +1,13 @@
+<ion-list>
+  <ion-item *ngFor="let tutor of tutors" (click)="tutorSelected(tutor.id)" detail>
+    <ion-avatar slot="start">
+      <img [src]="tutor.profileImageUrl">
+    </ion-avatar>
+    <ion-label>
+      <h2>{{tutor.fullName}}</h2>
+      <p>
+        <app-stars-ratings [ratings]="tutor.ratings"></app-stars-ratings>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-list>

@@ -35,33 +35,3 @@ export class AuthInterceptorService implements HttpInterceptor {
     return next.handle(req).toPromise();
   }
 }
-
-/**
- * intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    if (!request.headers.has('Authorization') && this.accountService.isLogged) {
-      if (this.accountService.isTokenExpired()) {
-        localStorage.clear();
-        this.router.navigate(['pages/login']);
-        return;
-      }
-      request = request.clone({
-        setHeaders: {
-          Authorization: `bearer ${this.accountService.currentUser.token}`
-        }
-      });
-    }
-
-
-
-    return next.handle(request).pipe(tap(
-      succ => {
-      },
-      err => {
-        if (err.status === 401) {
-          this.router.navigateByUrl('pages/login');
-        }
-      }
-    ));
-  }
- */

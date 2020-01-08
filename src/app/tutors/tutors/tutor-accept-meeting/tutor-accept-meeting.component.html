@@ -1,0 +1,69 @@
+<app-simple-header title="Tutoría Solicitada" (close)="closeModal()"> </app-simple-header>
+
+<ion-content *ngIf="meetingSummary !== undefined">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="student-img-container">
+          <img class="student-img" [src]="meetingSummary.studentImg"/>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h1 class="ion-text-center"><b>{{meetingSummary.studentName}}</b> le ha solicitado una tutoría</h1>
+        <h4 class="ion-text-center" style="color: gray">Materia: <b>{{meetingSummary.subjectName}}</b></h4>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <div class="rating">
+        <app-stars-ratings [ratings]="meetingSummary.studentRatings"></app-stars-ratings>
+      </div>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-list>
+            <ion-item>
+              <h4>Fecha: <b>{{formatedDate}}</b></h4>
+            </ion-item>
+            <ion-item>
+              <h5>Hora Inicio: <b>{{startTime}}</b></h5>
+            </ion-item>
+            <ion-item>
+              <h5>Hora Final <b>{{endTime}} </b></h5>
+            </ion-item>
+            <ion-item *ngIf="meetingSummary.locationSummary !== undefined
+            && meetingSummary.longitude !== undefined
+            && meetingSummary.latitude !== undefined">
+              <h5>Ubicación: <b>{{meetingSummary.locationSummary}}</b></h5>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button color="danger" expand="full" class="outline-btn" (click)="rejectMeeting()">
+            <ion-icon name="close-circle"></ion-icon>
+            &nbsp;
+            Rechazar
+          </ion-button>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div>
+          <ion-button color="primary" expand="full" (click)="acceptMeeting()">
+            Aceptar
+            &nbsp;
+            <ion-icon name="arrow-forward"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+
+

@@ -8,6 +8,11 @@ import { Router } from '@angular/router';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {RegisterRequest} from '../../models/register-request';
 import {ForgotPasswordRequest} from '../../models/forgot-password-request';
+import {FcmService} from "../notifications/fcm.service";
+import { PushNotificationService } from '../notifications/push-notification.service';
+import { BehaviorSubject } from 'rxjs';
+import {RoleTypes} from "../../enums/role-types.enum";
+import {UserProfileUpdateRequest} from "../../models/user-profile-update-request";
 
 @Injectable({
   providedIn: 'root'
@@ -18,31 +23,36 @@ export class AccountService {
   private apiBaseUrl = environment.apiBaseUrl;
   private userStorageKey = 'user-etutor-token';
   user: UserTokenResponse;
+  userSubject: BehaviorSubject<UserTokenResponse> = new BehaviorSubject<UserTokenResponse>(null);
 
   constructor(
     private http: HttpClient,
     private storage: Storage,
-    private router: Router,
+    private router: Router
   ) {
     this.helper = new JwtHelperService();
   }
 
   async loginUser(loginRequest: LoginRequest): Promise<UserTokenResponse> {
     const response = await this.http.post<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/login`, loginRequest).toPromise();
-    return this.saveToken(response);
+    await this.saveToken(response);
+    return response;
   }
-  async registerUser(registerRequest: RegisterRequest, userType: string): Promise<UserTokenResponse> {
+  async registerUser(registerRequest: RegisterRequest, userType: string) {
     const requestUrl = `${this.apiBaseUrl}/api/accounts/register-${userType}`;
-    console.log(requestUrl);
-    console.log(registerRequest);
     const response = await this.http.post<UserTokenResponse>(requestUrl,
         registerRequest).toPromise();
-    return this.saveToken(response);
   }
+
+  async reloadUserInfo(): Promise<UserTokenResponse> {
+    const response = await this.http.get<UserTokenResponse>(`${this.apiBaseUrl}/api/accounts/updated-info-token`).toPromise();
+    await this.saveToken(response);
+    return response;
+  }
+
   async saveToken(response): Promise<UserTokenResponse> {
     this.user = response;
     await this.saveUserToStorage(this.user);
-    console.log(this.user);
     return response;
   }
 
@@ -62,6 +72,7 @@ export class AccountService {
     } else {
       this.user = null;
     }
+    this.userSubject.next(this.user);
   }
 
   async getLoggedUser(): Promise<UserTokenResponse> {
@@ -85,9 +96,34 @@ export class AccountService {
     return this.helper.isTokenExpired(this.user.token);
   }
 
+  async updateUserImage(image: string) {
+    await this.updateUserVariable();
+    this.user.profileImageUrl = image;
+    await this.saveUserToStorage(this.user);
+  }
+
   private async saveUserToStorage(userToSave: UserTokenResponse) {
     const strUser = JSON.stringify(userToSave);
+    this.userSubject.next(userToSave);
     await this.storage.set(this.userStorageKey, strUser);
+  }
+
+  async checkIfUserHasRole(role: RoleTypes): Promise<boolean> {
+    await this.updateUserVariable();
+    if (this.user !== null && this.user !== undefined) {
+      const roles = this.user.roles;
+      return roles.some(r => r === role);
+    }
+    return false;
+  }
+
+  async getRolesForUser(): Promise<RoleTypes[]> {
+    await this.updateUserVariable();
+    if (this.user !== null && this.user !== undefined) {
+      const roles = this.user.roles;
+      return roles;
+    }
+    return [];
   }
 
   async ForgotPassword(forgotPassRequest: ForgotPasswordRequest) {

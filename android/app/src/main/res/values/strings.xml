@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">eTutorApp</string>
+    <string name="title_activity_main">eTutorApp</string>
+    <string name="package_name">com.etutorproject.etutorapp</string>
+    <string name="custom_url_scheme">com.etutorproject.etutorapp</string>
+</resources>

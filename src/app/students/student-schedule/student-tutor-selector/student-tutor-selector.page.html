@@ -1,0 +1,18 @@
+<app-header [showBack]="true" title="Agendar Tutoria"></app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-title>
+          Elija al tutor que desea
+        </ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <app-student-tutors-list [tutors]="tutors" (selected)="selectTutor($event)"></app-student-tutors-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

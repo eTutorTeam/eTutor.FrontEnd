@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild, Inject, LOCALE_ID } from '@angular/core';
-import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { AuthenticationService } from '../../services/authentication.service';
-import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
-import { UserPopoverComponent } from '../../components/user-popover/user-popover.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {AccountService} from "../../services/accounts/account.service";
+import {RoleTypes} from "../../enums/role-types.enum";
+import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/scheduled-meetings.component";
+import {MeetingService} from "../../services/data/meeting.service";
+import {ModalPagesService} from "../../services/modal-pages.service";
+import {CalendarMeetingSummaryComponent} from "../../components/calendar-meeting-summary/calendar-meeting-summary.component";
+import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
 
 @Component({
   selector: 'app-home',
@@ -12,75 +15,65 @@ import { UserPopoverComponent } from '../../components/user-popover/user-popover
 })
 export class HomePage implements OnInit {
 
-  @ViewChild(CalendarComponent, {read: null, static: true}) myCal: CalendarComponent;
-
-  eventSource = [
-    {
-      title: 'Tutoria Algebra',
-      startTime: new Date(2019, 11, 10, 14),
-      endTime: new Date(2019, 11, 10, 15),
-      allDay: false
-    },
-    {
-      title: 'Tutoria Logica simbolica',
-      startTime: new Date(2019, 11, 25, 6),
-      endTime: new Date(2019, 11, 25, 8),
-      allDay: false
-    }
-  ];
-
-  calendar = {
-    mode: 'month',
-    currentDate: new Date()
-  };
-  viewTitle: string;
+  isLoading = true;
+  isStudent = false;
+  @ViewChild(ScheduledMeetingsComponent, {static: true}) meetingsCompontent: ScheduledMeetingsComponent;
 
   constructor(
-    public router: Router,
-    private popoverCtrl: PopoverController,
-    @Inject(LOCALE_ID) private locale: string
+      public router: Router,
+      private accountService: AccountService,
+      private meetingService: MeetingService,
+      private modalPageService: ModalPagesService,
+      private activeMeetingService: ActiveMeetingService
   ) {}
 
-
-  async mostrarPop( event ) {
-    const popover = await this.popoverCtrl.create({
-      component: UserPopoverComponent,
-      event,
-      mode: 'ios',
-    });
-
-    await popover.present();
+  ionViewWillEnter() {
+    this.reroute();
+    this.checkIfUserIsStudent();
+    this.meetingService.getMeetingsForCalendar();
   }
 
   ngOnInit() {
-    console.log(this.myCal);
-  }
-
-  onCurrentDateChanged(event) {
 
   }
-  reloadSource(startTime, endTime) {
 
-  }
-  onEventSelected(event) {
-
-  }
-  onViewTitleChanged(title) {
-    this.viewTitle = title;
-}
-  onTimeSelected(event) {
-
-  }
-  addEvent() {
-    this.eventSource.push({
-      title: 'Event - test',
-      startTime: new Date(),
-      endTime: new Date(2019, 12, 15),
-      allDay: false
+  selectedMeeting(meetingId: number) {
+    this.modalPageService.openModal(CalendarMeetingSummaryComponent, {meetingId}).then(() => {
+      this.meetingService.getMeetingsForCalendar();
     });
-    console.log(this.eventSource);
-    this.myCal.loadEvents();
-    console.log('123');
+  }
+
+  private reroute() {
+    this.isLoading = true;
+    this.rerouteDependingOnRole()
+        .catch(err => {
+      this.isLoading = false;
+    });
+  }
+
+  private async rerouteDependingOnRole() {
+    if (await this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      await this.router.navigate(['parents']);
+      this.isLoading = false;
+      return;
+    }
+
+    if (await this.accountService.checkIfUserHasRole(RoleTypes.Tutor)) {
+      await this.router.navigate(['tutors']);
+    }
+    this.isLoading = false;
+    await this.checkIfHasActiveMeeting();
+  }
+
+  private async checkIfHasActiveMeeting() {
+    await this.activeMeetingService.getCurrentActiveMeeting();
+    if (this.activeMeetingService.activeMeeting) {
+      this.activeMeetingService.goToActiveMeetingPage();
+    }
+  }
+
+  private async checkIfUserIsStudent() {
+    this.isStudent = await this.accountService.checkIfUserHasRole(RoleTypes.Student);
   }
 
 }

@@ -1,0 +1,8 @@
+<ion-list>
+  <ion-item *ngFor="let subject of subjects" detail (click)="selectSubjet(subject.id)">
+    <ion-label>
+      <h2>{{subject.name}}</h2>
+      <p>{{subject.description}}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
