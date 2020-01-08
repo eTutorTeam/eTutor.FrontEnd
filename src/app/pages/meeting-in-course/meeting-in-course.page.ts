@@ -73,11 +73,15 @@ export class MeetingInCoursePage implements OnInit {
     return moment(date).format('ddd D MMMM YYYY, h:mm A');
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.performRequests().catch(err => {
       this.loadingService.stopLoading();
       this.activeMeetingService.goToHome();
     });
+  }
+
+  ngOnInit() {
+
   }
 
   private async performRequests() {
@@ -120,15 +124,22 @@ export class MeetingInCoursePage implements OnInit {
 
   finishMeeting() {
     this.finishMeetingRequest().catch(err => {
+      console.log('Error', err);
       this.toastService.presentErrorToast(err);
       this.loadingService.stopLoading();
     });
   }
 
   private async finishMeetingRequest() {
-    this.itemSliding.close();
-    this.isStudent ? await this.finishMeetingStudent() : await this.finisheMeetingTutor();
+    if (this.isStudent) {
+      await this.finishMeetingStudent();
+    } else {
+      await this.finisheMeetingTutor();
+    }
     this.activeMeetingService.goToHome();
+    if (this.itemSliding !== undefined) {
+      await this.itemSliding.close();
+    }
   }
 
   private async finishMeetingStudent() {
