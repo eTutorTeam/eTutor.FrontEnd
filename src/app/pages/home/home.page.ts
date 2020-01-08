@@ -6,6 +6,7 @@ import {ScheduledMeetingsComponent} from "../../components/scheduled-meetings/sc
 import {MeetingService} from "../../services/data/meeting.service";
 import {ModalPagesService} from "../../services/modal-pages.service";
 import {CalendarMeetingSummaryComponent} from "../../components/calendar-meeting-summary/calendar-meeting-summary.component";
+import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ export class HomePage implements OnInit {
       public router: Router,
       private accountService: AccountService,
       private meetingService: MeetingService,
-      private modalPageService: ModalPagesService
+      private modalPageService: ModalPagesService,
+      private activeMeetingService: ActiveMeetingService
   ) {}
 
   ionViewWillEnter() {
@@ -43,21 +45,31 @@ export class HomePage implements OnInit {
 
   private reroute() {
     this.isLoading = true;
-    this.rerouteDependingOnRole().catch(err => {
+    this.rerouteDependingOnRole()
+        .catch(err => {
       this.isLoading = false;
     });
   }
 
   private async rerouteDependingOnRole() {
+    if (await this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
+      await this.router.navigate(['parents']);
+      this.isLoading = false;
+      return;
+    }
+
     if (await this.accountService.checkIfUserHasRole(RoleTypes.Tutor)) {
       await this.router.navigate(['tutors']);
     }
-
-    if (await this.accountService.checkIfUserHasRole(RoleTypes.Parent)) {
-      await this.router.navigate(['parents']);
-    }
-
     this.isLoading = false;
+    await this.checkIfHasActiveMeeting();
+  }
+
+  private async checkIfHasActiveMeeting() {
+    await this.activeMeetingService.getCurrentActiveMeeting();
+    if (this.activeMeetingService.activeMeeting) {
+      this.activeMeetingService.goToActiveMeetingPage();
+    }
   }
 
   private async checkIfUserIsStudent() {
