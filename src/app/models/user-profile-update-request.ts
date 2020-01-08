@@ -11,4 +11,5 @@ export interface UserProfileUpdateRequest {
     aboutMe: string;
     personalId: string;
     userName: string;
+    phoneNumber: string;
 }

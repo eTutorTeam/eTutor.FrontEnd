@@ -21,6 +21,10 @@
     <ion-label><strong>Sobre Mi: </strong></ion-label>
     <ion-textarea rows="6" cols="20" [(ngModel)]="formAboutMeField"></ion-textarea>
   </ion-item>
+  <ion-item *ngIf="profile!==undefined">
+    <ion-label><strong>Tel&eacute;fono</strong></ion-label>
+    <ion-input type="tel" [(ngModel)] = "formphoneNumber"></ion-input>
+  </ion-item>
   <ion-item>
     <ion-grid>
       <ion-row>

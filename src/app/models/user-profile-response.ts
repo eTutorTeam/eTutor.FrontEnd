@@ -18,4 +18,5 @@ export interface UserProfileResponse {
     aboutMe: string;
     userName: string;
     ratings: number;
+    phoneNumber: string;
 }
