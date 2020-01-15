@@ -4,6 +4,7 @@ import { Componente } from '../models/componente';
 import { environment } from 'src/environments/environment';
 import { AccountService } from './accounts/account.service';
 import { RoleTypes } from '../enums/role-types.enum';
+import {StudentUserViewModel} from "../models/student-user-view-model";
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class DataService {
     return this.http.get<any[]>('/assets/data/history.json');
   }
 
-  getChildren(uId) {
-    return this.http.get<UserResponse[]>(`${this.apiBaseUrl}/api/Parent/my-students`);
+  getChildren() {
+    return this.http.get<StudentUserViewModel[]>(`${this.apiBaseUrl}/api/Parent/my-students`);
   }
   toogleUser(uId) {
     return this.http.post(`${this.apiBaseUrl}/api/Parent/toggle-student-state/${uId}/student`, {});
