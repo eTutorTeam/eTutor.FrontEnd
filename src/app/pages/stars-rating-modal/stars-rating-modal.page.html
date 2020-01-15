@@ -1,10 +1,21 @@
-<app-simple-header title="Califica al {{userType}}"  [hiddenClose]="true"></app-simple-header>
+<app-simple-header title="Califica al {{userTypeInverted}}"  [hiddenClose]="true"></app-simple-header>
 <ion-content *ngIf="meeting !== undefined">
   <div class="container">
     <div class="content">
+      <ion-col class="ion-text-center">
+        <div class="ion-text-center">
+            <ion-item lines="none">
+              <ion-avatar class="avatar" >
+                <ion-img [src]='avatarImg'></ion-img>
+                <ion-ripple-effect></ion-ripple-effect>
+              </ion-avatar>
+            </ion-item>
+            <h3>{{name}}</h3>              
+        </div>
+      </ion-col>
       <ion-item lines="none">
         <ion-label class="ion-text-center">
-          <h1>Califica al {{userType}}</h1>
+          <h1>Califica al {{userTypeInverted}}</h1>
         </ion-label>
       </ion-item>
       <div id="rating">
