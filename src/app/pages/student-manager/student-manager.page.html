@@ -10,7 +10,7 @@
 
         <ion-item *ngFor="let student of studentList | async">
             <ion-avatar slot="start">
-                <ion-img src="assets/resources/pp.jfif"></ion-img>
+                <ion-img [src]="student.profileImageUrl"></ion-img>
             </ion-avatar>
             <ion-label>
                 <h3>{{student.fullName}}</h3>

@@ -4,6 +4,7 @@ import {AccountService} from '../../services/accounts/account.service';
 import {Observable} from 'rxjs';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
+import {StudentUserViewModel} from "../../models/student-user-view-model";
 
 @Component({
   selector: 'app-student-manager',
@@ -12,7 +13,7 @@ import { LoadingOptions } from '@ionic/core';
 })
 export class StudentManagerPage implements OnInit {
 
-  studentList: Observable<UserResponse[]>;
+  studentList: Observable<StudentUserViewModel[]>;
   loading: HTMLIonLoadingElement;
 
   constructor(private dataService: DataService,
@@ -21,8 +22,7 @@ export class StudentManagerPage implements OnInit {
               private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    const userId = this.accountService.user.uId;
-    this.studentList = this.dataService.getChildren(userId);
+    this.studentList = this.dataService.getChildren();
   }
 
   async toggleStudentState(event, studentId) {

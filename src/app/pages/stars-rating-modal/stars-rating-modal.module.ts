@@ -14,7 +14,6 @@ import {ComponentsModule} from "../../components/components.module";
     CommonModule,
     FormsModule,
     IonicModule,
-    StarRatingModule,
     ComponentsModule
   ],
   declarations: [StarsRatingModalPage]
