@@ -70,6 +70,7 @@ export class ImageHandlingService {
       quality: 50,
       destinationType: DestinationType.DATA_URL,
       encodingType: EncodingType.JPEG,
+      correctOrientation: true,
       mediaType: MediaType.PICTURE,
       sourceType
     };

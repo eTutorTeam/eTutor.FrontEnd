@@ -16,6 +16,6 @@ import {ComponentsModule} from "../../components/components.module";
     IonicModule,
     ComponentsModule
   ],
-  declarations: [StarsRatingModalPage]
+  declarations: []
 })
 export class StarsRatingModalPageModule {}
