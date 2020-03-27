@@ -102,17 +102,20 @@ export class MeetingInCoursePage implements OnInit {
     this.meetingCounter(start);
     this.interval = setInterval(() => {
       this.meetingCounter(start);
-    }, 60000);
+    }, 1200);
   }
 
   private meetingCounter(startTime: Date) {
     const start = moment(startTime);
     const now = moment();
     const calculation = moment.duration(now.diff(start));
-    const elapsed = calculation.asMinutes();
+    const elapsedSeconds = Math.floor(calculation.asSeconds());
+    const seconds = elapsedSeconds % 60;
+    const elapsed = Math.floor(elapsedSeconds / 60);
     const hours = Math.floor(elapsed / 60);
     const minutes = Math.floor(elapsed - (hours * 60));
-    this.elapsedMeetingTime = `${hours}:${minutes}`;
+
+    this.elapsedMeetingTime = hours > 0 ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
   }
 
   private async getUserRole() {

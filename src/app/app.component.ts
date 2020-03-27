@@ -8,6 +8,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { AccountService } from './services/accounts/account.service';
 import { PushNotificationService } from './services/notifications/push-notification.service';
 import { FcmService } from './services/notifications/fcm.service';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import * as moment from 'moment';
 
 @Component({
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private accountService: AccountService,
     private notificationService: PushNotificationService,
-    private fcmService: FcmService
+    private fcmService: FcmService,
+    private screenOrientation: ScreenOrientation
   ) {
     moment.locale('es');
     this.initializeApp();
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       this.statusBar.styleDefault();
       this.statusBar.backgroundColorByHexString("#0E5780");
       this.splashScreen.hide();

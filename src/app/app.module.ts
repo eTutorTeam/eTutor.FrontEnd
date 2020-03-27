@@ -20,6 +20,8 @@ import {ImageHandlingService} from "./services/image-handling.service";
 import {NgxMaskModule} from "ngx-mask";
 import {AvatarModule} from "ngx-avatar";
 import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +44,7 @@ import {LocalNotifications} from '@ionic-native/local-notifications/ngx';
   providers: [
     StatusBar,
     SplashScreen,
+    ScreenOrientation,
     LocalNotifications,
     {
       provide: HTTP_INTERCEPTORS,

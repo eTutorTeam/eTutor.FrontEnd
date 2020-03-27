@@ -112,4 +112,5 @@
     <allow-navigation href="http://localhost:8100" sessionid="c16730b3" />
     <allow-navigation href="http://localhost:4200" sessionid="b77b5689" />
     <allow-navigation href="http://0.0.0.0:4200" sessionid="e423977d" />
+    <allow-navigation href="http://localhost:8101" sessionid="e269aa31" />
 </widget>

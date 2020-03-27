@@ -21,6 +21,7 @@ export class StarsRatingModalPage implements OnInit {
   meeting: MeetingSummary;
   isTutor = false;
   buttonDisabled = true;
+
   constructor(
       private modalPageService: ModalPagesService,
       private accountService: AccountService,
@@ -38,6 +39,14 @@ export class StarsRatingModalPage implements OnInit {
 
   get userTypeInverted() {
     return !this.isTutor ? 'Tutor' : 'Estudiante';
+  }
+
+  get avatarImg() {
+    return this.isTutor ? this.meeting.studentImg : this.meeting.tutorImg;
+  }
+
+  get name() {
+    return this.isTutor ? this.meeting.studentName : this.meeting.tutorName;
   }
 
   ngOnInit() {
