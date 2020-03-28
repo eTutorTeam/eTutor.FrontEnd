@@ -13,6 +13,7 @@ import {LoadingService} from "../../services/loading.service";
 import {ToastNotificationService} from "../../services/toast-notification.service";
 import {Subscription} from "rxjs";
 import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
+import {RatingsService} from "../../services/data/ratings.service";
 
 const {Modals} = Plugins;
 
@@ -44,7 +45,8 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
       private accountService: AccountService,
       private loadingService: LoadingService,
       private toastNotificationService: ToastNotificationService,
-      private activeMeetingService: ActiveMeetingService
+      private activeMeetingService: ActiveMeetingService,
+      private ratingsService: RatingsService
   ) {
   }
 
@@ -77,8 +79,15 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
     });
+    this.updateStatusDependingOnMeeting();
+  }
 
-    this.getActiveMeetingIfOngoing();
+  private updateStatusDependingOnMeeting() {
+    this.getMeetingPendingForRating().then(() => {
+      this.getActiveMeetingIfOngoing();
+    }).catch(err => {
+      this.toastNotificationService.presentErrorToast(err);
+    });
   }
 
   private async getActiveMeetingIfOngoing() {
@@ -88,8 +97,16 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
     }
   }
 
+  private async getMeetingPendingForRating() {
+    const meeting = await this.ratingsService.getPendingMeetingToRate();
+    if (meeting !== null && meeting !== undefined) {
+      this.activeMeetingService.openRatinsModal(meeting.meetingId);
+    }
+  }
+
   private async getMeetingsRequest() {
     await this.meetingService.getMeetingsForCalendar();
+    this.updateStatusDependingOnMeeting();
   }
 
   private async processMeetingsForCalendar(meetings: CalendarMeetingEventModel[]) {

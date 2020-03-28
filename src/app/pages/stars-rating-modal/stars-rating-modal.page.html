@@ -1,38 +1,46 @@
 <app-simple-header title="Califica al {{userTypeInverted}}"  [hiddenClose]="true"></app-simple-header>
 <ion-content *ngIf="meeting !== undefined">
-  <div class="container">
-    <div class="content">
+  <ion-grid>
+    <ion-row>
       <ion-col class="ion-text-center">
         <div class="ion-text-center">
-            <ion-item lines="none">
-              <ion-avatar class="avatar" >
-                <ion-img [src]='avatarImg'></ion-img>
-                <ion-ripple-effect></ion-ripple-effect>
-              </ion-avatar>
-            </ion-item>
-            <h3>{{name}}</h3>              
+          <ion-item lines="none">
+            <ion-avatar class="avatar" >
+              <ion-img [src]='avatarImg'></ion-img>
+              <ion-ripple-effect></ion-ripple-effect>
+            </ion-avatar>
+          </ion-item>
+          <h3>{{name}}</h3>
+        </div>
+        <ion-item lines="none">
+          <div class="rating">
+            <ionic4-star-rating #rating
+                                activeIcon = "ios-star"
+                                defaultIcon = "ios-star-outline"
+                                activeColor = "#ffd966"
+                                defaultColor = "#aaaaaa"
+                                readonly = "false"
+                                rating="0"
+                                fontSize = "32px"
+                                (ratingChanged)="logRatingChange($event)">
+            </ionic4-star-rating>
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h1 style="text-align: center">Califica al {{userTypeInverted}}</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button color="primary" expand="full" [disabled]="buttonDisabled" (click)="sendRatings()">
+            Calificar
+          </ion-button>
         </div>
       </ion-col>
-      <ion-item lines="none">
-        <ion-label class="ion-text-center">
-          <h1>Califica al {{userTypeInverted}}</h1>
-        </ion-label>
-      </ion-item>
-      <div id="rating">
-        <ionic4-star-rating #rating
-                            activeIcon = "ios-star"
-                            defaultIcon = "ios-star-outline"
-                            activeColor = "#ffd966"
-                            defaultColor = "#aaaaaa"
-                            readonly = "false"
-                            rating="0"
-                            fontSize = "32px"
-                            (ratingChanged)="logRatingChange($event)">
-        </ionic4-star-rating>
-      </div>
-      <ion-button color="primary" expand="full" [disabled]="buttonDisabled" (click)="sendRatings()">
-        Calificar
-      </ion-button>
-    </div>
-  </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>

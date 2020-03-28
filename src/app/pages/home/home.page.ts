@@ -7,6 +7,8 @@ import {MeetingService} from "../../services/data/meeting.service";
 import {ModalPagesService} from "../../services/modal-pages.service";
 import {CalendarMeetingSummaryComponent} from "../../components/calendar-meeting-summary/calendar-meeting-summary.component";
 import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
+import {RatingsService} from "../../services/data/ratings.service";
+import {ToastNotificationService} from "../../services/toast-notification.service";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +26,9 @@ export class HomePage implements OnInit {
       private accountService: AccountService,
       private meetingService: MeetingService,
       private modalPageService: ModalPagesService,
-      private activeMeetingService: ActiveMeetingService
+      private activeMeetingService: ActiveMeetingService,
+      private ratingService: RatingsService,
+      private toastNotificationService: ToastNotificationService,
   ) {}
 
   ionViewWillEnter() {
@@ -47,8 +51,8 @@ export class HomePage implements OnInit {
     this.isLoading = true;
     this.rerouteDependingOnRole()
         .catch(err => {
-      this.isLoading = false;
-    });
+            this.isLoading = false;
+          });
   }
 
   private async rerouteDependingOnRole() {
@@ -63,12 +67,20 @@ export class HomePage implements OnInit {
     }
     this.isLoading = false;
     await this.checkIfHasActiveMeeting();
+    //await this.checkIfHasPendingRating();
   }
 
   private async checkIfHasActiveMeeting() {
     await this.activeMeetingService.getCurrentActiveMeeting();
     if (this.activeMeetingService.activeMeeting) {
       this.activeMeetingService.goToActiveMeetingPage();
+    }
+  }
+
+  private async checkIfHasPendingRating() {
+    const meeting = await this.ratingService.getPendingMeetingToRate();
+    if (meeting !== null && meeting !== undefined) {
+      this.activeMeetingService.openRatinsModal(meeting.meetingId);
     }
   }
 

@@ -70,7 +70,6 @@ export class StarsRatingModalPage implements OnInit {
   }
 
   dismiss() {
-
     this.modalPageService.closeModal();
   }
 
@@ -85,7 +84,7 @@ export class StarsRatingModalPage implements OnInit {
     this.sendRatingRequest().catch(err => {
       this.loadingService.stopLoading();
       this.toastNotificationService.presentErrorToast(err);
-    })
+    });
   }
 
   private async sendRatingRequest() {

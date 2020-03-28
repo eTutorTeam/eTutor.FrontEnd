@@ -7,6 +7,8 @@ import {MeetingSummary} from "../../models/meeting-summary";
 import {RoleTypes} from "../../enums/role-types.enum";
 import {AccountService} from "../../services/accounts/account.service";
 import * as moment from "moment";
+import {ActiveMeetingService} from "../../services/active-meeting/active-meeting.service";
+import {RatingsService} from "../../services/data/ratings.service";
 
 @Component({
   selector: 'calendar-meeting-summary',

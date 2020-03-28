@@ -176,7 +176,7 @@ export class PushNotificationService {
   private async meetingStartedNotification(notification: any) {
     const meetingId = notification.startedMeetingId;
     await this.presentNotificationToast(notification);
-    this.activeMeetingService.getCurrentActiveMeeting();
+    await this.activeMeetingService.getCurrentActiveMeeting();
     if (this.activeMeetingService.activeMeeting) {
       this.activeMeetingService.goToActiveMeetingPage();
     }
