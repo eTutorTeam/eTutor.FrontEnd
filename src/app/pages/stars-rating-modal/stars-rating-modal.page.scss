@@ -1,22 +1,18 @@
-#rating {
+.rating {
     display: flex;
     justify-content: center;
-
 }
 
 
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    width: 100%;
-    justify-content: center;
-    align-content: center;
-    flex-wrap: wrap;
-    .content {
-        height: 170px;
-        ion-button {
-            margin: 10px 20px;
-        }
+.avatar-container {
+    height: 150px;
+    overflow: hidden;
+    width: 150px;
+    border-radius: 100%;
+    box-shadow: 1px 2px 1px rgba(0,0,0,0.3);
+    margin: 0 auto;
+    .avatar-img {
+
     }
+
 }

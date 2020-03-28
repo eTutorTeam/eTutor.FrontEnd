@@ -128,7 +128,6 @@ export class LoginTutorPage implements OnInit {
     this.router.navigate(['forgot-password']);
   }
   register() {
-    // this.presentAlert('Not Implemented', '', 'This feature isn\'t available yet!');
     this.router.navigate(['register-tutor']);
   }
 

@@ -83,10 +83,10 @@ export class ScheduledMeetingsComponent implements OnInit, OnDestroy {
   }
 
   private updateStatusDependingOnMeeting() {
-    this.getMeetingPendingForRating().then(() => {
-      this.getActiveMeetingIfOngoing();
+    this.getActiveMeetingIfOngoing().then(() => {
+      this.getMeetingPendingForRating().catch(err => {
+      });
     }).catch(err => {
-      this.toastNotificationService.presentErrorToast(err);
     });
   }
 

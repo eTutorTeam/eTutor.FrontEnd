@@ -42,10 +42,7 @@ export class RegisterTutorPage implements OnInit {
   }
   buildForm() {
     this.userForm = this.fb.group({
-        personalId: new FormControl('', [
-        Validators.required,
-        ETutorValidator.cedulaLengthValidator(new RegExp('([\\d+]{3}(|-)[\\d+]{7}(|-)[\\d]{1})'))
-      ]),
+        personalId: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(13)]),
       email: ['', [
         Validators.required,
         Validators.email
