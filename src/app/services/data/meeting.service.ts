@@ -36,7 +36,7 @@ export class MeetingService {
         return this.http.patch(`${environment.apiBaseUrl}/api/meetings/${meetingId}/tutor-answer`, {answeredStatus}).toPromise();
     }
     async cancelMeeting(meetingId: number) {
-        return this.http.put(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`, {}).toPromise();
+        return this.http.patch(`${environment.apiBaseUrl}/api/meetings/cancel-meeting/${meetingId}`, {}).toPromise();
     }
     async startMeeting(meetingId: number): Promise<MeetingResponse> {
         return this.http.patch<MeetingResponse>(`${environment.apiBaseUrl}/api/meetings/start-meeting/${meetingId}`, {}).toPromise();
