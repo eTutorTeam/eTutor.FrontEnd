@@ -1,14 +1,28 @@
 <ion-content color="secondary">
   <app-etutor-logo></app-etutor-logo>
+  <div>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="updateFormType('tutor')" [color]="userType == 'tutor' ? 'primary' : 'tertiary'" expand="full">
+          TUTOR &nbsp; <ion-icon name="checkmark-circle" color="danger" *ngIf="userType == 'tutor'"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="updateFormType('student')"  [color]="userType == 'student' ? 'primary' : 'tertiary'" expand="full">
+          ESTUDIANTE &nbsp; <ion-icon name="checkmark-circle" color="danger" *ngIf="userType == 'student'"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
   <form (submit)="submitForm()" [formGroup]="userForm">
     <ion-list color="secondary" class="list-form">
       <!-- personalId -->
       <ion-item color="secondary" lines="none" *ngIf="!correoPadreVisible">
         <ion-label position="floating">
           <ion-icon slot="start" name="contact"></ion-icon>
-          Cédula
+          Cédula (Sin Guiones)
         </ion-label>
-        <ion-input type="phone" formControlName="personalId"></ion-input>
+        <ion-input type="phone" formControlName="personalId" maxlength="11"></ion-input>
         <!--Validators for Document ID-->
         <div *ngIf="personalId.invalid && (personalId.dirty || personalId.touched)"
             class="alert alert-danger">
@@ -16,8 +30,8 @@
           <div *ngIf="personalId.errors['required']">
             Este campo es requerido.
           </div>
-          <div *ngIf="personalId.errors['invalidCedula']">
-            Debe introducir una cédula válida.
+          <div *ngIf="personalId.errors['minLength'] || personalId.errors['maxLength']">
+            La cedula solo puede tener 11 dígitos
           </div>
         </div>
       </ion-item>
@@ -98,14 +112,11 @@
           Género
         </ion-label>
         <ion-select placeholder="Seleccione una opción de género" formControlName="gender">
-          <ion-select-option value="male">
+          <ion-select-option value="1">
             Hombre
           </ion-select-option>
-          <ion-select-option value="female">
+          <ion-select-option value="2">
             Mujer
-          </ion-select-option>
-          <ion-select-option value="N/A">
-            Prefiero no especificar
           </ion-select-option>
         </ion-select>
         <!--Validators for Gender-->

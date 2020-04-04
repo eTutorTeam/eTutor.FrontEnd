@@ -23,7 +23,9 @@ export class RegisterTutorPage implements OnInit {
   correoPadreVisible = false;
   userForm: FormGroup;
   loading: HTMLIonLoadingElement;
-  userType: string;
+  userType: string = 'tutor';
+  modalOpened = false;
+
     constructor(private fb: FormBuilder, private modalCtrl: ModalController,
                 private alertCtrl: AlertController,
                 private loadingCtrl: LoadingController,
@@ -33,16 +35,16 @@ export class RegisterTutorPage implements OnInit {
                 private menuCtrl: MenuController) { }
 
   ngOnInit() {
-    // this.openModal();
-    this.buildForm();
+      this.buildForm();
   }
 
   goToLogin() {
     this.router.navigate(['login-tutor']);
   }
+
   buildForm() {
     this.userForm = this.fb.group({
-        personalId: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(13)]),
+        personalId: [[''], Validators.required, Validators.maxLength(12), Validators.minLength(11)],
       email: ['', [
         Validators.required,
         Validators.email
@@ -114,16 +116,17 @@ export class RegisterTutorPage implements OnInit {
         this.loading.dismiss();
     }
 
-    ionViewWillEnter() {
-        this.openModal();
-    }
-
     private async createLoading(msg: string = '', spin: LoadingOptions['spinner'] = 'lines') {
         this.loading = await this.loadingCtrl.create({
             message: msg,
             spinner: spin
         });
         this.loading.present();
+    }
+
+    updateFormType(type: string): void {
+        this.userType = type;
+        this.updateFormForUserType();
     }
 
 
@@ -134,25 +137,28 @@ export class RegisterTutorPage implements OnInit {
 
     await modal.present();
 
-
     const { data } = await modal.onDidDismiss();
 
     this.userType = data.userType;
 
-    console.log(data.userType);
+    this.updateFormForUserType();
+  }
 
-    switch (data.userType) {
-      case 'student':
-        this.correoPadreVisible = true;
-        this.personalId.disable();
-        break;
-      case 'parent':
-        this.parentEmail.disable();
-        break;
-      case 'tutor':
-        this.parentEmail.disable();
-        break;
-    }
+  private updateFormForUserType() {
+      switch (this.userType) {
+          case 'student':
+              this.correoPadreVisible = true;
+              this.personalId.disable();
+              break;
+          case 'parent':
+              this.parentEmail.disable();
+              break;
+          case 'tutor':
+              this.correoPadreVisible = false;
+              this.parentEmail.disable();
+              this.personalId.enable();
+              break;
+      }
   }
 
   get personalId() { return this.userForm.get('personalId'); }
