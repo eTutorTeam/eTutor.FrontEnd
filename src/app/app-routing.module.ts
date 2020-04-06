@@ -55,6 +55,7 @@ const routes: Routes = [
     },
     canActivate: [RoleAuthGuard]
   },
+  { path: 'help', loadChildren: './pages/help/help.module#HelpPageModule' },
 ];
 
 @NgModule({
