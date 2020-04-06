@@ -153,11 +153,11 @@
           <ion-icon slot="start" name="lock"></ion-icon>
           Contraseña
         </ion-label>
-        <ion-input [type]="passwordTypeInput" formControlName="password">
+        <ion-input type="password" formControlName="password">
         </ion-input>
-        <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+        <!-- <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
           <ion-icon [name]="iconpassword"></ion-icon>
-        </ion-button>
+        </ion-button> -->
         <div *ngIf="password.invalid && (password.dirty || password.touched)"
             class="alert alert-danger">
 
@@ -172,11 +172,11 @@
           <ion-icon slot="start" name="lock"></ion-icon>
           Confirmar Contraseña
         </ion-label>
-        <ion-input [type]="passwordTypeInput" formControlName="comfirmpassword">
+        <ion-input type="password" formControlName="comfirmpassword">
         </ion-input>
-        <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+        <!-- <ion-button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
           <ion-icon [name]="iconpassword"></ion-icon>
-        </ion-button>
+        </ion-button> -->
         <div *ngIf="comfirmpassword.invalid && (comfirmpassword.dirty || comfirmpassword.touched)"
             class="alert alert-danger">
 
@@ -190,14 +190,11 @@
       </ion-item>
 
     </ion-list>
-    
-    <ion-button mode="ios"
-    class="submit-button" expand="block" color="primary" type="submit"
-      [disabled]="userForm.invalid">
-      Registrarse
-    </ion-button>
-
   </form>
+  <ion-button mode="ios"
+  class="submit-button" expand="block" color="primary" (click)="submitForm()">
+    Registrarse
+  </ion-button>
   <ion-item color="secondary"lines="none">
     <ion-label class="ion-text-center" (click)="goToLogin()"><u>Volver</u></ion-label>
   </ion-item>
